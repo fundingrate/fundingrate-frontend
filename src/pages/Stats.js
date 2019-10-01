@@ -4,14 +4,20 @@ import { Button, Flex, Box, Text, Image, Sidebar, Spinner } from '../primitives'
 const Stats = ({ actions, location }) => {
   const cPage = location.pathname
 
+  const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     profit: 0,
   })
 
   useEffect(() => {
-    actions.getStats().then(setStats)
-    // .catch(setError)
+    actions.getStats().then(s => {
+      setStats(s)
+      setLoading(false)
+    }).catch(e => {
+      setError(e)
+      setLoading(false)
+    })
   }, [])
 
   return loading ? (
