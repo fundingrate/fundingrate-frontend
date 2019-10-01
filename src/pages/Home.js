@@ -7,8 +7,8 @@ import Assets from '../components/Assets'
 import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
 
 const SideNav = ({ links }) => {
-  const onClick = p => {
-    return console.log("Button Clicked:", p)
+  const onClick = href => {
+    return console.log('Button Clicked:', p)
   }
 
   return (
@@ -18,7 +18,13 @@ const SideNav = ({ links }) => {
       </Flex>
       {links.map(({ label, href }) => {
         return (
-          <Button key={label} type="simple" onClick={onClick}>
+          <Button
+            key={label}
+            type="simple"
+            onClick={e => {
+              onClick(href)
+            }}
+          >
             {label}
           </Button>
         )
@@ -43,9 +49,17 @@ const Home = p => {
       alignItems="center"
     >
       <SideNav links={links} />
-      {/* <Header /> */}
-      Hello World!
-      {/* <Footer /> */}
+      <Flex
+        width={1}
+        // height={'100%'}
+        // bg="backing"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {/* <Header /> */}
+        Some dashboard stats and stuff.
+        {/* <Footer /> */}
+      </Flex>
     </Flex>
   )
 }
