@@ -3,15 +3,22 @@ import ReactDOM from 'react-dom'
 
 import { BrowserRouter, HashRouter, Switch, Route } from 'react-router-dom'
 
-// import Actions from './libs/actions'
+import Actions from './libs/actions'
 import App from './App'
 import Theme from './Theme'
 
-ReactDOM.render(
-  <Theme>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </Theme>,
-  document.getElementById('app')
-)
+const START = async p => {
+  const actions = await Actions('https://tradebot.chips.gg')
+  console.log(actions)
+
+  ReactDOM.render(
+    <Theme>
+      <HashRouter>
+        <App actions={actions}/>
+      </HashRouter>
+    </Theme>,
+    document.getElementById('app')
+  )
+}
+
+START();

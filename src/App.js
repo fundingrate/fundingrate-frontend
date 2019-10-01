@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 // Pages
 import Pages from './pages'
+import Layout from './Layout'
 
 const App = ({ actions }) => (
   <>
@@ -11,18 +12,27 @@ const App = ({ actions }) => (
 
       {Object.keys(Pages).map(pageKey => {
         const Page = Pages[pageKey]
-        if (pageKey === 'NotFound') return <Route key={`page_${pageKey}`} component={Page} />
+        if (pageKey === 'NotFound')
+          return <Route key={`page_${pageKey}`} component={Page} />
         return (
           <Route
             key={`page_${pageKey}`}
             path={`/${pageKey}`}
             render={props => {
-              return <Page actions={actions} />
+
+              // render layout and page
+              return (
+                <Layout
+                  cPage={props.location.pathname}
+                  onClick={props.history.push}
+                >
+                  <Page {...props} actions={actions} />
+                </Layout>
+              )
             }}
           />
         )
       })}
-
     </Switch>
   </>
 )

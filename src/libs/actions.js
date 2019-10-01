@@ -4,11 +4,10 @@ export default async baseURL => {
     const api = axios.create({
         baseURL,
         // timeout: 1000,
-        // headers: {'X-Custom-Header': 'foobar'}
+        // headers: {'Access-Control-Allow-Origin': '*'}
     })
 
-    const { data } = await api('/actions/listActions')
-    console.log(data)
+    const { data } = await api('/')
 
     return data.reduce((memo, action) => {
         return {

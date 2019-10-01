@@ -1,15 +1,12 @@
 import React from 'react'
 
+import { Box, Text, Flex } from '../primitives'
+
 const Footer = () => (
-  <div>
-    <p>
-      Maintained By{' '}
-      <a href="https://chips.gg/" target="_blank">
-        <strong>Chips.gg</strong>
-      </a>
-    </p>
-    <p>contact@chips.gg</p>
-  </div>
+  <Box bg="foregroundBacking" p={4}>
+    {/* <Text.Link href="https://chips.gg/">Chips.gg</Text.Link> */}
+    <Text.Link href="https://tacyarg.com">Tacyarg.com</Text.Link>
+  </Box>
 )
 
 export default Footer

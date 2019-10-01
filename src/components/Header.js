@@ -1,10 +1,14 @@
 import React from 'react'
 
-const Header = p => {
+import { Text, Flex, Box } from '../primitives'
+
+const Header = ({ heading = 'Fundingrate.io' }) => {
   return (
-    <div>
-      SomeSite.com
-    </div>
+    <Flex bg="foregroundBacking" p={3}>
+      <Text.Heading fontSize={4}>{heading}</Text.Heading>
+      <Box mx="auto" />
+      Hello
+    </Flex>
   )
 }
 
