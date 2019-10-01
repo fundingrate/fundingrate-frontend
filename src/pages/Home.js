@@ -2,18 +2,25 @@ import React from 'react'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Sidebar from '../components/Sidebar'
 
-import { Flex, Box, Text } from '../primitives'
+import Assets from '../components/Assets'
+import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
 
 const SideNav = ({ links }) => {
+  const onClick = p => {
+    return console.log("Button Clicked:", p)
+  }
+
   return (
     <Sidebar>
+      <Flex alignItems="center" my={3}>
+        <Image mr={2} src={Assets.Icons.Popular} size={28} /> Dashboard
+      </Flex>
       {links.map(({ label, href }) => {
         return (
-          <Text.Link key={label} href={href}>
-            label
-          </Text.Link>
+          <Button key={label} type="simple" onClick={onClick}>
+            {label}
+          </Button>
         )
       })}
     </Sidebar>
@@ -32,10 +39,10 @@ const Home = p => {
       width={1}
       height={'100%'}
       bg="backing"
-      justifyContent="center"
+      // justifyContent="center"
       alignItems="center"
     >
-      {/* <SideNav links={links} /> */}
+      <SideNav links={links} />
       {/* <Header /> */}
       Hello World!
       {/* <Footer /> */}
