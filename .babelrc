@@ -1,0 +1,28 @@
+{
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "absoluteRuntime": false,
+        "corejs": 2,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ],
+    ["@babel/plugin-transform-modules-commonjs"]
+
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "esmodules": true,
+        "targets": "> 0.25%, not dead"
+
+      }
+    ],
+    "@babel/preset-react"
+  ]
+}
