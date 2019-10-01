@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Assets from './components/Assets'
-import { Button, Flex, Box, Text, Image,Sidebar } from './primitives'
+import { Button, Flex, Box, Text, Image, Sidebar } from './primitives'
 
 const SideNav = ({ links, onClick }) => {
   return (
     <Sidebar>
-      <Flex alignItems="center" my={3}>
-        <Image mr={2} src={Assets.Icons.Popular} size={28}/> Dashboard
+      <Flex alignItems="center" my={3} onClick={e => onClick('/home')}>
+        <Image mr={2} src={Assets.Icons.Popular} size={28} /> Dashboard
       </Flex>
       {links.map(({ label, href }) => {
         return (

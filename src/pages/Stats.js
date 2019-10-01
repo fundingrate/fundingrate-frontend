@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
+import { Button, Flex, Box, Text, Image, Sidebar, Spinner } from '../primitives'
 
 const Stats = ({ actions, location }) => {
   const cPage = location.pathname
 
+  const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     profit: 0,
   })
@@ -13,7 +14,11 @@ const Stats = ({ actions, location }) => {
     // .catch(setError)
   }, [])
 
-  return (
+  return loading ? (
+    <Flex width={1} alignItems="center" justifyContent="center">
+      <Spinner>/</Spinner>
+    </Flex>
+  ) : (
     <Box>
       <Text>{cPage}</Text>
       <Text>${stats.profit}</Text>

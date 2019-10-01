@@ -23,6 +23,7 @@ const App = ({ actions }) => (
               // render layout and page
               return (
                 <Layout
+                  {...props}
                   cPage={props.location.pathname}
                   onClick={props.history.push}
                 >

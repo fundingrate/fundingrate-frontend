@@ -7,12 +7,12 @@ import Assets from '../components/Assets'
 import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
 
 const Home = ({ actions, location, router }) => {
-  console.log('location', location)
-
   const cPage = location.pathname
 
   return (
-    <Text>{cPage}</Text>
+    <Box p={4}>
+      <Text>{cPage}</Text>
+    </Box>
   )
 }
 
