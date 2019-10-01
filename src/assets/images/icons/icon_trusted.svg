@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.377" height="26" viewBox="0 0 24.377 26">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="24.377" height="26" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="1" y1="1" x2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f03c3c"/>
+      <stop offset="1" stop-color="#ff7e24"/>
+    </linearGradient>
+  </defs>
+  <g id="icon_trusted" clip-path="url(#clip-path)">
+    <path id="shield" d="M38.879,4.274,29.128.212a2.445,2.445,0,0,0-1.874,0L17.5,4.274A2.435,2.435,0,0,0,16,6.524c0,10.081,5.815,17.049,11.249,19.314a2.445,2.445,0,0,0,1.874,0c4.352-1.813,11.254-8.075,11.254-19.314A2.438,2.438,0,0,0,38.879,4.274ZM28.5,24.34a.831.831,0,0,1-.625,0C22.907,22.37,17.625,15.463,17.625,6.524a.816.816,0,0,1,.5-.752L27.874,1.71a.807.807,0,0,1,.625,0l9.751,4.063a.808.808,0,0,1,.5.752C38.752,15.463,33.47,22.37,28.5,24.34Z" transform="translate(-16 -0.025)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

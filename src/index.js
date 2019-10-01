@@ -2,19 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { BrowserRouter, HashRouter, Switch, Route } from 'react-router-dom'
-import './static/scss/app.scss'
 
-import Actions from './libs/actions'
-import App from './App';
+// import Actions from './libs/actions'
+import App from './App'
+import Theme from './Theme'
 
-const main = async () => {
-  // const actions = await Actions('http://localhost:9001/')
-  return ReactDOM.render(
+ReactDOM.render(
+  <Theme>
     <HashRouter>
-      <App actions={actions} />
-    </HashRouter>,
-    document.getElementById('app')
-  )
-}
-
-main()
+      <App />
+    </HashRouter>
+  </Theme>,
+  document.getElementById('app')
+)

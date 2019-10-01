@@ -1,28 +1,29 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import Header from './components/Header'
-import Footer from './components/Footer'
-
-import NotFound from './pages/NotFound'
-import Home from './pages/Home'
+// Pages
+import Pages from './pages'
 
 const App = ({ actions }) => (
   <>
-    <Header />
     <Switch>
       <Redirect exact from="/" to="/home" />
 
-      <Route
-        path="/home"
-        render={props => {
-          return <Home actions={actions} />
-        }}
-      />
+      {Object.keys(Pages).map(pageKey => {
+        const Page = Pages[pageKey]
+        if (pageKey === 'NotFound') return <Route key={`page_${pageKey}`} component={Page} />
+        return (
+          <Route
+            key={`page_${pageKey}`}
+            path={`/${pageKey}`}
+            render={props => {
+              return <Page actions={actions} />
+            }}
+          />
+        )
+      })}
 
-      <Route component={NotFound} />
     </Switch>
-    <Footer />
   </>
 )
 
