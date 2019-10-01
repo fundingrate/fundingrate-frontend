@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11",
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^16.3.0",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "node-sass": "^4.11.0",
+    "parcel-bundler": "^1.11.0"
+  },
+  "scripts": {
+    "predeploy": "rm -rf dist &&  parcel build index.html --out-dir dist",
+    "deploy": "gh-pages -d dist",
+    "start": "parcel index.html",
+    "build": "parcel build index.html --out-dir dist && yarn deletemaps",
+    "deletemaps": "find . -type f -name *.map -delete"
+  }
+}
