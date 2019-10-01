@@ -19,7 +19,7 @@ const Stats = ({ actions, location }) => {
       <Spinner>/</Spinner>
     </Flex>
   ) : (
-    <Box>
+    <Box p={4}>
       <Text>{cPage}</Text>
       <Text>${stats.profit}</Text>
     </Box>
