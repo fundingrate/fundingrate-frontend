@@ -17,9 +17,7 @@ const Stats = ({ actions, location }) => {
 
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [stats, setStats] = useState({
-    balance: 0,
-  })
+  const [stats, setStats] = useState()
 
   useEffect(() => {
     actions
@@ -41,15 +39,19 @@ const Stats = ({ actions, location }) => {
   ) : (
     <Flex flexDirection="column" p={4} justifyContent="space-evenly">
       <Heading>My Stats</Heading>
-      <Card flexDirection="column" >
-        {Object.keys(stats).map(k => {
-          if (k === 'position') return null
-          return (
-            <Flex flexDirection="column" key={k}>
-              <Utils.RenderObject.Prop label={`${k}:`} value={stats[k]} />
-            </Flex>
-          )
-        })}
+      <Card flexDirection="column">
+        {stats ? (
+          Object.keys(stats).map(k => {
+            if (k === 'position') return null
+            return (
+              <Flex flexDirection="column" key={k}>
+                <Utils.RenderObject.Prop label={`${k}:`} value={stats[k]} />
+              </Flex>
+            )
+          })
+        ) : (
+          <Text>You have to stats to render.</Text>
+        )}
       </Card>
     </Flex>
   )

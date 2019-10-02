@@ -39,9 +39,9 @@ const Trades = ({ actions, location }) => {
   ) : (
     <Flex flexDirection="column" p={4} justifyContent="space-evenly">
       <Heading>My Trades</Heading>
-      {state.map(data => {
+      {state.length > 0 ? state.map(data => {
         return <Utils.RenderObject data={data} key={data.id} />
-      })}
+      }) : <Text>You have no trades processed.</Text>}
     </Flex>
   )
 }
