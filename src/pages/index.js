@@ -4,6 +4,7 @@ import Stats from './Stats'
 // import Events from './Events'
 import Trades from './Trades'
 import Profile from './Profile'
+import Documentation from './Documentation'
 
 export default {
     Home,
@@ -11,5 +12,6 @@ export default {
     Stats,
     // Events,
     Trades,
+    Documentation,
     NotFound
 }
