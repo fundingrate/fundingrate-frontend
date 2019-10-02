@@ -8,8 +8,7 @@ import App from './App'
 import Theme from './Theme'
 
 const START = async p => {
-  const actions = await Actions('http://localhost:9001')
-  console.log(actions)
+  const actions = await Actions('https://tradebot.chips.gg', 'b2543a11-d9b3-404a-9388-19650eb7bf2a')
 
   ReactDOM.render(
     <Theme>

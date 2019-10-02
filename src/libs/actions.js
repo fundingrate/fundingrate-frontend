@@ -1,30 +1,40 @@
 import axios from 'axios'
+import assert from 'assert'
 
-export default async baseURL => {
+export default async (baseURL, token) => {
   const api = axios.create({
     baseURL,
-    // timeout: 1000,
-    headers: {
-      // 'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    },
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*'      
+    // },
     transformResponse: [function (data) {
-      // Do whatever you want to transform the data
-  
       return JSON.parse(data);
     }]
   })
-
-  const { data } = await api('/')
-
-  return data.reduce((memo, action) => {
-    return {
-      ...memo,
-      [action]: async params => {
-        const { data } = await api.post(`/${action}`, params)
-        console.log(data)
+  const { data } = await api.get('/')
+  console.log(data)
+  return data.reduce(
+    (memo, action) => {
+      return {
+        ...memo,
+        [action]: async (params={}) => {
+          params.token = token
+          const { data } = await memo._post(`/${action}`, params)
+          console.log(action, params, data)
+          return data
+        },
+      }
+    },
+    {
+      _api: api,
+      _post: async (endpoint, params) => {
+        const { data } = await api.post(endpoint, params)
+        return data
+      },
+      _get: async (endpoint, params) => {
+        const { data } = await api.get(endpoint, params)
         return data
       },
     }
-  }, {})
+  )
 }

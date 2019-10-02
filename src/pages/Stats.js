@@ -7,17 +7,19 @@ const Stats = ({ actions, location }) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
-    profit: 0,
+    balance: 0,
   })
 
   useEffect(() => {
-    actions.getStats().then(s => {
-      setStats(s)
-      setLoading(false)
-    }).catch(e => {
-      setError(e)
-      setLoading(false)
-    })
+    actions.getMyStats()
+      .then(s => {
+        setStats(s)
+        setLoading(false)
+      })
+      .catch(e => {
+        setError(e)
+        setLoading(false)
+      })
   }, [])
 
   return loading ? (
@@ -27,7 +29,7 @@ const Stats = ({ actions, location }) => {
   ) : (
     <Box p={4}>
       <Text>{cPage}</Text>
-      <Text>${stats.profit}</Text>
+      <Text>${stats.balance}</Text>
     </Box>
   )
 }
