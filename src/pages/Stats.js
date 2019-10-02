@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Box, Text, Image, Sidebar, Spinner } from '../primitives'
+import {
+  Card,
+  Heading,
+  Button,
+  Flex,
+  Box,
+  Text,
+  Image,
+  Sidebar,
+  Spinner,
+} from '../primitives'
+import Utils from '../components/Utils'
 
 const Stats = ({ actions, location }) => {
   const cPage = location.pathname
@@ -11,7 +22,8 @@ const Stats = ({ actions, location }) => {
   })
 
   useEffect(() => {
-    actions.getMyStats()
+    actions
+      .getMyStats()
       .then(s => {
         setStats(s)
         setLoading(false)
@@ -23,14 +35,23 @@ const Stats = ({ actions, location }) => {
   }, [])
 
   return loading ? (
-    <Flex width={1} alignItems="center" justifyContent="center">
+    <Flex width={1} height="100%" alignItems="center" justifyContent="center">
       <Spinner>/</Spinner>
     </Flex>
   ) : (
-    <Box p={4}>
-      <Text>{cPage}</Text>
-      <Text>${stats.balance}</Text>
-    </Box>
+    <Flex flexDirection="column" p={4} justifyContent="space-evenly">
+      <Heading>My Stats</Heading>
+      <Card flexDirection="column" >
+        {Object.keys(stats).map(k => {
+          if (k === 'position') return null
+          return (
+            <Flex flexDirection="column" key={k}>
+              <Utils.RenderObject.Prop label={`${k}:`} value={stats[k]} />
+            </Flex>
+          )
+        })}
+      </Card>
+    </Flex>
   )
 }
 

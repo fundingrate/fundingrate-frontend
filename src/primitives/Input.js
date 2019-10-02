@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {} from 'styled-system'
 
-import { Text, Flex, Image } from '.'
+import { Box, Text, Flex, Image } from '.'
 import theme from '../styles/theme'
 
 const Styled = styled.input`
@@ -22,23 +22,38 @@ const Styled = styled.input`
   }
 `
 
-const StyledInput = ({ withWrapper = true, children, icon, error, ...props }) =>
+const StyledInput = ({
+  withWrapper = true,
+  label,
+  children,
+  icon,
+  error,
+  ...props
+}) =>
   withWrapper ? (
     <StyledInput.Wrapper width={1} error={error}>
       {icon && <Image src={icon} size={20} mr={2} />}
+      {label && (
+        <>
+          <Text>{label}</Text>
+          <Box mx={1} />
+        </>
+      )}
       <Styled width={1} type="text" {...props} />
       {children}
     </StyledInput.Wrapper>
   ) : (
-    <Flex
-      // bg="lightCard"
-      flex={1}
-      p={2}
-      borderRadius="rounded"
-    >
-      <Styled type="text" {...props} />
-      {children}
-    </Flex>
+    <>
+      <Flex
+        // bg="lightCard"
+        flex={1}
+        p={2}
+        borderRadius="rounded"
+      >
+        <Styled type="text" {...props} />
+        {children}
+      </Flex>
+    </>
   )
 
 StyledInput.displayName = 'Input'
@@ -54,6 +69,7 @@ StyledInput.Wrapper = styled(Flex)`
 
 StyledInput.Wrapper.defaultProps = {
   p: 2,
+  alignItems: 'center',
 }
 
 export default StyledInput

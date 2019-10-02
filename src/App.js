@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Pages from './pages'
 import Layout from './Layout'
 
-const App = ({ actions }) => (
+const App = ({ actions, user, token }) => (
   <>
     <Switch>
       <Redirect exact from="/" to="/home" />
@@ -26,8 +26,10 @@ const App = ({ actions }) => (
                   {...props}
                   cPage={props.location.pathname}
                   onClick={props.history.push}
+                  actions={actions} 
+                  user={user}
                 >
-                  <Page {...props} actions={actions} />
+                  <Page {...props} actions={actions} user={user} token={token} />
                 </Layout>
               )
             }}

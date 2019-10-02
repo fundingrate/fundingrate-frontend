@@ -12,3 +12,4 @@ export { default as Divider } from "./Divider";
 export { default as Input } from "./Input";
 export { default as Spinner } from "./Spinner";
 export { default as Sidebar } from "./Sidebar";
+export { default as Heading } from "./Heading";

@@ -5,7 +5,7 @@ import theme from "../styles/theme";
 
 const Page = styled(Box)`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   // min-height: 100vh !important;
 
   overflow: hidden;

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Assets from './components/Assets'
-import { Button, Flex, Box, Text, Image, Sidebar } from './primitives'
+import { Button, Flex, Box, Text, Image, Sidebar, Page } from './primitives'
+
+import Pages from './pages'
 
 const SideNav = ({ links, onClick }) => {
   return (
@@ -22,12 +24,20 @@ const SideNav = ({ links, onClick }) => {
   )
 }
 
-const Layout = ({ children, onClick }) => {
-  const links = [
-    { label: 'Events', href: '/events' },
-    { label: 'Trades', href: '/trades' },
-    { label: 'Stats', href: '/stats' },
-  ]
+const Layout = ({ user, children, onClick }) => {
+  // const links = [
+  //   { label: 'Events', href: '/events' },
+  //   { label: 'Trades', href: '/trades' },
+  //   { label: 'Stats', href: '/stats' },
+  // ]
+
+  const links = Object.keys(Pages).reduce((memo, k) => {
+    if (k === 'NotFound') return memo
+    memo.push({ label: k, href: `/${k}` })
+    return memo
+  }, [])
+
+  console.log(links)
 
   return (
     <Flex
@@ -46,8 +56,10 @@ const Layout = ({ children, onClick }) => {
         justifyContent="center"
         // alignItems="center"
       >
-        <Header />
-        <Flex flex={1}>{children}</Flex>
+        <Header>
+          {user ? <Text>{user.username}</Text> : <Text>Nobody</Text>}
+        </Header>
+        <Page flex={1}>{children}</Page>
         <Footer />
       </Flex>
     </Flex>
