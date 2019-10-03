@@ -26,7 +26,7 @@ const Profile = ({ actions, location, user, token, history }) => {
   }, [])
 
   const Logout = () => {
-    actions.setLocalStorage('token', null)
+    actions.deleteLocalStorage('token')
     window.location.reload()
   }
 

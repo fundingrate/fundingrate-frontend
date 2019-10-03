@@ -43,6 +43,7 @@ const Trades = ({ actions, location }) => {
       width={[1, 2 / 3]}
       justifyContent="space-evenly"
     >
+      <Utils.DownloadCSV data={state}/>
       <Heading>My Trades</Heading>
       {state.length > 0 ? (
         state.map(data => {

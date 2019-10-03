@@ -44,6 +44,9 @@ export default async (baseURL, token) => {
       },
       getLocalStorage: k => {
         return localStorage.getItem(k);
+      },
+      deleteLocalStorage: k => {
+        return localStorage.removeItem(k)
       }
     }
   }, {})

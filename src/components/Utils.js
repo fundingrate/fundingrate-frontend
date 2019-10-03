@@ -77,8 +77,40 @@ const MarkdownLink = ({ link }) => {
   )
 }
 
+const generateCSV = (data) => {
+  const { parse } = require('json2csv')
+  const fields = data[0] ? Object.keys(data[0]) : ['id', 'price', 'closingPrice', 'profit', 'change']
+  return parse(data, {
+    fields,
+    flatten: true
+  })
+}
+
+const downloadCSV = async (data = []) => {
+  const csv = generateCSV(data)
+  let link = document.createElement('a')
+  link.id = 'download-csv'
+  link.setAttribute(
+    'href',
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(csv)
+  )
+  link.setAttribute('download', `list_${Date.now()}.csv`)
+  document.body.appendChild(link)
+  document.querySelector('#download-csv').click()
+  // var encodedUri = encodeURI(csv)
+  // console.log('URI:', encodedUri)
+  // return window.open(encodedUri)
+}
+
+const DownloadCSV = ({ data = [] }) => (
+  <Button type="simple" onClick={e => downloadCSV(data)}>
+    Download CSV
+  </Button>
+)
+
 export default {
   RenderObject,
   LoadingPage,
   MarkdownLink,
+  DownloadCSV,
 }
