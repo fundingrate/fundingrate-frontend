@@ -33,8 +33,8 @@ const renderProp = value => {
   switch (typeof value) {
     case 'boolean':
       return Boolean(value) ? 'yes' : 'no'
-    case 'number':
-      return <Text.Number value={value} />
+    // case 'number':
+    //   return <Text.Number value={value} />
     default:
       return value
   }
