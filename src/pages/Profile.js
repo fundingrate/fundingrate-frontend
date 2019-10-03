@@ -103,7 +103,7 @@ const Login = ({ actions, location, history }) => {
       </Text>
       <Flex
         flexDirection="column"
-        width={1 / 2}
+        width={[1, 1 / 2]}
         alignItems="center"
         justifyContent="center"
         p={2}
@@ -175,7 +175,7 @@ const Register = ({ actions, location, user, token, history }) => {
       </Text>
       <Flex
         flexDirection="column"
-        width={1 / 2}
+        width={[1, 1 / 2]}
         alignItems="center"
         justifyContent="center"
         p={2}
