@@ -49,7 +49,7 @@ const Home = ({ actions, location, router }) => {
 
   return (
     <Flex flexDirection="column" alignItems="center">
-      <Box p={4} width={2 / 3}>
+      <Box p={4} width={[1, 2 / 3]}>
         <ReactMarkdown source={MARKDOWN} />
       </Box>
     </Flex>

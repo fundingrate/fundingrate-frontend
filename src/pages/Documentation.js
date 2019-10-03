@@ -21,7 +21,7 @@ const Documentation = p => {
 
   return state ? (
     <Flex flexDirection="column" alignItems="center">
-      <Box p={4} width={2 / 3}>
+      <Box p={4} width={[1, 2 / 3]}>
         <ReactMarkdown source={state} />
       </Box>
     </Flex>

@@ -33,6 +33,16 @@ const type = props => {
           color: ${props.disabled ? null : theme.colors.primary}
         };
     `
+    case 'simple-shaded':
+      return `
+        background-color: rgba(0,0,0,0.5);
+        color: ${theme.colors.darkGray};
+        &:hover,
+        &:focus {
+          box-shadow: 0px 2px 4px -4px ${theme.colors.primary};
+          color: ${props.disabled ? null : theme.colors.primary}
+        };
+    `
     default:
       return `
           background-color: rgba(0,0,0,0);
