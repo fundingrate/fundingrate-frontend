@@ -25,6 +25,11 @@ const Profile = ({ actions, location, user, token, history }) => {
     })
   }, [])
 
+  const Logout = () => {
+    actions.setLocalStorage('token', null)
+    window.location.reload()
+  }
+
   return (
     <Flex
       flexDirection="column"
@@ -57,12 +62,7 @@ const Profile = ({ actions, location, user, token, history }) => {
         <Heading>Token</Heading>
         {!state ? <Utils.LoadingPage /> : <Utils.RenderObject data={state} />}
 
-        <Button
-          disabled={!state}
-          m={3}
-          type="warning"
-          // onClick={Submit}
-        >
+        <Button disabled={!state} m={3} type="warning" onClick={Logout}>
           LOGOUT
         </Button>
       </Flex>
