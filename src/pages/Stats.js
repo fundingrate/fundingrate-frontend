@@ -37,7 +37,12 @@ const Stats = ({ actions, location }) => {
       <Spinner>/</Spinner>
     </Flex>
   ) : (
-    <Flex flexDirection="column" p={4} width={[1, 2 / 3]} justifyContent="space-evenly">
+    <Flex
+      flexDirection="column"
+      p={4}
+      width={[1, 2 / 3]}
+      justifyContent="space-evenly"
+    >
       <Heading>My Stats</Heading>
       <Card flexDirection="column">
         {stats ? (
