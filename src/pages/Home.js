@@ -37,6 +37,11 @@ All the code supporting Fundingrate.io is open-source.
 
 - [Tradingview-listener](https://github.com/tacyarg/tradingview-listener)
 - [Tradingview-dashboard](https://github.com/tacyarg/tradingview-dashboard)
+
+# Social Media
+
+- [Twitter](https://twitter.com/FundingrateIO)
+- [Community Forum](https://forum.tacyarg.com/c/projects/fundingrate-io)
 `
 
 const Home = ({ actions, location, router }) => {
