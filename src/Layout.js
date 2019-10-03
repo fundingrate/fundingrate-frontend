@@ -10,7 +10,7 @@ import Pages from './pages'
 const SideNav = ({ links, onClick }) => {
   return (
     <Sidebar>
-      <Flex alignItems="center" my={3} onClick={e => onClick('/home')}>
+      <Flex alignItems="center" justifyContent="center" my={3} onClick={e => onClick('/home')}>
         <Image mr={2} src={Assets.Icons.Popular} size={28} /> Dashboard
       </Flex>
       {links.map(({ label, href }) => {

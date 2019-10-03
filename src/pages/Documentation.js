@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
+import {Card, Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 import Utils from '../components/Utils'

@@ -11,7 +11,7 @@ const MARKDOWN = `
 
 Fundingrate.io is a software platform that allows the user to easily
 manage tradingview webhooks to formulate trade stratagies. Utilizing
-these stratagies the user can then trigger trade executions on thier
+these strategies the user can then trigger trade executions on thier
 exchange of choice. This allows the user to tailor thier trading
 experience however they see fit.
 
@@ -25,7 +25,7 @@ Fundingrate.io provides a few compelling features and services.
 - Alert/Event Replay & Backtesting
 - Paper Trading
 - Statistical Reporting
-- Web Portal
+- Web Portal / Dashboard
 - Secure and Anonoymous
 - Authentication
 - Follow other userids
