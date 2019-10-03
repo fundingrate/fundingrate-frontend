@@ -7,7 +7,7 @@ import { Flex, Box, Button, Image } from './index'
 import Assets from '../components/Assets'
 
 const Sidebar = styled(Flex)`
-  border: 2px solid black;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
 
   @media only screen and (max-width: 600px) {
     display: ${p => (p.open ? 'block' : 'none')};
@@ -18,6 +18,8 @@ Sidebar.defaultProps = {
   p: 4,
   height: '100%',
   flexDirection: 'column',
+  boxShadow: "2px 0px 2px -2px rgba(0, 0, 0, 0.2)",
+  zIndex: 9001
   // width: '100%',
   // flex: 1
 }

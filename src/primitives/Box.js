@@ -1,31 +1,46 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 import {
-    borderRadius,
-    space,
-    width,
-    height,
-    color,
-    order,
-    position,
-    top,
-    right,
-    bottom,
-    left,
-    size,
-    textAlign,
-    minWidth,
-    maxWidth,
-    maxHeight,
-    minHeight,
-    border,
-    fontFamily
-} from 'styled-system';
+  borderRadius,
+  space,
+  width,
+  height,
+  color,
+  order,
+  position,
+  top,
+  right,
+  bottom,
+  left,
+  size,
+  textAlign,
+  minWidth,
+  maxWidth,
+  maxHeight,
+  minHeight,
+  border,
+  borderRight,
+  borderBottom,
+  borderTop,
+  borderLeft,
+  fontFamily,
+  boxShadow,
+  zIndex
+} from 'styled-system'
 
 const Box = styled.div`
   box-sizing: border-box;
 
+  // shadow-bottom: ${p => (p.shadowBottom ? '0px 10px 10px -10px black' : 'none')}
+  // shadow-top: ${p => (p.shadowTop ? '0px -10px 10px -10px black' : 'none')}
+
+  ${zIndex}
+  ${boxShadow}
 	${borderRadius}
   ${border}
+  ${borderRight}
+  ${borderLeft}
+  ${borderTop}
+  ${borderBottom}
 	${color}
 	${order}
 	${position}
@@ -43,8 +58,8 @@ const Box = styled.div`
   ${minHeight}
   ${maxHeight}
   ${fontFamily}
-`;
+`
 
-Box.displayName = 'Box';
+Box.displayName = 'Box'
 
-export default Box;
+export default Box
