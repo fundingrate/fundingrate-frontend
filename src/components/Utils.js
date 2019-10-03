@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   Card,
@@ -10,6 +10,9 @@ import {
   Sidebar,
   Spinner,
 } from '../primitives'
+
+import axios from 'axios'
+import ReactMarkdown from 'react-markdown'
 
 // render shallow object.
 const RenderObject = ({ data }) => {
@@ -27,7 +30,11 @@ const RenderObject = ({ data }) => {
 
 RenderObject.Prop = ({ label, value }) => {
   return (
-    <Flex flexDirection={['column', 'row']} alignItems={['center', 'end']} m={1}>
+    <Flex
+      flexDirection={['column', 'row']}
+      alignItems={['center', 'end']}
+      m={1}
+    >
       <Text bold>{label}</Text>
       <Box mx={1} />
       <Text>{value}</Text>
@@ -37,13 +44,41 @@ RenderObject.Prop = ({ label, value }) => {
 
 const LoadingPage = p => {
   return (
-    <Flex width={1} height="100%" alignItems="center" justifyContent="center" {...p}>
+    <Flex
+      width={1}
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+      {...p}
+    >
       <Spinner>/</Spinner>
     </Flex>
+  )
+}
+
+const MarkdownLink = ({ link }) => {
+  const [state, setState] = useState(null)
+
+  const getMarkdown = async link => {
+    const { data } = await axios(link).catch(console.error)
+    return setState(data)
+  }
+
+  useEffect(() => {
+    getMarkdown(link)
+  }, [])
+
+  return state ? (
+    <Box p={4} width={[1, 2 / 3]}>
+      <ReactMarkdown source={state} />
+    </Box>
+  ) : (
+    <LoadingPage />
   )
 }
 
 export default {
   RenderObject,
   LoadingPage,
+  MarkdownLink,
 }
