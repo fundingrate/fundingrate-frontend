@@ -5,6 +5,7 @@ import Events from './Events'
 import Trades from './Trades'
 import Profile from './Profile'
 import Documentation from './Documentation'
+import FAQ from './FAQ'
 
 export default {
     Home,
@@ -13,5 +14,6 @@ export default {
     Events,
     Trades,
     Documentation,
+    FAQ,
     NotFound
 }

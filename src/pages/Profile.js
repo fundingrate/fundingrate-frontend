@@ -42,6 +42,10 @@ const Profile = ({ actions, location, user, token, history }) => {
         <Text.Heading fontSize={5}>Welcome back, {user.username}</Text.Heading>
       </Flex>
       <Box p={4}>
+        <Text color="red" fontSize={3} p={3}>
+          Please ensure you save this information or risk losing your account.
+        </Text>
+
         <Heading>User</Heading>
         <Utils.RenderObject data={user} />
         <Heading>Token</Heading>
@@ -54,7 +58,9 @@ const Profile = ({ actions, location, user, token, history }) => {
 const Login = ({ actions, location, history }) => {
   const cPage = location.pathname
 
-  const [state, setState] = useState({})
+  const [state, setState] = useState({
+    token: ''
+  })
   const [loading, setLoading] = useState(false)
 
   const handleInput = prop => e => {
@@ -92,6 +98,9 @@ const Login = ({ actions, location, history }) => {
       justifyContent="center"
     >
       <Heading> Token Login </Heading>
+      <Text color="primary" p={2}>
+        To protect your identity, we only require your token to login.
+      </Text>
       <Flex
         flexDirection="column"
         width={1 / 2}
@@ -105,7 +114,7 @@ const Login = ({ actions, location, history }) => {
           value={state.token}
           onChange={handleInput('token')}
         />
-        <Button m={2} type="primary" onClick={Submit}>
+        <Button disabled={state.token.length < 1} m={3} type="primary" onClick={Submit}>
           LOGIN
         </Button>
       </Flex>
@@ -116,7 +125,9 @@ const Login = ({ actions, location, history }) => {
 const Register = ({ actions, location, user, token, history }) => {
   const cPage = location.pathname
 
-  const [state, setState] = useState({})
+  const [state, setState] = useState({
+    username: ''
+  })
   const [loading, setLoading] = useState(false)
 
   const handleInput = prop => e => {
@@ -154,6 +165,9 @@ const Register = ({ actions, location, user, token, history }) => {
       justifyContent="center"
     >
       <Heading> Username Registration </Heading>
+      <Text color="primary" p={2}>
+        To protect your identity, we only require a username to register.
+      </Text>
       <Flex
         flexDirection="column"
         width={1 / 2}
@@ -167,7 +181,7 @@ const Register = ({ actions, location, user, token, history }) => {
           value={state.username}
           onChange={handleInput('username')}
         />
-        <Button m={2} type="primary" onClick={Submit}>
+        <Button disabled={state.username.length < 3} m={3} type="primary" onClick={Submit}>
           REGISTER
         </Button>
       </Flex>
