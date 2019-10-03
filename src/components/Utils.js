@@ -37,7 +37,7 @@ RenderObject.Prop = ({ label, value }) => {
 
 const LoadingPage = p => {
   return (
-    <Flex width={1} height="100%" alignItems="center" justifyContent="center">
+    <Flex width={1} height="100%" alignItems="center" justifyContent="center" {...p}>
       <Spinner>/</Spinner>
     </Flex>
   )
