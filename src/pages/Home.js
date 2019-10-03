@@ -1,58 +1,30 @@
 import React, { useEffect, useState } from 'react'
-
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import Assets from '../components/Assets'
-import { Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
+import { Card, Button, Flex, Box, Text, Image, Sidebar } from '../primitives'
+import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
+import Utils from '../components/Utils'
 
-const MARKDOWN = `
-# Introduction
+const Home = p => {
+  const link =
+    'https://raw.githubusercontent.com/tacyarg/tradingview-dashboard/master/README.md'
+  const [state, setState] = useState(null)
 
-Fundingrate.io is a software platform that allows the user to easily
-manage tradingview webhooks to formulate trade strategies. Utilizing
-these strategies the user can then trigger trade executions on their
-exchange of choice. This allows the user to tailor their trading
-experience however they see fit.
+  const getMarkdown = async link => {
+    const { data } = await axios(link).catch(console.error)
+    console.log(data)
+    return setState(data)
+  }
 
-# Features
+  useEffect(() => {
+    getMarkdown(link)
+  }, [])
 
-Fundingrate.io provides a few compelling features and services.
-
-- Alert/Event Tracking
-- Alert/Event Filtering
-- Alert/Event Triggers
-- Alert/Event Replay & Backtesting
-- Paper Trading
-- Statistical Reporting
-- Web Portal / Dashboard
-- Secure and Anonoymous
-- Authentication
-- Follow other userids
-- Share Strategies
-
-# Open Source
-
-All the code supporting Fundingrate.io is open-source.
-
-- [Tradingview-listener](https://github.com/tacyarg/tradingview-listener)
-- [Tradingview-dashboard](https://github.com/tacyarg/tradingview-dashboard)
-
-# Social Media
-
-- [Twitter](https://twitter.com/FundingrateIO)
-- [Community Forum](https://forum.tacyarg.com/c/projects/fundingrate-io)
-`
-
-const Home = ({ actions, location, router }) => {
-  const cPage = location.pathname
-
-  return (
-    <Flex flexDirection="column" alignItems="center">
-      <Box p={4} width={[1, 2 / 3]}>
-        <ReactMarkdown source={MARKDOWN} />
-      </Box>
-    </Flex>
+  return state ? (
+    <Box p={4} width={[1, 2 / 3]}>
+      <ReactMarkdown source={state} />
+    </Box>
+  ) : (
+    <Utils.LoadingPage />
   )
 }
 

@@ -41,7 +41,7 @@ const Profile = ({ actions, location, user, token, history }) => {
       >
         <Text.Heading fontSize={5}>Welcome back, {user.username}</Text.Heading>
       </Flex>
-      <Box p={4}>
+      <Box p={[1,4]} width={[1, 2 / 3]}>
         <Text color="red" fontSize={3} p={3}>
           Please ensure you save this information or risk losing your account.
         </Text>
@@ -59,7 +59,7 @@ const Login = ({ actions, location, history }) => {
   const cPage = location.pathname
 
   const [state, setState] = useState({
-    token: ''
+    token: '',
   })
   const [loading, setLoading] = useState(false)
 
@@ -114,7 +114,12 @@ const Login = ({ actions, location, history }) => {
           value={state.token}
           onChange={handleInput('token')}
         />
-        <Button disabled={state.token.length < 1} m={3} type="primary" onClick={Submit}>
+        <Button
+          disabled={state.token.length < 1}
+          m={3}
+          type="primary"
+          onClick={Submit}
+        >
           LOGIN
         </Button>
       </Flex>
@@ -126,7 +131,7 @@ const Register = ({ actions, location, user, token, history }) => {
   const cPage = location.pathname
 
   const [state, setState] = useState({
-    username: ''
+    username: '',
   })
   const [loading, setLoading] = useState(false)
 
@@ -181,7 +186,12 @@ const Register = ({ actions, location, user, token, history }) => {
           value={state.username}
           onChange={handleInput('username')}
         />
-        <Button disabled={state.username.length < 3} m={3} type="primary" onClick={Submit}>
+        <Button
+          disabled={state.username.length < 3}
+          m={3}
+          type="primary"
+          onClick={Submit}
+        >
           REGISTER
         </Button>
       </Flex>
@@ -202,7 +212,8 @@ const Authenticate = p => {
       alignItems="center"
       justifyContent="center"
       height="100%"
-      p={4} width={[1, 2 / 3]}
+      p={4}
+      width={[1, 2 / 3]}
     >
       <Heading>Have you been here before?</Heading>
       <Card flexDirection="column" m={2}>

@@ -27,7 +27,7 @@ const RenderObject = ({ data }) => {
 
 RenderObject.Prop = ({ label, value }) => {
   return (
-    <Flex>
+    <Flex flexDirection={['column', 'row']} alignItems={['center', 'end']} m={1}>
       <Text bold>{label}</Text>
       <Box mx={1} />
       <Text>{value}</Text>
