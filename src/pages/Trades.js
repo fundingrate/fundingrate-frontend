@@ -37,11 +37,20 @@ const Trades = ({ actions, location }) => {
       <Spinner>/</Spinner>
     </Flex>
   ) : (
-    <Flex flexDirection="column" p={4} justifyContent="space-evenly">
+    <Flex
+      flexDirection="column"
+      p={4}
+      width={[1, 2 / 3]}
+      justifyContent="space-evenly"
+    >
       <Heading>My Trades</Heading>
-      {state.length > 0 ? state.map(data => {
-        return <Utils.RenderObject data={data} key={data.id} />
-      }) : <Text>You have no trades processed.</Text>}
+      {state.length > 0 ? (
+        state.map(data => {
+          return <Utils.RenderObject data={data} key={data.id} />
+        })
+      ) : (
+        <Text>You have no trades processed.</Text>
+      )}
     </Flex>
   )
 }

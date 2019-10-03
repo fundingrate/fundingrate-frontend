@@ -3,7 +3,8 @@ import { Flex, Box } from "./";
 
 import theme from "../styles/theme";
 
-const Page = styled(Box)`
+const Page = styled(Flex)`
+  // margin: 0 auto;
   height: 100vh;
   width: 100%;
   // min-height: 100vh !important;
@@ -33,7 +34,9 @@ const Page = styled(Box)`
 Page.displayName = "Page";
 
 Page.defaultProps = {
-  flexDirection: "column"
+  flexDirection: "column",
+  // justifyContent: 'center',
+  alignItems: 'center'
 };
 
 export default Page;

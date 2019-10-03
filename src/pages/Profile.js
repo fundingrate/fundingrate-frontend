@@ -202,7 +202,7 @@ const Authenticate = p => {
       alignItems="center"
       justifyContent="center"
       height="100%"
-      p={4}
+      p={4} width={[1, 2 / 3]}
     >
       <Heading>Have you been here before?</Heading>
       <Card flexDirection="column" m={2}>
