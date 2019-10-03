@@ -28,6 +28,18 @@ const RenderObject = ({ data }) => {
   )
 }
 
+const renderProp = value => {
+  console.log('render', typeof value, value)
+  switch (typeof value) {
+    case 'boolean':
+      return Boolean(value) ? 'yes' : 'no'
+    case 'number':
+      return <Text.Number value={value} />
+    default:
+      return value
+  }
+}
+
 RenderObject.Prop = ({ label, value }) => {
   return (
     <Flex
@@ -37,7 +49,7 @@ RenderObject.Prop = ({ label, value }) => {
     >
       <Text bold>{label}</Text>
       <Box mx={1} />
-      <Text>{value}</Text>
+      <Text>{renderProp(value)}</Text>
     </Flex>
   )
 }
@@ -77,12 +89,14 @@ const MarkdownLink = ({ link }) => {
   )
 }
 
-const generateCSV = (data) => {
+const generateCSV = data => {
   const { parse } = require('json2csv')
-  const fields = data[0] ? Object.keys(data[0]) : ['id', 'price', 'closingPrice', 'profit', 'change']
+  const fields = data[0]
+    ? Object.keys(data[0])
+    : ['id', 'price', 'closingPrice', 'profit', 'change']
   return parse(data, {
     fields,
-    flatten: true
+    flatten: true,
   })
 }
 

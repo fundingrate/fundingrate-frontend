@@ -58,6 +58,21 @@ const Stats = ({ actions, location }) => {
           <Text>You have to stats to render.</Text>
         )}
       </Card>
+
+      <Heading>Current Position</Heading>
+      <Card flexDirection="column">
+        {stats ? (
+          Object.keys(stats.position).map(k => {
+            return (
+              <Flex flexDirection="column" key={k}>
+                <Utils.RenderObject.Prop label={`${k}:`} value={stats.position[k]} />
+              </Flex>
+            )
+          })
+        ) : (
+          <Text>You have to stats to render.</Text>
+        )}
+      </Card>
     </Flex>
   )
 }
