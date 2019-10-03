@@ -23,6 +23,18 @@ const type = props => {
               opacity: 0.8
           };
         `
+    case 'warning':
+      return `
+        box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+        color: ${theme.colorStyles.textOnPrimary.color};
+        border: #f03c3c ${theme.borders.normal};
+        // background-color: ${theme.colorStyles.textOnPrimary.bgColor};
+        background-image: linear-gradient(290deg, #f03c3c, #df1111);
+        &:hover,
+        &:focus {
+            opacity: 0.8
+        };
+      `
     case 'simple':
       return `
         background-color: rgba(0,0,0,0);

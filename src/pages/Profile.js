@@ -41,7 +41,13 @@ const Profile = ({ actions, location, user, token, history }) => {
       >
         <Text.Heading fontSize={5}>Welcome back, {user.username}</Text.Heading>
       </Flex>
-      <Box p={[1,4]} width={[1, 2 / 3]}>
+      <Flex
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        p={[1, 4]}
+        width={[1, 2 / 3]}
+      >
         <Text color="red" fontSize={3} p={3}>
           Please ensure you save this information or risk losing your account.
         </Text>
@@ -50,7 +56,16 @@ const Profile = ({ actions, location, user, token, history }) => {
         <Utils.RenderObject data={user} />
         <Heading>Token</Heading>
         {!state ? <Utils.LoadingPage /> : <Utils.RenderObject data={state} />}
-      </Box>
+
+        <Button
+          disabled={!state}
+          m={3}
+          type="warning"
+          // onClick={Submit}
+        >
+          LOGOUT
+        </Button>
+      </Flex>
     </Flex>
   )
 }
