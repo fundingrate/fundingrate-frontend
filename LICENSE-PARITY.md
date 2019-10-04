@@ -1,9 +1,5 @@
 The Parity Public License 6.0.0
 
-Contributor: James Halliday
-
-Source Code: https://github.com/peermaps/bitfield-db
-
 This license lets you use and share this software for free, as
 long as you contribute software you make with it. Specifically:
 
