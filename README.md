@@ -17,7 +17,7 @@ Fundingrate.io provides a few compelling features and services.
 - Paper Trading
 - Statistical Reporting
 - Web Portal / Dashboard
-- Secure and Anonoymous
+- Secure and Anonymous
 - Authentication
 - Follow other userids
 - Share Strategies
