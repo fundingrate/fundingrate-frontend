@@ -60,12 +60,10 @@ export default ({ actions, location, user, token, history }) => {
         <Text color="red" fontSize={3} p={3}>
           Please ensure you save this information or risk losing your account.
         </Text>
-        {state.token && (
-          <Utils.DownloadCSV data={[state.user, state.token]} />
-        )}
+        {state.token && <Utils.DownloadJson data={state} />}
 
         <Heading>User</Heading>
-        <Utils.RenderObject data={state.user} />
+        <Utils.RenderObject data={state.user} filename={state.user.id}/>
         <Heading>Token</Heading>
         {!state.token ? (
           <Utils.LoadingPage />

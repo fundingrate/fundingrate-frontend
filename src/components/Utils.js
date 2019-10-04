@@ -11,17 +11,25 @@ import {
   Spinner,
 } from '../primitives'
 
+import Assets from './Assets'
+
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 
+import assert from 'assert'
+
 // render shallow object.
-const RenderObject = ({ data={} }) => {
+const RenderObject = ({ data = {} }) => {
   return (
     <Card flexDirection="column" m={2}>
       {Object.keys(data).map(k => {
         if (typeof data[k] === 'object') return
         return (
-          <RenderObject.Prop key={k} label={`${k.toUpperCase()}:`} value={data[k]} />
+          <RenderObject.Prop
+            key={k}
+            label={`${k.toUpperCase()}:`}
+            value={data[k]}
+          />
         )
       })}
     </Card>
@@ -100,15 +108,17 @@ const generateCSV = data => {
   })
 }
 
-const downloadCSV = async (data = []) => {
-  const csv = generateCSV(data)
+const downloadFile = async (filename, data) => {
+  assert(filename, 'filename required')
+  assert(data, 'data required')
+
   let link = document.createElement('a')
   link.id = 'download-csv'
   link.setAttribute(
     'href',
-    'data:text/plain;charset=utf-8,' + encodeURIComponent(csv)
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(data)
   )
-  link.setAttribute('download', `list_${Date.now()}.csv`)
+  link.setAttribute('download', filename)
   document.body.appendChild(link)
   document.querySelector('#download-csv').click()
   // var encodedUri = encodeURI(csv)
@@ -116,15 +126,44 @@ const downloadCSV = async (data = []) => {
   // return window.open(encodedUri)
 }
 
-const DownloadCSV = ({ data = [] }) => (
-  <Button type="simple" onClick={e => downloadCSV(data)}>
-    Download CSV
+const DownloadCSV = ({ filename = 'list.csv', data = [] }) => (
+  <Button
+    type="simple"
+    onClick={e => {
+      const csv = generateCSV(data)
+      downloadFile(filename, csv)
+    }}
+  >
+    <Flex alignItems="center" justifyContent="center">
+      <Image src={Assets.Icons.Trusted} size={24} />
+      <Box mx={1} />
+      Download .csv
+    </Flex>
   </Button>
 )
+
+const DownloadJson = ({ filename = 'row.json', data = {} }) => {
+  return (
+    <Button
+      type="simple"
+      onClick={e => {
+        data = JSON.stringify(data, null, 2)
+        downloadFile(filename, data)
+      }}
+    >
+      <Flex alignItems="center" justifyContent="center">
+        <Image src={Assets.Icons.Trusted} size={24} />
+        <Box mx={1} />
+        Download .json
+      </Flex>
+    </Button>
+  )
+}
 
 export default {
   RenderObject,
   LoadingPage,
   MarkdownLink,
   DownloadCSV,
+  DownloadJson,
 }
