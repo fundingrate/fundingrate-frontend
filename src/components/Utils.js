@@ -21,7 +21,7 @@ const RenderObject = ({ data }) => {
       {Object.keys(data).map(k => {
         if (typeof data[k] === 'object') return
         return (
-          <RenderObject.Prop label={`${k.toUpperCase()}:`} value={data[k]} />
+          <RenderObject.Prop key={k} label={`${k.toUpperCase()}:`} value={data[k]} />
         )
       })}
     </Card>
@@ -29,7 +29,7 @@ const RenderObject = ({ data }) => {
 }
 
 const renderProp = value => {
-  console.log('render', typeof value, value)
+  // console.log('render', typeof value, value)
   switch (typeof value) {
     case 'boolean':
       return Boolean(value) ? 'yes' : 'no'

@@ -46,13 +46,12 @@ const Layout = ({ user, children, onClick }) => {
   //   { label: 'Stats', href: '/stats' },
   // ]
 
+  // generate sidebar links
   const links = Object.keys(Pages).reduce((memo, k) => {
     if (k === 'NotFound') return memo
     memo.push({ label: k, href: `/${k}` })
     return memo
   }, [])
-
-  console.log(links)
 
   return (
     <Flex

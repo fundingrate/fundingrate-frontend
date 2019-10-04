@@ -9,10 +9,11 @@ import FAQ from './FAQ'
 // import Filters from './Filters'
 import Providers from './Providers'
 import Subscriptions from './Subscriptions'
-
+import Authenticate from './Authenticate'
 
 export default {
     Home,
+    Authenticate,
     Profile,
     Providers,
     Subscriptions,
