@@ -58,3 +58,7 @@ exports.parseEnv = env => {
 exports.makeID = function(start, end) {
   return [start, end].join('_')
 }
+
+exports.formatJson = schema => {
+  return JSON.stringify(schema, null, 2)
+}

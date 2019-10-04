@@ -10,12 +10,17 @@ export default ({ actions, location, user, token, history }) => {
     return <Text>Redirecting...</Text>
   }
 
-  const [state, setState] = useState(null)
+  const [state, setState] = useState({
+    user,
+    token: null,
+  })
 
   useEffect(() => {
     actions.listMyTokens({ token }).then(([t]) => {
-      console.log(t)
-      return setState(t)
+      return setState({
+        ...state,
+        token: t,
+      })
     })
   }, [])
 
@@ -23,6 +28,11 @@ export default ({ actions, location, user, token, history }) => {
     actions.deleteLocalStorage('token')
     window.location.reload()
   }
+
+  // const downloadState = () => {
+  //   const schema = JSON.stringify(state, null, 2)
+  //   return schema
+  // }
 
   return (
     <Flex
@@ -50,11 +60,18 @@ export default ({ actions, location, user, token, history }) => {
         <Text color="red" fontSize={3} p={3}>
           Please ensure you save this information or risk losing your account.
         </Text>
+        {state.token && (
+          <Utils.DownloadCSV data={[state.user, state.token]} />
+        )}
 
         <Heading>User</Heading>
-        <Utils.RenderObject data={user} />
+        <Utils.RenderObject data={state.user} />
         <Heading>Token</Heading>
-        {!state ? <Utils.LoadingPage /> : <Utils.RenderObject data={state} />}
+        {!state.token ? (
+          <Utils.LoadingPage />
+        ) : (
+          <Utils.RenderObject data={state.token} />
+        )}
 
         <Button disabled={!state} m={3} type="warning" onClick={Logout}>
           LOGOUT

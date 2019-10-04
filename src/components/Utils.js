@@ -15,7 +15,7 @@ import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 
 // render shallow object.
-const RenderObject = ({ data }) => {
+const RenderObject = ({ data={} }) => {
   return (
     <Card flexDirection="column" m={2}>
       {Object.keys(data).map(k => {
