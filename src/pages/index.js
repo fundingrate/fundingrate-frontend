@@ -6,13 +6,18 @@ import Trades from './Trades'
 import Profile from './Profile'
 import Documentation from './Documentation'
 import FAQ from './FAQ'
+// import Filters from './Filters'
+import Providers from './Providers'
+
 
 export default {
     Home,
     Profile,
-    Stats,
+    Providers,
     Events,
     Trades,
+    Stats,
+    // Filters,
     Documentation,
     FAQ,
     NotFound
