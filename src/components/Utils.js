@@ -19,11 +19,14 @@ import ReactMarkdown from 'react-markdown'
 import assert from 'assert'
 
 // render shallow object.
-const RenderObject = ({ data = {} }) => {
+const RenderObject = ({ data = {}, ...p }) => {
+  console.log("RenderObject", data)
   return (
-    <Card flexDirection="column" m={2}>
+    <Card flexDirection="column" m={2} {...p}>
       {Object.keys(data).map(k => {
         if (typeof data[k] === 'object') return
+        // if (!data[k]) return
+
         return (
           <RenderObject.Prop
             key={k}

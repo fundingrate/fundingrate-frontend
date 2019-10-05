@@ -97,7 +97,9 @@ const Providers = ({ actions, location }) => {
       })
   }, [])
 
-  return loading ? <Utils.LoadingPage /> : (
+  return loading ? (
+    <Utils.LoadingPage />
+  ) : (
     <Flex
       // flexDirection="column"
       p={4}
@@ -107,15 +109,37 @@ const Providers = ({ actions, location }) => {
     >
       <Heading>My Providers</Heading>
       {state.length > 0 ? (
-        state.map(provider => {
+        state.map(data => {
+          console.log(data.id, data.stats.id, data.stats.position)
           return (
-            <ProviderCard provider={provider}>
-              {/* <SubscribeButton actions={actions} providerid={provider.id} /> */}
-            </ProviderCard>
+            <Box width={1} m={2} key={data.id}>
+              <Text.Heading fontSize={5}>{data.username}</Text.Heading>
+              <Flex flex={1}>
+                <Utils.RenderObject data={data} flex={1} />
+                {data.stats ? (
+                  <Box>
+                    <Utils.RenderObject data={data.stats} flex={1} />
+                    {data.stats.position ? (
+                      <Utils.RenderObject data={data.stats.position} flex={1} />
+                    ) : (
+                      <Card flexDirection="column" m={2}>
+                        <Text>You have no position to render.</Text>
+                      </Card>
+                    )}
+                  </Box>
+                ) : (
+                  <Card flexDirection="column" m={2}>
+                    <Text>You have to stats to render.</Text>
+                  </Card>
+                )}
+              </Flex>
+            </Box>
           )
         })
       ) : (
-        <Text>No providers are available right now.</Text>
+        <Card flexDirection="column" m={2}>
+          <Text>No providers are available right now.</Text>
+        </Card>
       )}
     </Flex>
   )
