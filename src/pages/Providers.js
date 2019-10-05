@@ -101,11 +101,7 @@ const Providers = ({ actions, location }) => {
       })
   }, [])
 
-  return loading ? (
-    <Flex width={1} height="100%" alignItems="center" justifyContent="center">
-      <Spinner>/</Spinner>
-    </Flex>
-  ) : (
+  return loading ? <Utils.LoadingPage /> : (
     <Flex
       // flexDirection="column"
       p={4}
@@ -116,7 +112,6 @@ const Providers = ({ actions, location }) => {
       <Heading>Providers</Heading>
       {state.length > 0 ? (
         state.map(provider => {
-
           return (
             <ProviderCard provider={provider}>
               <SubscribeButton actions={actions} providerid={provider.id} />

@@ -32,11 +32,7 @@ const Trades = ({ actions, location }) => {
       })
   }, [])
 
-  return loading ? (
-    <Flex width={1} height="100%" alignItems="center" justifyContent="center">
-      <Spinner>/</Spinner>
-    </Flex>
-  ) : (
+  return loading ? <Utils.LoadingPage /> : (
     <Flex
       flexDirection="column"
       p={4}
