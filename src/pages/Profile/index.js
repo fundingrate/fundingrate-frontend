@@ -2,6 +2,7 @@ import Stats from './Stats'
 import Trades from './Trades'
 import Events from './Events'
 import Subscriptions from './Subscriptions'
+import Providers from './Providers'
 import Info from './Info'
 // import Filters from './Filters'
 
@@ -9,6 +10,7 @@ const Pages = {
   Info,
   // Filters,
   Subscriptions,
+  Providers,
   Events,
   Trades,
   Stats,

@@ -67,13 +67,13 @@ const SubscribeButton = ({ actions, providerid }) => {
   )
 }
 
-const ProviderCard = ({ provider, userid, count, children }) => {
+const ProviderCard = ({ provider, children }) => {
   return (
     <Card flexDirection="column" key={provider} m={2}>
       <Flex flexDirection="column">
-        <Utils.RenderObject.Prop label="Provider:" value={provider} />
-        <Utils.RenderObject.Prop label="Userid:" value={userid} />
-        <Utils.RenderObject.Prop label="Events Recorded:" value={count} />
+        <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
+        <Utils.RenderObject.Prop label="Userid:" value={provider.userid} />
+        {/* <Utils.RenderObject.Prop label="Events Recorded:" value={count} /> */}
       </Flex>
       <Box m={2} />
       {children}
@@ -90,9 +90,8 @@ const Providers = ({ actions, location }) => {
 
   useEffect(() => {
     actions
-      .listUserEventProviders()
+      .listProviders()
       .then(s => {
-        console.log('providers', s)
         setState(s)
         setLoading(false)
       })
@@ -116,12 +115,11 @@ const Providers = ({ actions, location }) => {
     >
       <Heading>Providers</Heading>
       {state.length > 0 ? (
-        state.map(({ group, reduction }) => {
-          const [provider, userid] = group
+        state.map(provider => {
 
           return (
-            <ProviderCard provider={provider} userid={userid} count={reduction}>
-              <SubscribeButton actions={actions} providerid={provider} />
+            <ProviderCard provider={provider}>
+              <SubscribeButton actions={actions} providerid={provider.id} />
             </ProviderCard>
           )
         })
