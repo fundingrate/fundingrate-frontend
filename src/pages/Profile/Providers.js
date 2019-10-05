@@ -127,31 +127,33 @@ const Providers = ({ actions, location }) => {
               <Text.Heading fontSize={5}>{data.username}</Text.Heading>
               <Flex flex={1}>
                 <Utils.RenderObject data={data} flex={1} />
-                {data.stats ? (
-                  <Box>
-                    <Box>
-                      <Text.Heading fontSize={3}>Current Stats</Text.Heading>
+                <Box>
+                  <Text.Heading fontSize={3}>Current Stats</Text.Heading>
+                  {data.stats ? (
+                    <>
                       <Utils.RenderObject data={data.stats} flex={1} />
-                    </Box>
-                    <Box>
-                      <Text.Heading fontSize={3}>Current Position</Text.Heading>
-                      {data.stats.position ? (
-                        <Utils.RenderObject
-                          data={data.stats.position}
-                          flex={1}
-                        />
-                      ) : (
-                        <Card flexDirection="column" m={2}>
-                          <Text>You have no position to render.</Text>
-                        </Card>
-                      )}
-                    </Box>
-                  </Box>
-                ) : (
-                  <Card flexDirection="column" m={2}>
-                    <Text>You have to stats to render.</Text>
-                  </Card>
-                )}
+                      <Box>
+                        <Text.Heading fontSize={3}>
+                          Current Position
+                        </Text.Heading>
+                        {data.stats.position ? (
+                          <Utils.RenderObject
+                            data={data.stats.position}
+                            flex={1}
+                          />
+                        ) : (
+                          <Card flexDirection="column" m={2}>
+                            <Text>You have no position to render.</Text>
+                          </Card>
+                        )}
+                      </Box>
+                    </>
+                  ) : (
+                    <Card flexDirection="column" m={2}>
+                      <Text>You have to stats to render.</Text>
+                    </Card>
+                  )}
+                </Box>
               </Flex>
             </Box>
           )
