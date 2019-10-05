@@ -66,13 +66,23 @@ const SubscribeButton = ({ actions, providerid }) => {
 
 const ProviderCard = ({ provider, children }) => {
   return (
-    <Card flexDirection="column" key={provider} m={2} width={[1, 2 / 5]} justifyContent="space-evenly">
+    <Card
+      flexDirection="column"
+      key={provider}
+      m={2}
+      width={[1, 2 / 5]}
+      justifyContent="space-evenly"
+    >
       <Flex flexDirection="column">
         <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
         <Utils.RenderObject.Prop label="Userid:" value={provider.userid} />
         <Utils.RenderObject.Prop
           label="Total Trades:"
           value={provider.stats.totalTrades}
+        />
+        <Utils.RenderObject.Prop
+          label="Profit:"
+          value={provider.stats.profit}
         />
         <Box m={2} p={2} bg="darkBacking">
           <Text fontSize={2}>Description</Text>
