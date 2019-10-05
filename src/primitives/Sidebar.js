@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { Flex, Box, Button, Image } from './index'
 import Assets from '../components/Assets'
 
+import theme from '../styles/theme'
+
 const Sidebar = styled(Flex)`
   border-right: 1px solid rgba(0, 0, 0, 0.2);
 

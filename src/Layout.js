@@ -12,11 +12,12 @@ import {
   Sidebar,
   Page,
   Divider,
+  Navbar,
 } from './primitives'
 
 import Pages from './pages'
 
-const SideNav = ({ links, onClick }) => {
+const SideNav = ({ user, links, onClick }) => {
   return (
     <Sidebar>
       <Flex
@@ -29,27 +30,40 @@ const SideNav = ({ links, onClick }) => {
       </Flex>
       <Divider />
       {links.map(({ label, href }) => {
-        return (
-          <Button key={label} type="simple" onClick={e => onClick(href)}>
-            {label}
-          </Button>
-        )
+        console.log(user)
+        switch (href) {
+          case '/authenticate': {
+            if (user) return null
+            return (
+              <Button key={label} type="simple" onClick={e => onClick(href)}>
+                {label}
+              </Button>
+            )
+          }
+          case '/profile': {
+            if (!user) return null
+            return (
+              <Button key={label} type="simple" onClick={e => onClick(href)}>
+                {label}
+              </Button>
+            )
+          }
+          default:
+            return (
+              <Button key={label} type="simple" onClick={e => onClick(href)}>
+                {label}
+              </Button>
+            )
+        }
       })}
     </Sidebar>
   )
 }
 
 const Layout = ({ user, children, onClick }) => {
-  // const links = [
-  //   { label: 'Events', href: '/events' },
-  //   { label: 'Trades', href: '/trades' },
-  //   { label: 'Stats', href: '/stats' },
-  // ]
-
-  // generate sidebar links
   const links = Object.keys(Pages).reduce((memo, k) => {
     if (k === 'NotFound') return memo
-    memo.push({ label: k, href: `/${k}` })
+    memo.push({ label: k, href: `/${k.toLowerCase()}` })
     return memo
   }, [])
 
@@ -61,7 +75,7 @@ const Layout = ({ user, children, onClick }) => {
       // justifyContent="center"
       alignItems="center"
     >
-      <SideNav links={links} onClick={onClick} />
+      <SideNav user={user} links={links} onClick={onClick} />
       <Flex
         flexDirection="column"
         width={1}

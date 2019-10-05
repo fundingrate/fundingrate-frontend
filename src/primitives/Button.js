@@ -38,7 +38,7 @@ const type = props => {
     case 'simple':
       return `
         background-color: rgba(0,0,0,0);
-        color: ${theme.colors.darkGray};
+        color: ${theme.colors.lightGray};
         &:hover,
         &:focus {
           box-shadow: 0px 2px 4px -4px ${theme.colors.primary};

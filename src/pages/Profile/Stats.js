@@ -9,8 +9,8 @@ import {
   Image,
   Sidebar,
   Spinner,
-} from '../primitives'
-import Utils from '../components/Utils'
+} from '../../primitives'
+import Utils from '../../components/Utils'
 
 const Stats = ({ actions, location }) => {
   const cPage = location.pathname

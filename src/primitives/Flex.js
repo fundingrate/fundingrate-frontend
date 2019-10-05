@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import styled from 'styled-components'
 import {
   alignItems,
@@ -7,7 +7,7 @@ import {
   flexWrap,
   justifyContent,
   alignSelf,
-  justifySelf
+  justifySelf,
 } from 'styled-system'
 
 import Box from './Box'
@@ -25,5 +25,20 @@ const Flex = styled(Box)`
 `
 
 Flex.displayName = 'Flex'
+
+Flex.Content = ({children, ...p}) => {
+  return (
+    <Flex
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      p={[1, 4]}
+      width={[1, 2 / 3]}
+      {...p}
+    >
+      {children}
+    </Flex>
+  )
+}
 
 export default Flex

@@ -9,7 +9,7 @@ import {
   textAlign,
   letterSpacing,
   fontFamily,
-  style
+  style,
 } from 'styled-system'
 
 import theme from '../styles/theme'
@@ -73,27 +73,25 @@ const textDecoration = style({
 })
 
 Text.Link = styled(Text)`
-  cursor: pointer;
+  color: 
+  transition: all 0.2s ease-in-out;
   text-decoration: none;
+  text-transform: uppercase;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  border-radius: ${theme.radii.normal};
+  letter-spacing: ${theme.letterSpacings.slight};
+  opacity: ${p => (p.disabled ? 0.5 : 1)}
 
   &:hover,
   &:focus {
-    opacity: 1;
+    opacity: 0.5;
   }
 `
 
 Text.Link.defaultProps = {
-  // color: 'link',
+  color: 'lightGray',
   fontSize: 1,
-  opacity: 0.5,
+  opacity: 1,
 }
-
-// Text.Link = ({ children, ...props }) => {
-//   return (
-//     <Text as={a} fontSize={1} opacity={0.5}>
-//       {children}
-//     </Text>
-//   )
-// }
 
 export default Text

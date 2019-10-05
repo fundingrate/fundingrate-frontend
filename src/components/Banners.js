@@ -3,23 +3,27 @@ import { Container, Flex, Box, Text, Banner } from '../primitives'
 
 // import banner01 from "../assets/images/banner01.png";
 
-// const Welcome = props => {
-//   return (
-//     <Banner {...props} src={banner01} height={["40%", "60%"]}>
-//       <Flex
-//         as={Container}
-//         height={"100%"}
-//         // bg='green'
-//         flexDirection="column"
-//         justifyContent="center"
-//         pl={[2, "20%"]}
-//       >
-//         <Welcome.Text />
-//         <Welcome.Summary />
-//       </Flex>
-//     </Banner>
-//   );
-// };
+const Welcome = props => {
+  return (
+    <Banner
+      {...props}
+      // src={banner01}
+      height={['40%', '60%']}
+    >
+      <Flex
+        as={Container}
+        height={'100%'}
+        // bg='green'
+        flexDirection="column"
+        justifyContent="center"
+        pl={[2, '20%']}
+      >
+        <Welcome.Text />
+        <Welcome.Summary />
+      </Flex>
+    </Banner>
+  )
+}
 
 Welcome.Text = () => {
   return (
@@ -45,6 +49,23 @@ Welcome.Summary = () => {
   )
 }
 
+const ColorBar = ({ children, ...p }) => {
+  return (
+    <Flex
+      width={1}
+      justifyContent="center"
+      alignItems="center"
+      bg="primary"
+      p={4}
+      {...p}
+    >
+      {children}
+      {/* <Text.Heading fontSize={5}>Welcome back, {user.username}</Text.Heading> */}
+    </Flex>
+  )
+}
+
 export default {
-  // Welcome
+  // Welcome,
+  ColorBar,
 }

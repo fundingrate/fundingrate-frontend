@@ -21,6 +21,14 @@ const colors = {
   covert: "#EB4B4B",
   contraband: "#FFAE39",
 
+  scarlet: "#DD4837",
+  lightScarlet: lighten(0.04, "#DD4837"),
+  lime: '#3DDD37',
+
+  // gray: "#808080",
+  // darkGray: "#656868",
+  lightGray: lighten(0.3, "#808080"),
+
   get primary() {
     return this.orange;
   },

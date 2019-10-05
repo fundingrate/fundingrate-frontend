@@ -9,8 +9,8 @@ import {
   Heading,
   Sidebar,
   Spinner,
-} from '../primitives'
-import Utils from '../components/Utils'
+} from '../../primitives'
+import Utils from '../../components/Utils'
 
 const Trades = ({ actions, location }) => {
   const cPage = location.pathname
@@ -21,7 +21,7 @@ const Trades = ({ actions, location }) => {
 
   useEffect(() => {
     actions
-      .listMyTrades()
+      .listMyEvents()
       .then(s => {
         setState(s)
         setLoading(false)
@@ -44,13 +44,13 @@ const Trades = ({ actions, location }) => {
       justifyContent="space-evenly"
     >
       <Utils.DownloadCSV data={state}/>
-      <Heading>My Trades</Heading>
+      <Heading>My Events</Heading>
       {state.length > 0 ? (
         state.map(data => {
           return <Utils.RenderObject data={data} key={data.id} />
         })
       ) : (
-        <Text>You have no trades processed.</Text>
+        <Text>You have no events processed.</Text>
       )}
     </Flex>
   )

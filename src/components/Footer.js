@@ -11,9 +11,12 @@ const Footer = () => (
     zIndex={9001}
   >
     <Box mx="auto" />
-    <Text.Link as="a" target="_blank" href="https://chips.gg/">
-      Maintained by: Chips.gg
+    <Text.Link as="a" target="_blank" href="https://tacyarg.com/">
+      Tacyarg.com
     </Text.Link>
+    {/* <Text.Link as="a" target="_blank" href="https://chips.gg/">
+      Maintained by: Chips.gg
+    </Text.Link> */}
   </Flex>
 )
 
