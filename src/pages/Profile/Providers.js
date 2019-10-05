@@ -77,6 +77,17 @@ const ProviderCard = ({ provider, children }) => {
   )
 }
 
+const HeadingCard = ({ heading, message, ...p }) => {
+  return (
+    <Box>
+      <Text.Heading fontSize={3}>{heading}</Text.Heading>
+      <Card flexDirection="column" m={2}>
+        <Text>{message}</Text>
+      </Card>
+    </Box>
+  )
+}
+
 const Providers = ({ actions, location }) => {
   const cPage = location.pathname
 
@@ -118,14 +129,23 @@ const Providers = ({ actions, location }) => {
                 <Utils.RenderObject data={data} flex={1} />
                 {data.stats ? (
                   <Box>
-                    <Utils.RenderObject data={data.stats} flex={1} />
-                    {data.stats.position ? (
-                      <Utils.RenderObject data={data.stats.position} flex={1} />
-                    ) : (
-                      <Card flexDirection="column" m={2}>
-                        <Text>You have no position to render.</Text>
-                      </Card>
-                    )}
+                    <Box>
+                      <Text.Heading fontSize={3}>Current Stats</Text.Heading>
+                      <Utils.RenderObject data={data.stats} flex={1} />
+                    </Box>
+                    <Box>
+                      <Text.Heading fontSize={3}>Current Position</Text.Heading>
+                      {data.stats.position ? (
+                        <Utils.RenderObject
+                          data={data.stats.position}
+                          flex={1}
+                        />
+                      ) : (
+                        <Card flexDirection="column" m={2}>
+                          <Text>You have no position to render.</Text>
+                        </Card>
+                      )}
+                    </Box>
                   </Box>
                 ) : (
                   <Card flexDirection="column" m={2}>
