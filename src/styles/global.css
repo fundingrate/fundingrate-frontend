@@ -30,6 +30,10 @@ html {
   width: "100vw";
 }
 
+a {
+  color: orange;
+}
+
 /* ::-webkit-scrollbar {
   display: none;
 } */
