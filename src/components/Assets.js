@@ -28,7 +28,7 @@ import Telegram from '../assets/images/icons/telegram.svg'
 import Github from '../assets/images/icons/github.svg'
 import Discord from '../assets/images/icons/discord.svg'
 
-import { Icon } from '../primitives'
+import { Box, Icon } from '../primitives'
 import theme from '../styles/theme'
 
 const mapAssets = tree => {
@@ -40,7 +40,7 @@ const mapAssets = tree => {
     if (typeof value === 'object') {
       memo[k] = mapAssets(value)
     } else {
-      memo[k] = p => <Icon size={24} {...p} src={value} bg={bg} />
+      memo[k] = p => <Icon size={28} {...p} src={value} bg={bg} />
     }
 
     return memo

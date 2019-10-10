@@ -11,7 +11,8 @@ const Footer = () => (
     borderTop="1px solid rgba(0, 0, 0, 0.2)"
     zIndex={9001}
   >
-    {/* <Assets.Social.Twitter /> */}
+    {/* <Assets.Social.Twitter m={2} />
+    <Assets.Social.Discord m={2} /> */}
     <Box mx="auto" />
     <Text.Link as="a" target="_blank" href="https://tacyarg.com/">
       Tacyarg.com

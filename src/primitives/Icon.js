@@ -16,14 +16,15 @@ const Styled = styled(Box)`
   ${height}
   ${width}
 
-  mask: url('${p => p.src}') no-repeat 50% 50% / cover;
+  mask: url('${p => p.src}') no-repeat ;
 `;
 
 
 Styled.displayName = "Icon";
 
 Styled.defaultProps = {
-  borderRadius: "normal"
+  borderRadius: "normal",
+  size: 28
 };
 
 export default Styled;
