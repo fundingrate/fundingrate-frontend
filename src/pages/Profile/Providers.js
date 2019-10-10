@@ -9,6 +9,7 @@ import {
   Heading,
   Sidebar,
   Spinner,
+  Divider,
 } from '../../primitives'
 import Utils from '../../components/Utils'
 import Banners from '../../components/Banners'
@@ -89,19 +90,6 @@ const HeadingCard = ({ heading, message, ...p }) => {
   )
 }
 
-const Position = ({ position }) => {
-  return (
-    <Box>
-      <Text.Heading fontSize={3}>Current Position</Text.Heading>
-      {position ? (
-        <Utils.RenderObject data={position} flex={1} />
-      ) : (
-        <Utils.RenderError />
-      )}
-    </Box>
-  )
-}
-
 const MARKDOWN = `
 - As a Provider you are responsible for producing reliable buy/sell typed events for your subscribers. 
 - Currently you have a 100 provider limit, so please use them wisely.
@@ -140,28 +128,36 @@ const Providers = ({ actions, location }) => {
     >
       <Heading>My Providers</Heading>
       <Banners.Notice>
-        <Utils.RenderMarkdown
-          source={MARKDOWN}
-        />
+        <Utils.RenderMarkdown source={MARKDOWN} />
       </Banners.Notice>
       {state.length > 0 ? (
         state.map(data => {
           console.log(data.id, data.stats.id, data.stats.position)
           return (
-            <Box width={1} m={2} key={data.id}>
-              <Text.Heading fontSize={5}>{data.username}</Text.Heading>
+            <Box
+              width={1}
+              my={2}
+              key={data.id}
+              // bg="darkBacking"
+              // borderRadius={2}
+            >
               <Flex flex={1}>
-                <Utils.RenderObject data={data} flex={1} />
+                <Utils.RenderObject
+                  heading={data.username.toUpperCase()}
+                  data={data}
+                  flex={1}
+                />
                 <Box>
-                  <Text.Heading fontSize={3}>Current Stats</Text.Heading>
-                  {data.stats ? (
-                    <>
-                      <Utils.RenderObject data={data.stats} flex={1} />
-                      <Position position={data.stats.position} />
-                    </>
-                  ) : (
-                    <Utils.RenderError />
-                  )}
+                  <Utils.RenderObject
+                    heading="Current Stats"
+                    data={data.stats}
+                    flex={1}
+                  />
+                  <Utils.RenderObject
+                    heading="Current Position"
+                    data={data.stats.position}
+                    flex={1}
+                  />
                 </Box>
               </Flex>
             </Box>

@@ -23,7 +23,6 @@ const Divider = styled(Box)`
   /* height: 1px;
   width: 100%; */
 
-  ${color}
   ${space}
   ${type}
 `

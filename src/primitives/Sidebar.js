@@ -59,7 +59,7 @@ export default ({ children, ...p }) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Image src={Assets.Icons.Popular} size={32} />
+          <Assets.Icons.Popular size={32} />
           Toggle
         </Flex>
       </Sidebar.ToggleButton>

@@ -39,36 +39,8 @@ const Stats = ({ actions, location }) => {
       width={[1, 2 / 3]}
       justifyContent="space-evenly"
     >
-      <Heading>My Stats</Heading>
-      <Card flexDirection="column">
-        {stats ? (
-          Object.keys(stats).map(k => {
-            if (k === 'position') return null
-            return (
-              <Flex flexDirection="column" key={k}>
-                <Utils.RenderObject.Prop label={`${k}:`} value={stats[k]} />
-              </Flex>
-            )
-          })
-        ) : (
-          <Text>You have to stats to render.</Text>
-        )}
-      </Card>
-
-      <Heading>Current Position</Heading>
-      <Card flexDirection="column">
-        {stats ? (
-          Object.keys(stats.position).map(k => {
-            return (
-              <Flex flexDirection="column" key={k}>
-                <Utils.RenderObject.Prop label={`${k}:`} value={stats.position[k]} />
-              </Flex>
-            )
-          })
-        ) : (
-          <Text>You have to stats to render.</Text>
-        )}
-      </Card>
+      <Utils.RenderObject heading="My Stats" data={stats} />
+      <Utils.RenderObject heading="Current Position" data={stats.position} />
     </Flex>
   )
 }

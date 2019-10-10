@@ -9,6 +9,7 @@ import {
   Image,
   Sidebar,
   Spinner,
+  Divider,
 } from '../primitives'
 
 import Assets from './Assets'
@@ -32,23 +33,36 @@ const RenderError = ({
 }
 
 // render shallow object.
-const RenderObject = ({ data = {}, ...p }) => {
-  console.log('RenderObject', data)
+const RenderObject = ({ heading, data, ...p }) => {
+  const valid = !data || typeof data !== 'object' ? false : true
+
+  // console.log('RenderObject', data)
   return (
     <Card flexDirection="column" m={2} {...p}>
-      {Object.keys(data).map(k => {
-        if (typeof data[k] === 'object') return
-        // if (!data[k]) return
+      {heading && (
+        <Flex p={2} flexDirection="column">
+          <Text.Heading fontSize={5}>{heading}</Text.Heading>
+          <Box my={1} />
+          <Divider bg="primary" />
+        </Flex>
+      )}
+      {valid ? (
+        Object.keys(data).map(k => {
+          if (typeof data[k] === 'object') return
+          // if (!data[k]) return
 
-        return (
-          <RenderObject.Prop
-            key={k}
-            label={`${k.toUpperCase()}:`}
-            value={data[k]}
-            type={k === 'created' || k === 'updated' ? 'time' : null}
-          />
-        )
-      })}
+          return (
+            <RenderObject.Prop
+              key={k}
+              label={`${k.toUpperCase()}:`}
+              value={data[k]}
+              type={k === 'created' || k === 'updated' ? 'time' : null}
+            />
+          )
+        })
+      ) : (
+        <Text p={2}>Nothing to show yet, check back later.</Text>
+      )}
     </Card>
   )
 }
@@ -154,7 +168,7 @@ const DownloadCSV = ({ filename = 'list.csv', data = [] }) => (
     }}
   >
     <Flex alignItems="center" justifyContent="center">
-      <Image src={Assets.Icons.Trusted} size={24} />
+      <Assets.Icons.Trusted />
       <Box mx={1} />
       Download .csv
     </Flex>
@@ -171,7 +185,7 @@ const DownloadJson = ({ filename = 'row.json', data = {} }) => {
       }}
     >
       <Flex alignItems="center" justifyContent="center">
-        <Image src={Assets.Icons.Trusted} size={24} />
+        <Assets.Icons.Trusted />
         <Box mx={1} />
         Download .json
       </Flex>

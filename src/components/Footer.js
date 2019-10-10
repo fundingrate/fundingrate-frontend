@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Box, Text, Flex } from '../primitives'
+import { Box, Text, Flex, Icon } from '../primitives'
+import Assets from './Assets'
 
 const Footer = () => (
   <Flex
@@ -10,6 +11,7 @@ const Footer = () => (
     borderTop="1px solid rgba(0, 0, 0, 0.2)"
     zIndex={9001}
   >
+    {/* <Assets.Social.Twitter /> */}
     <Box mx="auto" />
     <Text.Link as="a" target="_blank" href="https://tacyarg.com/">
       Tacyarg.com

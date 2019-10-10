@@ -26,7 +26,7 @@ const SideNav = ({ user, links, onClick }) => {
         my={3}
         onClick={e => onClick('/home')}
       >
-        <Image mr={2} src={Assets.Icons.Popular} size={28} /> Dashboard
+        <Assets.Icons.Popular mr={2} size={28} /> Dashboard
       </Flex>
       <Divider />
       {links.map(({ label, href }) => {
