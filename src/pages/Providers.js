@@ -12,6 +12,7 @@ import {
   Divider,
 } from '../primitives'
 import Utils from '../components/Utils'
+import moment from 'moment'
 
 const SubscribeButton = ({ actions, providerid }) => {
   const [error, setError] = useState(null)
@@ -65,6 +66,8 @@ const SubscribeButton = ({ actions, providerid }) => {
 }
 
 const ProviderCard = ({ provider, children }) => {
+  console.log(provider)
+
   return (
     <Card
       flexDirection="column"
@@ -73,9 +76,18 @@ const ProviderCard = ({ provider, children }) => {
       width={[1, 2 / 5]}
       justifyContent="space-evenly"
     >
+      <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
       <Flex flexDirection="column">
-        <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
-        <Utils.RenderObject.Prop label="Userid:" value={provider.userid} />
+        <Utils.RenderObject.Prop
+          label="Running Since:"
+          value={moment(provider.created).calendar()}
+        />
+        {provider.stats.updated && (
+          <Utils.RenderObject.Prop
+            label="Last Updated:"
+            value={moment(provider.stats.updated).fromNow()}
+          />
+        )}
         <Utils.RenderObject.Prop
           label="Total Trades:"
           value={provider.stats.totalTrades}
@@ -84,10 +96,11 @@ const ProviderCard = ({ provider, children }) => {
           label="Profit:"
           value={provider.stats.profit}
         />
-        <Box m={2} p={2} bg="darkBacking">
-          <Text fontSize={2}>Description</Text>
+
+        <Box my={2} bg="darkBacking">
+          <Text fontSize={2} p={2}>Description</Text>
           <Divider />
-          <p>{provider.description}</p>
+          <Box p={3}>{provider.description}</Box>
         </Box>
       </Flex>
       <Box m={1} />

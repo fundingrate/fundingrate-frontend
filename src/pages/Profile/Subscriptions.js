@@ -45,9 +45,7 @@ const Trades = ({ actions, location }) => {
         state.map(data => {
           return <Utils.RenderObject data={data} key={data.id} />
         })
-      ) : (
-        <Text>You have no subscriptions.</Text>
-      )}
+      ) : <Utils.RenderError />}
     </Flex>
   )
 }

@@ -11,6 +11,7 @@ import {
   Spinner,
 } from '../../primitives'
 import Utils from '../../components/Utils'
+import Banners from '../../components/Banners'
 
 const SubscribeButton = ({ actions, providerid }) => {
   const [error, setError] = useState(null)
@@ -88,6 +89,25 @@ const HeadingCard = ({ heading, message, ...p }) => {
   )
 }
 
+const Position = ({ position }) => {
+  return (
+    <Box>
+      <Text.Heading fontSize={3}>Current Position</Text.Heading>
+      {position ? (
+        <Utils.RenderObject data={position} flex={1} />
+      ) : (
+        <Utils.RenderError />
+      )}
+    </Box>
+  )
+}
+
+const MARKDOWN = `
+- As a Provider you are responsible for producing reliable buy/sell typed events for your subscribers. 
+- Currently you have a 100 provider limit, so please use them wisely.
+- All data below is updated in realtime as alerts are consumed.
+`
+
 const Providers = ({ actions, location }) => {
   const cPage = location.pathname
 
@@ -119,6 +139,11 @@ const Providers = ({ actions, location }) => {
       flexWrap="wrap"
     >
       <Heading>My Providers</Heading>
+      <Banners.Notice>
+        <Utils.RenderMarkdown
+          source={MARKDOWN}
+        />
+      </Banners.Notice>
       {state.length > 0 ? (
         state.map(data => {
           console.log(data.id, data.stats.id, data.stats.position)
@@ -132,26 +157,10 @@ const Providers = ({ actions, location }) => {
                   {data.stats ? (
                     <>
                       <Utils.RenderObject data={data.stats} flex={1} />
-                      <Box>
-                        <Text.Heading fontSize={3}>
-                          Current Position
-                        </Text.Heading>
-                        {data.stats.position ? (
-                          <Utils.RenderObject
-                            data={data.stats.position}
-                            flex={1}
-                          />
-                        ) : (
-                          <Card flexDirection="column" m={2}>
-                            <Text>You have no position to render.</Text>
-                          </Card>
-                        )}
-                      </Box>
+                      <Position position={data.stats.position} />
                     </>
                   ) : (
-                    <Card flexDirection="column" m={2}>
-                      <Text>You have to stats to render.</Text>
-                    </Card>
+                    <Utils.RenderError />
                   )}
                 </Box>
               </Flex>

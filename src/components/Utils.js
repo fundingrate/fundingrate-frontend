@@ -18,9 +18,22 @@ import ReactMarkdown from 'react-markdown'
 
 import assert from 'assert'
 
+import moment from 'moment'
+
+const RenderError = ({
+  color,
+  message = 'Nothing happen yet, check back later.',
+}) => {
+  return (
+    <Card flexDirection="column" m={2}>
+      <Text color={color}>{message}</Text>
+    </Card>
+  )
+}
+
 // render shallow object.
 const RenderObject = ({ data = {}, ...p }) => {
-  console.log("RenderObject", data)
+  console.log('RenderObject', data)
   return (
     <Card flexDirection="column" m={2} {...p}>
       {Object.keys(data).map(k => {
@@ -32,6 +45,7 @@ const RenderObject = ({ data = {}, ...p }) => {
             key={k}
             label={`${k.toUpperCase()}:`}
             value={data[k]}
+            type={k === 'created' || k === 'updated' ? 'time' : null}
           />
         )
       })}
@@ -39,19 +53,21 @@ const RenderObject = ({ data = {}, ...p }) => {
   )
 }
 
-const renderProp = value => {
+const renderProp = (value, type) => {
   // console.log('render', typeof value, value)
-  switch (typeof value) {
+  switch (type || typeof value) {
+    case 'time':
+      return moment(value).calendar()
     case 'boolean':
       return Boolean(value) ? 'yes' : 'no'
-    // case 'number':
-    //   return <Text.Number value={value} />
+    case 'number':
+      return <Text.Number value={value} />
     default:
       return value
   }
 }
 
-RenderObject.Prop = ({ label, value }) => {
+RenderObject.Prop = ({ label, value, type }) => {
   return (
     <Flex
       flexDirection={['column', 'row']}
@@ -60,7 +76,7 @@ RenderObject.Prop = ({ label, value }) => {
     >
       <Text bold>{label}</Text>
       <Box mx={1} />
-      <Text>{renderProp(value)}</Text>
+      <Text>{renderProp(value, type)}</Text>
     </Flex>
   )
 }
@@ -164,9 +180,13 @@ const DownloadJson = ({ filename = 'row.json', data = {} }) => {
 }
 
 export default {
+  RenderError,
   RenderObject,
   LoadingPage,
   MarkdownLink,
+  RenderMarkdown(p) {
+    return <ReactMarkdown {...p} />
+  },
   DownloadCSV,
   DownloadJson,
 }
