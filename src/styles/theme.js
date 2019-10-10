@@ -24,7 +24,7 @@ const colors = {
   lime: '#3DDD37',
   lightGray: lighten(0.3, "#808080"),
   get primary() {
-    return this.orange;
+    return this.lime;
   },
   get lightPrimary() {
     return lighten(0.04, this.primary);
