@@ -17,7 +17,8 @@ const type = props => {
           color: ${theme.colorStyles.textOnPrimary.color};
           border: ${theme.colors.lightPrimary} ${theme.borders.normal};
           // background-color: ${theme.colorStyles.textOnPrimary.bgColor};
-          background-image: linear-gradient(290deg, #f03c3c, #ff7e24);
+          background-image: linear-gradient(290deg, ${theme.colors.lightPrimary}, ${theme.colors.primary});
+          // background-image: linear-gradient(290deg, #f03c3c, #df1111);
           &:hover,
           &:focus {
               opacity: 0.8
