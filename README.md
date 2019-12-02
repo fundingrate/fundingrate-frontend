@@ -6,6 +6,8 @@ these strategies the user can then trigger trade executions on thier
 exchange of choice. This allows the user to tailor thier trading
 experience however they see fit.
 
+![Provider](https://i.imgur.com/lsHwrTn.png)
+
 # Features
 
 Fundingrate.io provides a few compelling features and services.

@@ -162,17 +162,7 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
       <LineChart
         width={900}
         height={420}
-        data={
-          state
-          // [
-          // {
-          //   "name": "Page A",
-          //   "uv": 4000,
-          //   "pv": 2400,
-          //   "amt": 2400
-          // }
-          // ]
-        }>
+        data={state}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis name="Date" dataKey="date" />
         <YAxis />
