@@ -44,7 +44,7 @@ const SubscribeButton = ({ actions, providerid }) => {
         setSubscribed(true)
       })
       .catch(e => {
-        console.log('Error Subscribing:', e.message)
+        // console.log('Error Subscribing:', e.message)
         setError(e.message)
         // setLoading(false)
       })
@@ -66,7 +66,7 @@ const SubscribeButton = ({ actions, providerid }) => {
 }
 
 const ProviderCard = ({ provider, children }) => {
-  console.log(provider)
+  // console.log(provider)
 
   return (
     <Card

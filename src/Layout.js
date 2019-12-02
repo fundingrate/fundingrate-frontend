@@ -30,7 +30,7 @@ const SideNav = ({ user, links, onClick }) => {
       </Flex>
       <Divider />
       {links.map(({ label, href }) => {
-        console.log(user)
+        // console.log(user)
         switch (href) {
           case '/authenticate': {
             if (user) return null

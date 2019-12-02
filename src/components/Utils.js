@@ -33,7 +33,7 @@ const RenderError = ({
 }
 
 // render shallow object.
-const RenderObject = ({ heading, data, ...p }) => {
+const RenderObject = ({ heading, data, children, ...p }) => {
   const valid = !data || typeof data !== 'object' ? false : true
 
   // console.log('RenderObject', data)
@@ -47,22 +47,27 @@ const RenderObject = ({ heading, data, ...p }) => {
         </Flex>
       )}
       {valid ? (
-        Object.keys(data).map(k => {
-          if (typeof data[k] === 'object') return
-          // if (!data[k]) return
+        <>
+          {Object.keys(data).map(k => {
+            if (typeof data[k] === 'object') return
+            // if (!data[k]) return
 
-          return (
-            <RenderObject.Prop
-              key={k}
-              label={`${k.toUpperCase()}:`}
-              value={data[k]}
-              type={k === 'created' || k === 'updated' ? 'time' : null}
-            />
-          )
-        })
+            return (
+              <RenderObject.Prop
+                key={k}
+                label={`${k.toUpperCase()}:`}
+                value={data[k]}
+                type={k === 'created' || k === 'updated' ? 'time' : null}
+              />
+            )
+          })}
+          <Box my={2} />
+          {/* <Divider  my={1} bg="primary"/> */}
+          {children}
+        </>
       ) : (
-        <Text p={2}>Nothing to show yet, check back later.</Text>
-      )}
+          <Text p={2}>Nothing to show yet, check back later.</Text>
+        )}
     </Card>
   )
 }
@@ -126,8 +131,8 @@ const MarkdownLink = ({ link }) => {
       <ReactMarkdown source={state} />
     </Box>
   ) : (
-    <LoadingPage />
-  )
+      <LoadingPage />
+    )
 }
 
 const generateCSV = data => {
@@ -193,6 +198,28 @@ const DownloadJson = ({ filename = 'row.json', data = {} }) => {
   )
 }
 
+function DayOfWeek (index=0) {
+  var d = new Date();
+var weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
+
+return weekday[index];
+}
+
+function GetDateFormatted(ts) {
+  const date = new Date(ts)
+  const d = date.getDay()
+  const m = date.getMonth()
+  const y = date.getFullYear()
+  return `${d}/${m}/${y}`
+}
+
 export default {
   RenderError,
   RenderObject,
@@ -203,4 +230,6 @@ export default {
   },
   DownloadCSV,
   DownloadJson,
+  DayOfWeek,
+  GetDateFormatted
 }

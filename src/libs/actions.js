@@ -29,14 +29,14 @@ export default async (baseURL, token) => {
   const data = await call.get('/')
   assert(data, 'failed to fetch actions.')
 
-  console.log('Actions:', data)
+  // console.log('Actions:', data)
 
   return data.reduce((memo, action) => {
     return {
       ...memo,
       [action]: async params => {
         const data = await call.post(`/${action}`, params)
-        console.log('Called:', action, params, data)
+        // console.log('Called:', action, params, data)
         return data
       },
       setLocalStorage: (k, v) => {

@@ -65,7 +65,7 @@ export default ({
   to = '/profile/info',
   ...p
 }) => {
-  console.log(p.location.pathname)
+  // console.log(p.location.pathname)
   return (
     <Layout {...p}>
       <Switch>
@@ -74,7 +74,7 @@ export default ({
           const Page = Pages[k]
           const path = `${prefix}/${k}`
           const key = `page_${prefix}_${k}`
-          console.log(k, path, key)
+          // console.log(k, path, key)
           return (
             <Route
               key={key}

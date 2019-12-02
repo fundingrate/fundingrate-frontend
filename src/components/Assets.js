@@ -77,6 +77,6 @@ const sets = mapAssets({
   },
 })
 
-console.log(sets)
+// console.log(sets)
 
 export default sets

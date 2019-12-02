@@ -23,7 +23,7 @@ const Login = ({ actions, location, history }) => {
 
   const handleInput = prop => e => {
     const value = e.target.value
-    console.log(prop, value)
+    // console.log(prop, value)
     setState({
       ...state,
       [prop]: value,
@@ -92,6 +92,7 @@ const Register = ({ actions, location, user, token, history }) => {
     username: '',
   })
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleInput = prop => e => {
     const value = e.target.value
@@ -114,6 +115,7 @@ const Register = ({ actions, location, user, token, history }) => {
       .catch(e => {
         setLoading(false)
         console.error('REGISTER ERROR:', state, e)
+        setError(e.message)
       })
   }
 
@@ -128,7 +130,7 @@ const Register = ({ actions, location, user, token, history }) => {
     >
       <Heading> Username Registration </Heading>
       <Text color="primary" p={2}>
-        To protect your identity, we only require a username to register.
+        {error ? error : 'To protect your identity, we only require a username to register.'}
       </Text>
       <Flex
         flexDirection="column"
