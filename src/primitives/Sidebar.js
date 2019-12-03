@@ -48,7 +48,7 @@ export default ({ children, ...p }) => {
       <Sidebar {...p} open={open}>
         {children}
       </Sidebar>
-      <Sidebar.ToggleButton
+      {/* <Sidebar.ToggleButton
         open={open}
         onClick={e => {
           setOpen(!open)
@@ -62,7 +62,7 @@ export default ({ children, ...p }) => {
           <Assets.Icons.Popular size={32} />
           Toggle
         </Flex>
-      </Sidebar.ToggleButton>
+      </Sidebar.ToggleButton> */}
     </>
   )
 }

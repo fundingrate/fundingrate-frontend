@@ -21,7 +21,7 @@ const Navbar = ({ links, onClick, cPage, fixedVertical }) => {
           <Text.Link
             active={active}
             key={href + label}
-            fontSize={2}
+            fontSize={[2,4]}
             onClick={e => onClick(href)}
             href={href}
             mx={2}

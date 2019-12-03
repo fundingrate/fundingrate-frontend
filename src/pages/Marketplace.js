@@ -109,7 +109,7 @@ const ProviderCard = ({ provider, children }) => {
   )
 }
 
-const Providers = ({ actions, location }) => {
+const Marketplace = ({ actions, location }) => {
   const cPage = location.pathname
 
   const [error, setError] = useState(null)
@@ -139,7 +139,7 @@ const Providers = ({ actions, location }) => {
       justifyContent="space-evenly"
       flexWrap="wrap"
     >
-      <Heading>Providers</Heading>
+      <Heading>Public Providers</Heading>
       {state.length > 0 ? (
         state.map(provider => {
           return (
@@ -155,4 +155,4 @@ const Providers = ({ actions, location }) => {
   )
 }
 
-export default Providers
+export default Marketplace

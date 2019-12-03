@@ -80,7 +80,7 @@ const sets = mapAssets({
 })
 
 sets.Logos = {
-  MainLogoWhite: p => <Image src={Logos.color_logo_transparent} width={200} height={30} backgroundSize="180%" />
+  MainLogoWhite: p => <Image src={Logos.color_logo_transparent} width={240} height={40} backgroundSize="180%" />
 }
 
 export default sets

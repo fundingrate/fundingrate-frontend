@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, fontSize, space, width, themeGet } from 'styled-system'
+import { color, textAlign, fontSize, space, width, themeGet } from 'styled-system'
 
 import theme from '../styles/theme'
 
@@ -108,7 +108,8 @@ const Button = styled(Text)`
 	${fontSize}
 	${space}
 	${width}
-	${type}
+  ${type}
+  ${textAlign}
 `
 
 // const Button = props => (

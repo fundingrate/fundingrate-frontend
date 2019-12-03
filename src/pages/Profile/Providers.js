@@ -211,6 +211,7 @@ const Providers = ({ actions, location }) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [state, setState] = useState([])
+  const [stats, setStats] = useState([])
 
   useEffect(() => {
     actions
@@ -225,6 +226,31 @@ const Providers = ({ actions, location }) => {
       })
   }, [])
 
+  useEffect(() => {
+    const valueProps = ['longs', 'shorts', 'totalTrades', 'longProfit', 'shortProfit', 'profit']
+    const memo = state.reduce((memo, data, idx) => {
+
+      if(idx === 0) {
+        valueProps.map(v => {
+          memo[v] = {
+            label: v,
+            value: data.stats[v]
+          }
+        })
+      } else {
+        valueProps.map(v => {
+          memo[v].value += data.stats[v]
+        })
+      }
+
+      return memo
+    }, {})
+
+    console.log("STATS", memo)
+
+    setStats(Object.values(memo))
+  }, [state])
+
   return loading ? (
     <Utils.LoadingPage />
   ) : (
@@ -236,9 +262,12 @@ const Providers = ({ actions, location }) => {
         flexWrap="wrap"
       >
         <Heading>My Providers</Heading>
-        <Banners.Notice>
+        {/* <Banners.Notice>
           <Utils.RenderMarkdown source={MARKDOWN} />
-        </Banners.Notice>
+        </Banners.Notice> */}
+        <Flex m={1}>
+          {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
+        </Flex>
         {state.length > 0 ? (
           state.map(data => {
             return (

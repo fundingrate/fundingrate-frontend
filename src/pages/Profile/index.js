@@ -7,19 +7,19 @@ import Info from './Info'
 // import Filters from './Filters'
 
 const Pages = {
-  Info,
+  'My Profile': Info,
   // Filters,
-  Subscriptions,
-  Providers,
-  Events,
-  Trades,
-  Stats,
+  'My Subscriptions': Subscriptions,
+  'My Providers': Providers,
+  'My Events': Events,
+  'My Trades': Trades,
+  'My Stats': Stats,
 }
 
 import React, { useEffect, useState } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { Flex, Text, Navbar } from '../../primitives'
+import { Flex, Text, Navbar, Divider } from '../../primitives'
 import Banners from '../../components/Banners'
 
 const Layout = ({
@@ -42,10 +42,10 @@ const Layout = ({
       alignItems="center"
       justifyContent="center"
     >
-      <Banners.ColorBar>
+      {/* <Banners.ColorBar>
         <Text.Heading fontSize={5}>Welcome back, {user ? user.username : ''}</Text.Heading>
-      </Banners.ColorBar>
-
+      </Banners.ColorBar> */}
+      <Divider my={1} bg='primary' />
       <Navbar
         cPage={cPage}
         links={links}
@@ -62,7 +62,7 @@ const Layout = ({
 export default ({
   prefix = '/profile',
   from = '/profile',
-  to = '/profile/info',
+  to = '/profile/my%20profile',
   ...p
 }) => {
   // console.log(p.location.pathname)

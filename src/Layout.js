@@ -34,25 +34,26 @@ const SideNav = ({ user, links, onClick }) => {
         // console.log(user)
         switch (href) {
           case '/authenticate': {
-            if (user) return null
-            return (
-              <Button key={label} type="simple" onClick={e => onClick(href)}>
-                {label}
-              </Button>
-            )
+            return <></>
+            // if (user) return null
+            // return (
+            //   <Button key={label} type="primary" onClick={e => onClick(href)}>
+            //     {label}
+            //   </Button>
+            // )
           }
           case '/profile': {
             if (!user) return null
             return (
-              <Button key={label} type="simple" onClick={e => onClick(href)}>
-                {label}
+              <Button key={href} textAlign="left" fontSize={4} type="simple" onClick={e => onClick(href)}>
+              - {label}
               </Button>
             )
           }
           default:
             return (
-              <Button key={label} type="simple" onClick={e => onClick(href)}>
-                {label}
+              <Button key={href} textAlign="left" fontSize={4} key={label} type="simple" onClick={e => onClick(href)}>
+              - {label}
               </Button>
             )
         }
@@ -85,8 +86,12 @@ const Layout = ({ user, children, onClick }) => {
         justifyContent="center"
         // alignItems="center"
       >
-        <Header>
-          {user ? <Text>{user.username}</Text> : <Button type="primary" onClick={e => onClick('/authenticate')}>Login / Register</Button>}
+        <Header heading={'v1.0.0-beta'}>
+          {
+          user 
+          ? <Text fontSize={[2, 4]}>{user.username}</Text> 
+          : <Button type="primary" onClick={e => onClick('/authenticate')}>Login / Register</Button>
+        }
         </Header>
         <Page flex={1}>{children}</Page>
         <Footer />
