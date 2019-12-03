@@ -28,7 +28,9 @@ import Telegram from '../assets/images/icons/telegram.svg'
 import Github from '../assets/images/icons/github.svg'
 import Discord from '../assets/images/icons/discord.svg'
 
-import { Box, Icon } from '../primitives'
+import Logos from '../assets/images/logos/*.svg'
+
+import { Box, Icon, Image } from '../primitives'
 import theme from '../styles/theme'
 
 const mapAssets = tree => {
@@ -74,9 +76,11 @@ const sets = mapAssets({
     Telegram,
     Discord,
     Github,
-  },
+  }
 })
 
-// console.log(sets)
+sets.Logos = {
+  MainLogoWhite: p => <Image src={Logos.color_logo_transparent} width={200} height={30} backgroundSize="180%" />
+}
 
 export default sets

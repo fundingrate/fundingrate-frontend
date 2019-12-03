@@ -14,8 +14,9 @@ import {
 import Utils from '../../components/Utils'
 import Banners from '../../components/Banners'
 import { VictoryChart, VictoryTheme, VictoryLine } from "victory";
-import { ReferenceLine, LabelList, BarChart, LineChart, XAxis, YAxis, Legend, Bar, Line, CartesianGrid, Tooltip } from 'recharts'
+import { ReferenceLine, LabelList, BarChart, LineChart, XAxis, YAxis, Legend, Bar, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
+import VizSensor from 'react-visibility-sensor';
 
 const SubscribeButton = ({ actions, providerid }) => {
   const [error, setError] = useState(null)
@@ -101,18 +102,21 @@ const MARKDOWN = `
 
 const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
 
+  const [isVisable, setIsVisable] = useState(false)
   const [loading, setLoading] = useState(true)
   const [state, setState] = useState([])
 
-  useEffect(() => {
+  const PopulateState = () => {
+    // if (state.length > 0) return
+    setLoading(true)
     listMyProviderTrades().then(trades => {
       console.log('t', trades)
 
       let data = trades.reduce((memo, t) => {
-        if(!t.done) return memo
+        if (!t.done) return memo
         const date = moment(t.updated).format('l');
 
-        if(!memo[date]){
+        if (!memo[date]) {
           memo[date] = {
 
             date,
@@ -146,38 +150,58 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
       setState(data)
       setLoading(false)
     })
-  }, [])
+  }
 
-  return <Box>
-  <Text m={2} fontSize={3}>Recent Trade History</Text>
-  <Divider bg="primary" />
-  <Flex
-    height="100%"
-    width={1}
-    justifyContent='center'
-    alignItems="center"
+  // useEffect(PopulateState, [])
+
+  return <VizSensor
+    scrollCheck
+    partialVisibility
+    onChange={vis => {
+      console.log('can see', vis)
+      if (vis) PopulateState()
+      setIsVisable(vis)
+    }}
   >
-    {loading ? <Utils.LoadingPage />
-      :
-      <LineChart
-        width={900}
-        height={420}
-        data={state}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis name="Date" dataKey="date" />
-        <YAxis />
-        <Tooltip payload={state} />
-        <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
-        <Legend />
-        {/* <Bar dataKey="count" fill="#8884d8" /> */}
-        <Line name="Profit" dataKey="profit" fill="#82ca9d" >
-          {/* <LabelList dataKey="profit" position="top"  /> */}
-        </Line>
-      </LineChart>
-    }
-  </Flex>
-  </Box>
-
+    {props => {
+      return isVisable ? <Box height="100%">
+        <Text m={2} fontSize={3}>Recent Trade History</Text>
+        <Divider bg="primary" />
+        <Flex
+          height="100%"
+          width={1}
+          justifyContent='center'
+          alignItems="center"
+        >
+          {loading ? <Utils.LoadingPage />
+            :
+            <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
+              <LineChart
+                // width={900}
+                // height={420}
+                data={state}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis name="Date" dataKey="date" />
+                <YAxis />
+                <Tooltip payload={state} />
+                <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
+                <Legend />
+                {/* <Bar dataKey="count" fill="#8884d8" /> */}
+                <Line name="Profit" dataKey="profit" fill="#82ca9d" >
+                  {/* <LabelList dataKey="profit" position="top"  /> */}
+                </Line>
+              </LineChart>
+            </ ResponsiveContainer >
+          }
+        </Flex>
+      </Box> : <Flex
+        height="100%"
+        width={1}
+        justifyContent='center'
+        alignItems="center"
+      ><Text>Nothing to display.</Text></Flex>
+    }}
+  </VizSensor>
 }
 
 const Providers = ({ actions, location }) => {

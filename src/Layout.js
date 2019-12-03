@@ -26,7 +26,8 @@ const SideNav = ({ user, links, onClick }) => {
         my={3}
         onClick={e => onClick('/home')}
       >
-        <Assets.Icons.Popular mr={2} size={28} /> Dashboard
+        <Assets.Logos.MainLogoWhite />
+        {/* <Assets.Icons.Popular mr={2} size={28} /> Dashboard */}
       </Flex>
       <Divider />
       {links.map(({ label, href }) => {
@@ -85,7 +86,7 @@ const Layout = ({ user, children, onClick }) => {
         // alignItems="center"
       >
         <Header>
-          {user ? <Text>{user.username}</Text> : <Text>Nobody</Text>}
+          {user ? <Text>{user.username}</Text> : <Button type="primary" onClick={e => onClick('/authenticate')}>Login / Register</Button>}
         </Header>
         <Page flex={1}>{children}</Page>
         <Footer />

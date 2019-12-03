@@ -11,7 +11,7 @@ const Header = ({ children, heading = 'Fundingrate.io' }) => {
       borderBottom="1px solid rgba(0, 0, 0, 0.2)"
       zIndex={9001}
     >
-      <Text.Heading fontSize={4}>{heading}</Text.Heading>
+      {/* <Text.Heading fontSize={4}>{heading}</Text.Heading> */}
       <Box mx="auto" />
       {children}
     </Flex>
