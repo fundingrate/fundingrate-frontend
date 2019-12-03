@@ -168,6 +168,7 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
         <Text m={2} fontSize={3}>Recent Trade History</Text>
         <Divider bg="primary" />
         <Flex
+        m={2}
           height="100%"
           width={1}
           justifyContent='center'
@@ -175,7 +176,7 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
         >
           {loading ? <Utils.LoadingPage />
             :
-            <ResponsiveContainer width="90%" height={'85%'} aspect={3}>
+            <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
               <LineChart
                 // width={900}
                 // height={420}
