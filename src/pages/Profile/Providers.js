@@ -175,7 +175,7 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
         >
           {loading ? <Utils.LoadingPage />
             :
-            <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
+            <ResponsiveContainer width="90%" height={'85%'} aspect={3}>
               <LineChart
                 // width={900}
                 // height={420}
