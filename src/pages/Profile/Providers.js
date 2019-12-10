@@ -9,96 +9,14 @@ import {
   Heading,
   Sidebar,
   Spinner,
+  Input,
   Divider,
 } from '../../primitives'
 import Utils from '../../components/Utils'
-import Banners from '../../components/Banners'
-import { VictoryChart, VictoryTheme, VictoryLine } from "victory";
 import { ReferenceLine, LabelList, BarChart, LineChart, XAxis, YAxis, Legend, Bar, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
 import VizSensor from 'react-visibility-sensor';
-
-const SubscribeButton = ({ actions, providerid }) => {
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [subscribed, setSubscribed] = useState(false)
-  const disabled = subscribed || loading
-
-  const isSubbed = async () => {
-    const subbed = await actions.isSubscribed({
-      providerid,
-    })
-    setSubscribed(subbed)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    isSubbed()
-  }, [])
-
-  const subscribe = async () => {
-    if (disabled) return
-    setLoading(true)
-
-    return actions
-      .createSubscription({
-        providerid,
-      })
-      .then(s => {
-        setSubscribed(true)
-      })
-      .catch(e => {
-        // console.log('Error Subscribing:', e.message)
-        setError(e.message)
-        // setLoading(false)
-      })
-  }
-
-  return (
-    <Flex flexDirection="column" justifyContent="center" alignItems="center">
-      {error ? (
-        <Text color="red" fontSize={1}>
-          {error}
-        </Text>
-      ) : (
-          <Button disabled={disabled} type="primary" onClick={subscribe}>
-            {subscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
-          </Button>
-        )}
-    </Flex>
-  )
-}
-
-const ProviderCard = ({ provider, children }) => {
-  return (
-    <Card flexDirection="column" key={provider} m={2}>
-      <Flex flexDirection="column">
-        <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
-        <Utils.RenderObject.Prop label="Userid:" value={provider.userid} />
-        {/* <Utils.RenderObject.Prop label="Events Recorded:" value={count} /> */}
-      </Flex>
-      {children && <Box m={2} />}
-      {children}
-    </Card>
-  )
-}
-
-const HeadingCard = ({ heading, message, ...p }) => {
-  return (
-    <Box>
-      <Text.Heading fontSize={3}>{heading}</Text.Heading>
-      <Card flexDirection="column" m={2}>
-        <Text>{message}</Text>
-      </Card>
-    </Box>
-  )
-}
-
-const MARKDOWN = `
-- As a Provider you are responsible for producing reliable buy/sell typed events for your subscribers. 
-- Currently you have a 100 provider limit, so please use them wisely.
-- All data below is updated in realtime as alerts are consumed.
-`
+import Modal from '../../components/Modal'
 
 const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
 
@@ -164,36 +82,34 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
     }}
   >
     {props => {
-      return isVisable ? <Box height="100%">
+      if (loading) return <Utils.LoadingPage />
+      return isVisable && state.length > 1 ? <Box height="100%">
         <Text m={2} fontSize={3}>Recent Trade History</Text>
         <Divider bg="primary" />
         <Flex
-        m={2}
+          m={2}
           height="100%"
           width={1}
           justifyContent='center'
           alignItems="center"
         >
-          {loading ? <Utils.LoadingPage />
-            :
-            <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
-              <LineChart
-                // width={900}
-                // height={420}
-                data={state}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis name="Date" dataKey="date" />
-                <YAxis />
-                <Tooltip payload={state} />
-                <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
-                <Legend />
-                {/* <Bar dataKey="count" fill="#8884d8" /> */}
-                <Line name="Profit" dataKey="profit" fill="#82ca9d" >
-                  {/* <LabelList dataKey="profit" position="top"  /> */}
-                </Line>
-              </LineChart>
-            </ ResponsiveContainer >
-          }
+          <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
+            <LineChart
+              // width={900}
+              // height={420}
+              data={state}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis name="Date" dataKey="date" />
+              <YAxis />
+              <Tooltip payload={state} />
+              <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
+              <Legend />
+              {/* <Bar dataKey="count" fill="#8884d8" /> */}
+              <Line name="Profit" dataKey="profit" fill="#82ca9d" >
+                {/* <LabelList dataKey="profit" position="top"  /> */}
+              </Line>
+            </LineChart>
+          </ ResponsiveContainer >
         </Flex>
       </Box> : <Flex
         height="100%"
@@ -203,6 +119,58 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
       ><Text>Nothing to display.</Text></Flex>
     }}
   </VizSensor>
+}
+
+const CreateProviderModal = ({ actions }) => {
+
+  const [loading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const [state, setState] = useState({})
+  const [provider, setProvider] = useState(null)
+
+  const setProp = (k, v) => {
+    return setState({
+      ...state,
+      [k]: v
+    })
+  }
+
+  const toggleModal = s => {
+    setProvider(null)
+    setState({})
+    return setIsModalOpen(!isModalOpen)
+  }
+
+  const CreateProvider = async p => {
+    if (!state.username) return
+    if (!state.description) return
+    if (state.username.length < 3) return
+    if (state.description.length < 10) return
+    setLoading(true)
+    await actions.createProvider(state).then(setProvider).catch(console.error)
+    setLoading(false)
+  }
+
+  return <>
+    <Modal loading={loading} title="Create New Provider" isOpen={isModalOpen} onConfirm={CreateProvider} onClose={toggleModal}>
+      <Flex m={4} width={2/3} flexDirection="column" alignItems="center">
+        {provider ? <>
+          <Text color="red" fontSize={3} p={3}>
+            Please ensure you save this information or risk losing your account.
+        </Text>
+          <Utils.DownloadJson data={provider} />
+          <Utils.RenderObject label="Provider" data={provider.provider} />
+          <Utils.RenderObject label="Token" data={provider.token} />
+        </> : <>
+            <Input label="Username:" onChange={e => setProp('username', e.target.value)} value={state.username} />
+            <Box my={1} />
+            <Input label="Description:" onChange={e => setProp('description', e.target.value)} value={state.description} />
+          </>}
+      </Flex>
+    </Modal>
+    <Button type="primary" onClick={toggleModal}>Create New Provider</Button>
+  </>
 }
 
 const Providers = ({ actions, location }) => {
@@ -230,7 +198,7 @@ const Providers = ({ actions, location }) => {
     const valueProps = ['longs', 'shorts', 'totalTrades', 'longProfit', 'shortProfit', 'profit']
     const memo = state.reduce((memo, data, idx) => {
 
-      if(idx === 0) {
+      if (idx === 0) {
         valueProps.map(v => {
           memo[v] = {
             label: v,
@@ -268,7 +236,7 @@ const Providers = ({ actions, location }) => {
         <Flex width={1} m={1} alignItems="center">
           {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
           <Box mx="auto" />
-          <Button type="primary">Create New Provider</Button>
+          <CreateProviderModal actions={actions} />
         </Flex>
         {state.length > 0 ? (
           state.map(data => {

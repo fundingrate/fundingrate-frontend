@@ -5,6 +5,8 @@ import BestOffers from '../assets/images/icons/icon_offer.svg'
 import Trusted from '../assets/images/icons/icon_trusted.svg'
 import Play from '../assets/images/icons/icon_play.svg'
 import Search from '../assets/images/icons/icon_search.svg'
+import Close from '../assets/images/icons/times.svg'
+
 
 import User from '../assets/images/icons/user.svg'
 import Edit from '../assets/images/icons/edit.svg'
@@ -52,6 +54,7 @@ const mapAssets = tree => {
 const sets = mapAssets({
   // Logo,
   Icons: {
+    Close,
     Popular,
     BestOffers,
     Trusted,
