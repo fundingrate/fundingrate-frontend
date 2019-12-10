@@ -14,16 +14,54 @@ const type = props => {
     case 'primary':
       return `
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+          background-color: rgba(0,0,0,0);
           color: ${theme.colorStyles.textOnPrimary.color};
-          border: ${theme.colors.lightPrimary} ${theme.borders.normal};
-          // background-color: ${theme.colorStyles.textOnPrimary.bgColor};
+          border: ${theme.colors.primary} ${theme.borders.normal};
           background-image: linear-gradient(290deg, ${theme.colors.lightPrimary}, ${theme.colors.primary});
-          // background-image: linear-gradient(290deg, #f03c3c, #df1111);
+
+          :active {
+            transform: scale(0.98);
+            box-shadow: none;
+          };
+
           &:hover,
           &:focus {
               opacity: 0.8
           };
         `
+    case 'attention':
+      return `
+        box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+        background-color: rgba(0,0,0,0);
+        color: ${theme.colors.darkBacking};
+        border: ${theme.colors.card} ${theme.borders.normal};
+        background-image: linear-gradient(290deg, ${theme.colors.yellow}, ${theme.colors.restricted});
+        
+        :active {
+          transform: scale(0.98);
+          color: ${theme.colors.black};
+          box-shadow: none;
+        };
+
+        &:hover,
+        &:focus {
+          font-weight: bold;
+          opacity: 0.8
+        };
+
+        
+      `
+    case 'magic':
+      return `
+        background-color: rgba(0,0,0,0);
+        color: ${theme.colors.offwhite};
+        border: ${theme.colors.offwhiteBorder} ${theme.borders.normal};
+        background-image: linear-gradient(290deg, ${theme.colors.covert}, ${theme.colors.restricted});
+        &:hover,
+        &:focus {
+          opacity: 0.8
+        };
+      `
     case 'warning':
       return `
         box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
@@ -91,12 +129,12 @@ const Button = styled(Text)`
   outline: none;   
   letter-spacing: ${theme.letterSpacings.slight};
   text-align:center;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
   min-width: min-content;
 
-  &:active {
+  :active {
     box-shadow: none;
-    opacity: ${0.85};
+    // opacity: ${0.85};
   };
   
   opacity: ${p => (p.disabled ? 0.5 : 1)}
@@ -121,6 +159,7 @@ const Button = styled(Text)`
 Button.defaultProps = {
   py: 2,
   px: 3,
+  fontSize: 3
 }
 
 Button.displayName = 'Button'

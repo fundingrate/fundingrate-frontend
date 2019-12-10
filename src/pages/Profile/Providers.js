@@ -265,8 +265,10 @@ const Providers = ({ actions, location }) => {
         {/* <Banners.Notice>
           <Utils.RenderMarkdown source={MARKDOWN} />
         </Banners.Notice> */}
-        <Flex m={1}>
+        <Flex width={1} m={1} alignItems="center">
           {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
+          <Box mx="auto" />
+          <Button type="primary">Create New Provider</Button>
         </Flex>
         {state.length > 0 ? (
           state.map(data => {
