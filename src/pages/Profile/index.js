@@ -1,19 +1,10 @@
-import Stats from './Stats'
-import Trades from './Trades'
-import Events from './Events'
-import Subscriptions from './Subscriptions'
 import Providers from './Providers'
 import Info from './Info'
 // import Filters from './Filters'
 
 const Pages = {
   'My Profile': Info,
-  // Filters,
-  'My Subscriptions': Subscriptions,
   'My Providers': Providers,
-  'My Events': Events,
-  'My Trades': Trades,
-  'My Stats': Stats,
 }
 
 import React, { useEffect, useState } from 'react'

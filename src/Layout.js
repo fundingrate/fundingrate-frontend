@@ -86,7 +86,7 @@ const Layout = ({ user, children, onClick }) => {
         justifyContent="center"
         // alignItems="center"
       >
-        <Header heading={'v1.0.0-beta'}>
+        <Header heading={'v1.0.1-beta'}>
           {
           user 
           ? <Text fontSize={[2, 4]}>{user.username}</Text> 
