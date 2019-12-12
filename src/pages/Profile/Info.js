@@ -4,7 +4,7 @@ import Utils from '../../components/Utils'
 import Banners from '../../components/Banners'
 import copy from 'clipboard-copy'
 
-const CopyInput = ({value, ...p}) => {
+const CopyInput = ({ value, ...p }) => {
 
   const [state, setState] = useState(false)
 
@@ -94,13 +94,12 @@ export default ({ actions, location, user, token, history }) => {
         Please ensure you save this information or risk losing access to your account.
       </Text>
       {state.token && <Utils.DownloadJson data={state} />}
-
-      <Divider width={1} bg="backingLight" my={2} />
-
-      <CopyInput label="USERID: " placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6" value={state.user.id} ><Button onClick={e => copy(state.user.id)} type="simple">Copy</Button></CopyInput>
-      <Box my={2} />
-      {state.token ? <CopyInput label="TOKENID: " placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6" value={state.token.id} ><Button onClick={e => copy(state.token.id)} type="simple">Copy</Button></CopyInput> : <Utils.LoadingPage />}
-      <Divider width={1} bg="backingLight" my={2} />
+      <Heading>User Details</Heading>
+      <Card flexDirection="column" width={1} >
+        <CopyInput label="USERID: " placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6" value={state.user.id} ><Button onClick={e => copy(state.user.id)} type="simple">Copy</Button></CopyInput>
+        <Box my={2} />
+        {state.token ? <CopyInput label="TOKENID: " placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6" value={state.token.id} ><Button onClick={e => copy(state.token.id)} type="simple">Copy</Button></CopyInput> : <Utils.LoadingPage />}
+      </Card>
 
       <Button disabled={!state} m={3} type="warning" onClick={Logout}>
         LOGOUT

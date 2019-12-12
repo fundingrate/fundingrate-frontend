@@ -103,6 +103,7 @@ RenderObject.Prop = ({ label, value, type }) => {
 const LoadingPage = p => {
   return (
     <Flex
+      p={4}
       width={1}
       height="100%"
       alignItems="center"
@@ -110,6 +111,7 @@ const LoadingPage = p => {
       {...p}
     >
       <Spinner>/</Spinner>
+      <Box mx={2}/> Loading...
     </Flex>
   )
 }
@@ -220,7 +222,33 @@ function GetDateFormatted(ts) {
   return `${d}/${m}/${y}`
 }
 
+function useDebounce(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    // Set debouncedValue to value (passed in) after the specified delay
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value])
+
+  return debouncedValue
+}
+
+const searchProps = (o, st) => {
+  return Object.values(o).find(p => {
+    if(!p) return false
+    if(typeof p === 'object') return searchProps(p)
+    return p.toString().includes(st)
+  })
+}
+
 export default {
+  useDebounce,
   RenderError,
   RenderObject,
   LoadingPage,
@@ -231,5 +259,6 @@ export default {
   DownloadCSV,
   DownloadJson,
   DayOfWeek,
-  GetDateFormatted
+  GetDateFormatted,
+  searchProps
 }

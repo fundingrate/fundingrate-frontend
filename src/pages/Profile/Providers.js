@@ -154,7 +154,7 @@ const CreateProviderModal = ({ actions }) => {
 
   return <>
     <Modal loading={loading} title="Create New Provider" isOpen={isModalOpen} onConfirm={CreateProvider} onClose={toggleModal}>
-      <Flex m={4} width={2/3} flexDirection="column" alignItems="center">
+      <Flex m={4} width={2 / 3} flexDirection="column" alignItems="center">
         {provider ? <>
           <Text color="red" fontSize={3} p={3}>
             Please ensure you save this information or risk losing your account.
@@ -173,12 +173,24 @@ const CreateProviderModal = ({ actions }) => {
   </>
 }
 
+const SearchInput = ({ onSearch = x => x }) => {
+  const [search, setSearch] = useState('')
+
+  const debouncedSearchTerm = Utils.useDebounce(search, 500)
+  useEffect(() => {
+    onSearch(search)
+  }, [debouncedSearchTerm])
+
+  return <Input placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
+}
+
 const Providers = ({ actions, location }) => {
   const cPage = location.pathname
 
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [state, setState] = useState([])
+  const [cache, setCache] = useState([])
   const [stats, setStats] = useState([])
 
   useEffect(() => {
@@ -186,6 +198,7 @@ const Providers = ({ actions, location }) => {
       .listMyProviders()
       .then(s => {
         setState(s)
+        setCache(s)
         setLoading(false)
       })
       .catch(e => {
@@ -219,24 +232,32 @@ const Providers = ({ actions, location }) => {
     setStats(Object.values(memo))
   }, [state])
 
+
+  const handleSearch = (st) => {
+    console.log("searching for:", st)
+    if(!st) return setState(cache)
+    const r = state.filter(o => Utils.searchProps(o, st))
+    console.log('search results:', r)
+    setState(r)
+  }
+
   return loading ? (
     <Utils.LoadingPage />
   ) : (
       <Flex
         // flexDirection="column"
-        p={4}
+        p={2}
         width={1}
         justifyContent="space-evenly"
         flexWrap="wrap"
       >
-        <Heading>My Providers</Heading>
-        {/* <Banners.Notice>
-          <Utils.RenderMarkdown source={MARKDOWN} />
-        </Banners.Notice> */}
-        <Flex width={1} m={1} alignItems="center">
-          {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
-          <Box mx="auto" />
+        <Flex width={1} m={4} alignItems="center">
+          <SearchInput onSearch={handleSearch} />
+          <Box mx={4} />
           <CreateProviderModal actions={actions} />
+        </Flex>
+        <Flex width={1} m={2} alignItems="center">
+          {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
         </Flex>
         {state.length > 0 ? (
           state.map(data => {
