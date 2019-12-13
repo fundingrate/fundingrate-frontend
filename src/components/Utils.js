@@ -61,9 +61,11 @@ const RenderObject = ({ heading, data, children, ...p }) => {
               />
             )
           })}
-          <Box my={2} />
-          {/* <Divider  my={1} bg="primary"/> */}
+          <Box my={2} width={1}>
           {children}
+          </Box>
+          {/* <Divider  my={1} bg="primary"/> */}
+          
         </>
       ) : (
           <Text p={2}>Nothing to show yet, check back later.</Text>

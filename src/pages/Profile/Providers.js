@@ -88,13 +88,13 @@ const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
         <Text m={2} fontSize={3}>Recent Trade History</Text>
         <Divider bg="primary" />
         <Flex
-          m={2}
+          p={2}
           height="100%"
           width={1}
           justifyContent='center'
           alignItems="center"
         >
-          <ResponsiveContainer width="90%" height={'90%'} aspect={3}>
+          <ResponsiveContainer width="99%" aspect={2}>
             <LineChart
               // width={900}
               // height={420}
