@@ -270,15 +270,15 @@ const Providers = ({ actions, location }) => {
               // bg="darkBacking"
               // borderRadius={2}
               >
-                <Flex flex={1}>
+                <Flex>
                   <Utils.RenderObject
                     heading={data.username.toUpperCase()}
                     data={data}
-                    flex={1}
+                    width={2/3}
                   >
                     <ProviderEventHistory listMyProviderTrades={e => actions.listMyProviderTrades({ providerid: data.id })} />
                   </ Utils.RenderObject>
-                  <Box>
+                  <Box width={1/3}>
                     <Utils.RenderObject
                       heading="Current Stats"
                       data={data.stats}

@@ -57,10 +57,10 @@ const SubscribeButton = ({ actions, providerid }) => {
           {error}
         </Text>
       ) : (
-        <Button disabled={disabled} type="primary" onClick={subscribe}>
-          {subscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
-        </Button>
-      )}
+          <Button disabled={disabled} type="primary" onClick={subscribe}>
+            {subscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
+          </Button>
+        )}
     </Flex>
   )
 }
@@ -76,7 +76,17 @@ const ProviderCard = ({ provider, children }) => {
       width={[1, 2 / 5]}
       justifyContent="space-evenly"
     >
-      <Utils.RenderObject.Prop label="Provider:" value={provider.username} />
+      <Flex>
+        <Text.Heading fontSize={4}>{provider.username}</Text.Heading>
+        <Box mx="auto" />
+        <Utils.RenderObject.Prop
+          color={provider.stats.profit > 0 ? 'lime' : 'red'}
+          label="Overall Profit:"
+          value={provider.stats.profit}
+          type="money"
+        />
+      </Flex>
+      <Divider bg='primary' my={2} />
       <Flex flexDirection="column">
         <Utils.RenderObject.Prop
           label="Running Since:"
@@ -92,10 +102,19 @@ const ProviderCard = ({ provider, children }) => {
           label="Total Trades:"
           value={provider.stats.totalTrades}
         />
-        <Utils.RenderObject.Prop
-          label="Profit:"
-          value={provider.stats.profit}
-        />
+
+        {
+          provider.stats.position && <>
+            <Utils.RenderObject.Prop
+              label="Last Position Entry:"
+              value={`${provider.stats.position.type} @ ${provider.stats.position.price}`}
+            />
+            {/* <Utils.RenderObject.Prop
+              label="Last Trade:"
+              value={moment(provider.stats.position.created).fromNow()}
+            /> */}
+          </>
+        }
 
         <Box my={2} bg="darkBacking">
           <Text fontSize={2} p={2}>Description</Text>
@@ -132,27 +151,30 @@ const Marketplace = ({ actions, location }) => {
   return loading ? (
     <Utils.LoadingPage />
   ) : (
-    <Flex
-      // flexDirection="column"
-      p={4}
-      width={1}
-      justifyContent="space-evenly"
-      flexWrap="wrap"
-    >
-      <Heading>Public Providers</Heading>
-      {state.length > 0 ? (
-        state.map(provider => {
-          return (
-            <ProviderCard provider={provider}>
-              <SubscribeButton actions={actions} providerid={provider.id} />
-            </ProviderCard>
-          )
-        })
-      ) : (
-        <Text>No providers are available right now.</Text>
-      )}
-    </Flex>
-  )
+      <Flex
+        // flexDirection="column"
+        p={4}
+        width={1}
+        justifyContent="space-evenly"
+        flexWrap="wrap"
+      >
+        {/* <Heading>Public Providers</Heading> */}
+        {state.length > 0 ? (
+          state.sort((x, y) => {
+            return x.stats.profit > y.stats.profit ? -1 : 1
+          }).map(provider => {
+            console.log(provider)
+            return (
+              <ProviderCard provider={provider}>
+                <SubscribeButton actions={actions} providerid={provider.id} />
+              </ProviderCard>
+            )
+          })
+        ) : (
+            <Text>No providers are available right now.</Text>
+          )}
+      </Flex>
+    )
 }
 
 export default Marketplace

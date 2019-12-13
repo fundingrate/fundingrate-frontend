@@ -80,22 +80,29 @@ const renderProp = (value, type) => {
     case 'boolean':
       return Boolean(value) ? 'yes' : 'no'
     case 'number':
-      return <Text.Number value={value} />
+      return value.toLocaleString(undefined, {
+        maximumFractionDigits: 0,
+      })
+    case 'money':
+      return value.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
     default:
       return value
   }
 }
 
-RenderObject.Prop = ({ label, value, type }) => {
+RenderObject.Prop = ({ label, value, type, color, ...p }) => {
   return (
     <Flex
       flexDirection={['column', 'row']}
       alignItems={['center', 'end']}
       m={1}
     >
-      <Text bold>{label}</Text>
+      <Text bold >{label}</Text>
       <Box mx={1} />
-      <Text>{renderProp(value, type)}</Text>
+      <Text color={color}>{renderProp(value, type)}</Text>
     </Flex>
   )
 }
@@ -137,9 +144,11 @@ const MarkdownLink = ({ link }) => {
 
   return state ? (
     <Box p={4} width={[1, 2 / 3]}>
-      <ReactMarkdown source={state} renderers={{ code: ({value, ...p}) => {
-        return <Highlight {...p} >{value}</Highlight>
-      } }} />
+      <ReactMarkdown source={state} renderers={{
+        code: ({ value, ...p }) => {
+          return <Highlight {...p} >{value}</Highlight>
+        }
+      }} />
     </Box>
   ) : (
       <LoadingPage />
