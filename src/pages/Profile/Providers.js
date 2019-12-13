@@ -170,7 +170,7 @@ const CreateProviderModal = ({ actions }) => {
           </>}
       </Flex>
     </Modal>
-    <Button type="primary" onClick={toggleModal}>Create New Provider</Button>
+    <Button m={2} type="primary" onClick={toggleModal}>Create New Provider</Button>
   </>
 }
 
@@ -186,7 +186,7 @@ const ProviderFAQModal = ({ actions }) => {
     <Modal title="Provider FAQ" isOpen={isModalOpen} onConfirm={toggleModal} onClose={toggleModal}>
       <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/ee3ffe27874dcf9505e956bab6ea6f0e/raw/provider_FAQ.md" />
     </Modal>
-    <Button mx={2} type="warning" onClick={toggleModal}> Help </Button>
+    <Button m={2} type="warning" onClick={toggleModal}> Help </Button>
   </>
 }
 
@@ -268,13 +268,13 @@ const Providers = ({ actions, location }) => {
         justifyContent="space-evenly"
         flexWrap="wrap"
       >
-        <Flex width={1} m={4} alignItems="center" style={{
-          overflowX: "auto"
-        }}>
+        <Flex width={1} m={4} alignItems="center" flexDirection={['column', 'row']}>
           <SearchInput onSearch={handleSearch} />
           <Box mx={4} />
+          <Flex>
           <CreateProviderModal actions={actions} />
           <ProviderFAQModal />
+          </Flex>
         </Flex>
         <Flex width={1} m={2} alignItems="center" style={{
           overflowX: "auto"
@@ -285,7 +285,7 @@ const Providers = ({ actions, location }) => {
         {state.length > 0 ? (
           state.sort((x, y) => {
             return x.stats.profit > y.stats.profit ? -1 : 1
-          }).map(data => {
+          }).map((data, idx) => {
             return (
               <Box
                 width={1}
@@ -294,15 +294,15 @@ const Providers = ({ actions, location }) => {
               // bg="darkBacking"
               // borderRadius={2}
               >
-                <Flex flexDirection={['column', 'row']}>
+                <Flex flexDirection={['column', 'column', 'column', 'row']}>
                   <Utils.RenderObject
                     heading={data.username.toUpperCase()}
                     data={data}
-                    width={[1, 2 / 3]}
+                    width={[1, 1, 1, 2 / 3]}
                   >
                     <ProviderEventHistory listMyProviderTrades={e => actions.listMyProviderTrades({ providerid: data.id })} />
                   </ Utils.RenderObject>
-                  <Flex width={[1, 1 / 3]} flexDirection='column'>
+                  <Flex width={[1, 1, 1, 1 / 3]} flexDirection={['column', 'column', 'row', 'column']}>
                     <Utils.RenderObject
                       heading="Current Stats"
                       data={data.stats}
