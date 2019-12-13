@@ -268,13 +268,17 @@ const Providers = ({ actions, location }) => {
         justifyContent="space-evenly"
         flexWrap="wrap"
       >
-        <Flex width={1} m={4} alignItems="center">
+        <Flex width={1} m={4} alignItems="center" style={{
+          overflowX: "auto"
+        }}>
           <SearchInput onSearch={handleSearch} />
-          <Box mx={[4, 8]} />
+          <Box mx={4} />
           <CreateProviderModal actions={actions} />
           <ProviderFAQModal />
         </Flex>
-        <Flex width={1} m={2} alignItems="center" >
+        <Flex width={1} m={2} alignItems="center" style={{
+          overflowX: "auto"
+        }}>
           {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color={s.value > 0 ? 'lime' : 'red'}
           ><CountUp separator="," end={s.value} /></Text></Flex>)}
         </Flex>
@@ -290,15 +294,15 @@ const Providers = ({ actions, location }) => {
               // bg="darkBacking"
               // borderRadius={2}
               >
-                <Flex>
+                <Flex flexDirection={['column', 'row']}>
                   <Utils.RenderObject
                     heading={data.username.toUpperCase()}
                     data={data}
-                    width={2 / 3}
+                    width={[1, 2 / 3]}
                   >
                     <ProviderEventHistory listMyProviderTrades={e => actions.listMyProviderTrades({ providerid: data.id })} />
                   </ Utils.RenderObject>
-                  <Box width={1 / 3}>
+                  <Flex width={[1, 1 / 3]} flexDirection='column'>
                     <Utils.RenderObject
                       heading="Current Stats"
                       data={data.stats}
@@ -309,7 +313,7 @@ const Providers = ({ actions, location }) => {
                       data={data.stats.position}
                       flex={1}
                     />
-                  </Box>
+                  </Flex>
                 </Flex>
               </Box>
             )

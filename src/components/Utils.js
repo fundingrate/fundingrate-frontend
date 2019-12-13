@@ -97,7 +97,8 @@ RenderObject.Prop = ({ label, value, type, color = 'subtext', ...p }) => {
   return (
     <Flex
       flexDirection={['column', 'row']}
-      alignItems={['center', 'end']}
+      // alignItems={['center', 'end']}
+      alignItems="center"
       m={1}
     >
       <Text bold >{label}</Text>

@@ -11,8 +11,9 @@ import theme from '../styles/theme'
 const Sidebar = styled(Flex)`
   border-right: 1px solid rgba(0, 0, 0, 0.2);
 
-  @media only screen and (max-width: 600px) {
-    display: ${p => (p.open ? 'block' : 'none')};
+  @media only screen and (max-width: 1024px) {
+    display: none;
+    // display: ${p => (p.open ? 'block' : 'none')};
   }
 `
 
@@ -28,9 +29,10 @@ Sidebar.defaultProps = {
 
 Sidebar.ToggleButton = styled(Button)`
   border: 2px solid black;
-  position: ${p => (p.open ? 'relative' : 'absolute')};
+  position: 'absolute';
+  // position: ${p => (p.open ? 'relative' : 'absolute')};
 
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: 1024px) {
     display: none;
   }
 `
