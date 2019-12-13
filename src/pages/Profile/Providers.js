@@ -17,6 +17,7 @@ import { ReferenceLine, LabelList, BarChart, LineChart, XAxis, YAxis, Legend, Ba
 import moment from 'moment'
 import VizSensor from 'react-visibility-sensor';
 import Modal from '../../components/Modal'
+import CountUp from 'react-countup';
 
 const ProviderEventHistory = ({ listMyProviderTrades = async x => x }) => {
 
@@ -235,7 +236,7 @@ const Providers = ({ actions, location }) => {
 
   const handleSearch = (st) => {
     console.log("searching for:", st)
-    if(!st) return setState(cache)
+    if (!st) return setState(cache)
     const r = state.filter(o => Utils.searchProps(o, st))
     console.log('search results:', r)
     setState(r)
@@ -256,8 +257,8 @@ const Providers = ({ actions, location }) => {
           <Box mx={4} />
           <CreateProviderModal actions={actions} />
         </Flex>
-        <Flex width={1} m={2} alignItems="center">
-          {stats.map(s => <Box mx={2}>{`${s.label.toUpperCase()}: ${s.value}`}</Box>)}
+        <Flex width={1} m={2} alignItems="center" >
+          {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color="subtext"><CountUp separator="," end={s.value} /></Text></Flex>)}
         </Flex>
         {state.length > 0 ? (
           state.map(data => {

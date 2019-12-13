@@ -48,7 +48,7 @@ const Modal = styled(Flex)`
   // padding: 20px;
   transform: translateZ(0);
 
-  background: ${theme.colors.backingDark};
+  background: ${theme.colors.card};
   border-radius: ${theme.radii.normal};
   /* pointer-events: none; */
 `

@@ -30,7 +30,7 @@ const WiredModal = ({
         width={1}
         p={3}
         alignItems="center"
-        bg="backingDark"
+        bg="backing"
         borderBottom="1px solid rgba(0, 0, 0, 0.5)"
         boxShadow='4px 0px 4px 0px rgba(0, 0, 0, 0.2)'
       >
