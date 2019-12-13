@@ -144,11 +144,13 @@ const MarkdownLink = ({ link }) => {
 
   return state ? (
     <Box p={4} width={[1, 2 / 3]}>
-      <ReactMarkdown source={state} renderers={{
-        code: ({ value, ...p }) => {
-          return <Highlight {...p} >{value}</Highlight>
-        }
-      }} />
+      <ReactMarkdown source={state}
+      // renderers={{
+      //   code: ({ value, ...p }) => {
+      //     return <Highlight {...p} >{value}</Highlight>
+      //   }
+      // }} 
+      />
     </Box>
   ) : (
       <LoadingPage />

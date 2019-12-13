@@ -164,9 +164,9 @@ const CreateProviderModal = ({ actions }) => {
           <Utils.RenderObject label="Provider" data={provider.provider} />
           <Utils.RenderObject label="Token" data={provider.token} />
         </> : <>
-            <Input label="Username:" onChange={e => setProp('username', e.target.value)} value={state.username} />
+            <Input label="Username:" placeholder='Super Secret Strat Signals #42069' onChange={e => setProp('username', e.target.value)} value={state.username} />
             <Box my={1} />
-            <Input label="Description:" onChange={e => setProp('description', e.target.value)} value={state.description} />
+            <Input label="Description:" placeholder="Uses top secret sauce to provide accurate signals!" onChange={e => setProp('description', e.target.value)} value={state.description} />
           </>}
       </Flex>
     </Modal>
@@ -261,7 +261,9 @@ const Providers = ({ actions, location }) => {
           {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color="subtext"><CountUp separator="," end={s.value} /></Text></Flex>)}
         </Flex>
         {state.length > 0 ? (
-          state.map(data => {
+          state.sort((x, y) => {
+            return x.stats.profit > y.stats.profit ? -1 : 1
+          }).map(data => {
             return (
               <Box
                 width={1}
@@ -274,11 +276,11 @@ const Providers = ({ actions, location }) => {
                   <Utils.RenderObject
                     heading={data.username.toUpperCase()}
                     data={data}
-                    width={2/3}
+                    width={2 / 3}
                   >
                     <ProviderEventHistory listMyProviderTrades={e => actions.listMyProviderTrades({ providerid: data.id })} />
                   </ Utils.RenderObject>
-                  <Box width={1/3}>
+                  <Box width={1 / 3}>
                     <Utils.RenderObject
                       heading="Current Stats"
                       data={data.stats}
