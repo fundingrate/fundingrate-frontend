@@ -40,11 +40,16 @@
     "styled-system": "^5.1.2"
   },
   "scripts": {
+    "lint": "prettier-eslint --write '**/*.{js,jsx}' --no-semi --trailing-comma es5 --tab-width 2 --single-quote",
     "predeploy": "rm -rf dist &&  parcel build index.html --out-dir dist",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
     "build": "parcel build index.html --out-dir dist && yarn deletemaps",
-    "deletemaps": "find . -type f -name *.map -delete"
+    "deletemaps": "find . -type f -name *.map -delete",
+    "delete-locks": "find . -type f -name package-lock.json -delete && find . -type f -name yarn.lock -delete",
+    "delete-modules": "find . -type d -name node_modules -exec rm -rf \"{}\" +",
+    "mass-install": "find . -maxdepth 1 -type d \\( ! -name . \\) -exec bash -c \"cd '{}' && npm install\" \\;",
+    "cleanup": "yarn delete-locks && yarn delete-modules"
   },
   "targets": {
     "chrome": "58",
