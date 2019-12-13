@@ -39,7 +39,7 @@ const WiredModal = ({
         <Assets.Icons.Close onClick={onClose} clickable style={{ cursor: 'pointer' }} />
       </Flex>
       <Divider />
-      <Flex m={2} justifyContent="center" style={{
+      <Flex m={2} width={1} justifyContent="center" style={{
         overflow: 'hidden',
         overflowY: 'auto'
       }}>{children}</Flex>

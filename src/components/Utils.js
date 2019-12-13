@@ -93,7 +93,7 @@ const renderProp = (value, type) => {
   }
 }
 
-RenderObject.Prop = ({ label, value, type, color, ...p }) => {
+RenderObject.Prop = ({ label, value, type, color = 'subtext', ...p }) => {
   return (
     <Flex
       flexDirection={['column', 'row']}

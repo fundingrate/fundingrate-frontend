@@ -164,7 +164,7 @@ const CreateProviderModal = ({ actions }) => {
           <Utils.RenderObject label="Provider" data={provider.provider} />
           <Utils.RenderObject label="Token" data={provider.token} />
         </> : <>
-            <Input label="Username:" placeholder='Super Secret Strat Signals #42069' onChange={e => setProp('username', e.target.value)} value={state.username} />
+            <Input label="Username:" placeholder='Super Secret Signals #42069' onChange={e => setProp('username', e.target.value)} value={state.username} />
             <Box my={1} />
             <Input label="Description:" placeholder="Uses top secret sauce to provide accurate signals!" onChange={e => setProp('description', e.target.value)} value={state.description} />
           </>}
@@ -270,7 +270,7 @@ const Providers = ({ actions, location }) => {
       >
         <Flex width={1} m={4} alignItems="center">
           <SearchInput onSearch={handleSearch} />
-          <Box mx={4} />
+          <Box mx={[4, 8]} />
           <CreateProviderModal actions={actions} />
           <ProviderFAQModal />
         </Flex>
