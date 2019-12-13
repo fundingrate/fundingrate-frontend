@@ -111,10 +111,17 @@ const LoadingPage = p => {
       {...p}
     >
       <Spinner>/</Spinner>
-      <Box mx={2}/> Loading...
+      <Box mx={2} /> Loading...
     </Flex>
   )
 }
+
+// const toc = require('remark-toc')
+
+
+import PropTypes from 'prop-types'
+import Highlight from 'react-highlight.js'
+
 
 const MarkdownLink = ({ link }) => {
   const [state, setState] = useState(null)
@@ -130,7 +137,9 @@ const MarkdownLink = ({ link }) => {
 
   return state ? (
     <Box p={4} width={[1, 2 / 3]}>
-      <ReactMarkdown source={state} />
+      <ReactMarkdown source={state} renderers={{ code: ({value, ...p}) => {
+        return <Highlight {...p} >{value}</Highlight>
+      } }} />
     </Box>
   ) : (
       <LoadingPage />
@@ -200,18 +209,18 @@ const DownloadJson = ({ filename = 'row.json', data = {} }) => {
   )
 }
 
-function DayOfWeek (index=0) {
+function DayOfWeek(index = 0) {
   var d = new Date();
-var weekday = new Array(7);
-weekday[0] = "Sunday";
-weekday[1] = "Monday";
-weekday[2] = "Tuesday";
-weekday[3] = "Wednesday";
-weekday[4] = "Thursday";
-weekday[5] = "Friday";
-weekday[6] = "Saturday";
+  var weekday = new Array(7);
+  weekday[0] = "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
 
-return weekday[index];
+  return weekday[index];
 }
 
 function GetDateFormatted(ts) {
@@ -241,8 +250,8 @@ function useDebounce(value, delay = 500) {
 
 const searchProps = (o, st) => {
   return Object.values(o).find(p => {
-    if(!p) return false
-    if(typeof p === 'object') return searchProps(p)
+    if (!p) return false
+    if (typeof p === 'object') return searchProps(p)
     return p.toString().includes(st)
   })
 }
