@@ -145,6 +145,9 @@ const MarkdownLink = ({ link }) => {
   return state ? (
     <Box p={4} width={[1, 2 / 3]}>
       <ReactMarkdown source={state}
+      renderers={{
+        image: p => <Image {...p} height={300} width={1} />
+      }}
       // renderers={{
       //   code: ({ value, ...p }) => {
       //     return <Highlight {...p} >{value}</Highlight>

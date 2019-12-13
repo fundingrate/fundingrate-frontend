@@ -174,6 +174,22 @@ const CreateProviderModal = ({ actions }) => {
   </>
 }
 
+const ProviderFAQModal = ({ actions }) => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const toggleModal = s => {
+    return setIsModalOpen(!isModalOpen)
+  }
+
+  return <>
+    <Modal title="Provider FAQ" isOpen={isModalOpen} onConfirm={toggleModal} onClose={toggleModal}>
+      <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/ee3ffe27874dcf9505e956bab6ea6f0e/raw/provider_FAQ.md" />
+    </Modal>
+    <Button mx={2} type="warning" onClick={toggleModal}> Help </Button>
+  </>
+}
+
 const SearchInput = ({ onSearch = x => x }) => {
   const [search, setSearch] = useState('')
 
@@ -256,6 +272,7 @@ const Providers = ({ actions, location }) => {
           <SearchInput onSearch={handleSearch} />
           <Box mx={4} />
           <CreateProviderModal actions={actions} />
+          <ProviderFAQModal />
         </Flex>
         <Flex width={1} m={2} alignItems="center" >
           {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color={s.value > 0 ? 'lime' : 'red'}

@@ -25,7 +25,7 @@ const WiredModal = ({
   ...p
 }) => {
   return (
-    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4}>
+    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4} >
       <Flex
         width={1}
         p={3}
@@ -36,10 +36,13 @@ const WiredModal = ({
       >
         <Text.Heading fontSize={6}>{title}</Text.Heading>
         <Box mx="auto" />
-        <Assets.Icons.Close onClick={onClose} clickable style={{cursor: 'pointer'}}/>
+        <Assets.Icons.Close onClick={onClose} clickable style={{ cursor: 'pointer' }} />
       </Flex>
       <Divider />
-      {children}
+      <Flex m={2} justifyContent="center" style={{
+        overflow: 'hidden',
+        overflowY: 'auto'
+      }}>{children}</Flex>
       <Divider />
       <Flex
         width={1}

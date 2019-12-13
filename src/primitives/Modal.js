@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
-import {} from 'styled-system'
+import { } from 'styled-system'
 import { Box, Flex } from '.'
 import theme from '../styles/theme'
 import posed from 'react-pose'
@@ -39,7 +39,7 @@ const Shade = posed(Container)({
 })
 
 const Modal = styled(Flex)`
-  maxHeight: 100%;
+  max-height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
