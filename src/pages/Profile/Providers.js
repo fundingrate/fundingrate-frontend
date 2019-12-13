@@ -258,7 +258,8 @@ const Providers = ({ actions, location }) => {
           <CreateProviderModal actions={actions} />
         </Flex>
         <Flex width={1} m={2} alignItems="center" >
-          {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color="subtext"><CountUp separator="," end={s.value} /></Text></Flex>)}
+          {stats.map(s => <Flex alignItems='center' mx={2}>{s.label.toUpperCase()}: <Box mx={1} /><Text color={s.value > 0 ? 'lime' : 'red'}
+          ><CountUp separator="," end={s.value} /></Text></Flex>)}
         </Flex>
         {state.length > 0 ? (
           state.sort((x, y) => {
