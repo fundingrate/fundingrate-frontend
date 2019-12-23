@@ -24,14 +24,15 @@ import {
   borderLeft,
   fontFamily,
   boxShadow,
-  zIndex
+  zIndex,
 } from 'styled-system'
 
 const Box = styled.div`
   box-sizing: border-box;
   // transition: all 0.2s ease-in-out;
 
-  // shadow-bottom: ${p => (p.shadowBottom ? '0px 10px 10px -10px black' : 'none')}
+  // shadow-bottom: ${p =>
+    p.shadowBottom ? '0px 10px 10px -10px black' : 'none'}
   // shadow-top: ${p => (p.shadowTop ? '0px -10px 10px -10px black' : 'none')}
 
   ${zIndex}

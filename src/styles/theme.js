@@ -1,8 +1,8 @@
-import { opacify, darken, lighten, linearGradient } from "polished";
+import { opacify, darken, lighten, linearGradient } from 'polished'
 
-const breakpoints = ["40em", "52em", "64em", "80em"];
+const breakpoints = ['40em', '52em', '64em', '80em']
 
-const space = [0, 4, 8, 16, 32, 64, 128, 160, 256, 512];
+const space = [0, 4, 8, 16, 32, 64, 128, 160, 256, 512]
 
 const colors = {
   subnavbg: '#434346',
@@ -42,93 +42,93 @@ const colors = {
   lime: '#3DDD37',
   lightGray: lighten(0.3, '#808080'),
   get primary() {
-    return this.orange;
+    return this.orange
   },
   get lightPrimary() {
-    return lighten(0.04, this.primary);
+    return lighten(0.04, this.primary)
   },
   // get primaryGradient() {
   //   return linearGradient('290deg', '#f03c3c', '#ff7e24')
   // },
   get card() {
-    return this.foregroundBacking;
+    return this.foregroundBacking
   },
   get lightCard() {
-    return lighten(0.04, this.foregroundBacking);
+    return lighten(0.04, this.foregroundBacking)
   },
   twitter: '#1DA1F2',
   twitch: '#6441A4',
   discord: '#7289DA',
-  discover: '#FF6000'
-};
+  discover: '#FF6000',
+}
 
 const colorStyles = {
   textOnPrimary: {
     color: colors.white,
     bgColor: colors.primary,
-    bgColorHover: colors.lightPrimary
-  }
+    bgColorHover: colors.lightPrimary,
+  },
   //   textOnDark: {
   //     color: colors.gray,
   //     bgColor: colors.primary,
   //     bgColorHover: colors.lightPrimary
   //   }
-};
+}
 
 const borders = {
-  none: "none",
-  normal: "1px solid"
-};
+  none: 'none',
+  normal: '1px solid',
+}
 
 const radii = {
-  normal: "3px",
-  rounded: "6px",
-  curved: "40px",
-  circle: "50%"
-};
+  normal: '3px',
+  rounded: '6px',
+  curved: '40px',
+  circle: '50%',
+}
 
 const fontSizes = [
-  "0.702rem",
-  "0.79rem",
-  ".889rem",
-  "1rem",
-  "1.125rem",
-  "1.266rem",
-  "1.424rem",
-  "2.027rem",
-  "2.566rem",
-  "3.247rem"
-];
+  '0.702rem',
+  '0.79rem',
+  '.889rem',
+  '1rem',
+  '1.125rem',
+  '1.266rem',
+  '1.424rem',
+  '2.027rem',
+  '2.566rem',
+  '3.247rem',
+]
 
-const maxWidths = ["40em", "52em", "64em", "80em", "96em", "104em"];
+const maxWidths = ['40em', '52em', '64em', '80em', '96em', '104em']
 
 const letterSpacings = {
   normal: 0,
   slight: '.05em',
-  title: ".1em",
-  loose: ".25em"
-};
+  title: '.1em',
+  loose: '.25em',
+}
 
 const boxPadding = {
   small: {
     paddingTop: `${space[1]}px`,
     paddingBottom: `${space[1]}px`,
     paddingLeft: `${space[2]}px`,
-    paddingRight: `${space[2]}px`
+    paddingRight: `${space[2]}px`,
   },
   medium: {
     paddingTop: `${space[2]}px`,
     paddingBottom: `${space[2]}px`,
     paddingLeft: `${space[3]}px`,
-    paddingRight: `${space[3]}px`
+    paddingRight: `${space[3]}px`,
   },
   large: {
     paddingTop: `${space[3]}px`,
     paddingBottom: `${space[3]}px`,
     paddingLeft: `${space[4]}px`,
-    paddingRight: `${space[4]}px`
-  }
-};
+    paddingRight: `${space[4]}px`,
+  },
+}
 
 const theme = {
   breakpoints,
@@ -140,7 +140,7 @@ const theme = {
   fontSizes,
   maxWidths,
   letterSpacings,
-  boxPadding
-};
+  boxPadding,
+}
 
-export default theme;
+export default theme

@@ -6,10 +6,10 @@ import Marketplace from './Marketplace'
 import Authenticate from './Authenticate'
 
 export default {
-    Home,
-    Authenticate,
-    Profile,
-    Providers,
-    Marketplace,
-    NotFound,
+  Home,
+  Authenticate,
+  Profile,
+  Providers,
+  Marketplace,
+  NotFound,
 }

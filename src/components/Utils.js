@@ -62,14 +62,13 @@ const RenderObject = ({ heading, data, children, ...p }) => {
             )
           })}
           <Box my={2} width={1}>
-          {children}
+            {children}
           </Box>
           {/* <Divider  my={1} bg="primary"/> */}
-          
         </>
       ) : (
-          <Text p={2}>Nothing to show yet, check back later.</Text>
-        )}
+        <Text p={2}>Nothing to show yet, check back later.</Text>
+      )}
     </Card>
   )
 }
@@ -103,7 +102,7 @@ RenderObject.Prop = ({ label, value, type, color = 'subtext', ...p }) => {
       alignItems="center"
       m={1}
     >
-      <Text bold >{label}</Text>
+      <Text bold>{label}</Text>
       <Box mx={1} />
       <Text color={color}>{renderProp(value, type)}</Text>
     </Flex>
@@ -128,10 +127,8 @@ const LoadingPage = p => {
 
 // const toc = require('remark-toc')
 
-
 import PropTypes from 'prop-types'
 import Highlight from 'react-highlight.js'
-
 
 const MarkdownLink = ({ link }) => {
   const [state, setState] = useState(null)
@@ -147,20 +144,21 @@ const MarkdownLink = ({ link }) => {
 
   return state ? (
     <Box p={4} width={[1, 2 / 3]}>
-      <ReactMarkdown source={state}
-      renderers={{
-        image: p => <Image {...p} height={300} width={1} />
-      }}
-      // renderers={{
-      //   code: ({ value, ...p }) => {
-      //     return <Highlight {...p} >{value}</Highlight>
-      //   }
-      // }} 
+      <ReactMarkdown
+        source={state}
+        renderers={{
+          image: p => <Image {...p} height={300} width={1} />,
+        }}
+        // renderers={{
+        //   code: ({ value, ...p }) => {
+        //     return <Highlight {...p} >{value}</Highlight>
+        //   }
+        // }}
       />
     </Box>
   ) : (
-      <LoadingPage />
-    )
+    <LoadingPage />
+  )
 }
 
 const generateCSV = data => {
@@ -227,17 +225,17 @@ const DownloadJson = ({ filename = 'row.json', data = {} }) => {
 }
 
 function DayOfWeek(index = 0) {
-  var d = new Date();
-  var weekday = new Array(7);
-  weekday[0] = "Sunday";
-  weekday[1] = "Monday";
-  weekday[2] = "Tuesday";
-  weekday[3] = "Wednesday";
-  weekday[4] = "Thursday";
-  weekday[5] = "Friday";
-  weekday[6] = "Saturday";
+  var d = new Date()
+  var weekday = new Array(7)
+  weekday[0] = 'Sunday'
+  weekday[1] = 'Monday'
+  weekday[2] = 'Tuesday'
+  weekday[3] = 'Wednesday'
+  weekday[4] = 'Thursday'
+  weekday[5] = 'Friday'
+  weekday[6] = 'Saturday'
 
-  return weekday[index];
+  return weekday[index]
 }
 
 function GetDateFormatted(ts) {
@@ -286,5 +284,5 @@ export default {
   DownloadJson,
   DayOfWeek,
   GetDateFormatted,
-  searchProps
+  searchProps,
 }

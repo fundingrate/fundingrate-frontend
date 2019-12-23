@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from 'react'
-
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Assets from './components/Assets'
-import {
-  Button,
-  Flex,
-  Box,
-  Text,
-  Image,
-  Sidebar,
-  Page,
-  Divider,
-  Navbar,
-} from './primitives'
-
+import { Header, Footer, Assets } from './components'
+import { Button, Flex, Text, Sidebar, Page, Divider } from './primitives'
 import Pages from './pages'
 
 const SideNav = ({ user, links, onClick }) => {
@@ -45,23 +31,42 @@ const SideNav = ({ user, links, onClick }) => {
           case '/profile': {
             if (!user) return null
             return (
-              <Button key={href} textAlign="left" fontSize={4} type="simple" onClick={e => onClick(href)}>
-              - {label}
+              <Button
+                key={href}
+                textAlign="left"
+                fontSize={4}
+                type="simple"
+                onClick={e => onClick(href)}
+              >
+                - {label}
               </Button>
             )
           }
           case '/providers': {
             if (!user) return null
             return (
-              <Button key={href} textAlign="left" fontSize={4} type="simple" onClick={e => onClick(href)}>
-              - {label}
+              <Button
+                key={href}
+                textAlign="left"
+                fontSize={4}
+                type="simple"
+                onClick={e => onClick(href)}
+              >
+                - {label}
               </Button>
             )
           }
           default:
             return (
-              <Button key={href} textAlign="left" fontSize={4} key={label} type="simple" onClick={e => onClick(href)}>
-              - {label}
+              <Button
+                key={href}
+                textAlign="left"
+                fontSize={4}
+                key={label}
+                type="simple"
+                onClick={e => onClick(href)}
+              >
+                - {label}
               </Button>
             )
         }
@@ -94,12 +99,14 @@ const Layout = ({ user, children, onClick }) => {
         justifyContent="center"
         // alignItems="center"
       >
-        <Header heading={'v1.0.1-beta'}>
-          {
-          user 
-          ? <Text fontSize={[2, 4]}>{user.username}</Text> 
-          : <Button type="primary" onClick={e => onClick('/authenticate')}>Login / Register</Button>
-        }
+        <Header heading={'v1.2.7-beta'}>
+          {user ? (
+            <Text fontSize={[2, 4]}>{user.username}</Text>
+          ) : (
+            <Button type="primary" onClick={e => onClick('/authenticate')}>
+              Login / Register
+            </Button>
+          )}
         </Header>
         <Page flex={1}>{children}</Page>
         <Footer />

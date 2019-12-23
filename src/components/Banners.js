@@ -66,13 +66,7 @@ const ColorBar = ({ children, ...p }) => {
 }
 
 const Notice = ({ children }) => (
-  <ColorBar
-    width={'auto'}
-    m={2}
-    p={2}
-    bg="restricted"
-    borderRadius={2}
-  >
+  <ColorBar width={'auto'} m={2} p={2} bg="restricted" borderRadius={2}>
     {children}
   </ColorBar>
 )

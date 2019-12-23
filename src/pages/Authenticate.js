@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Card,
-  Button,
-  Flex,
-  Box,
-  Text,
-  Image,
-  Heading,
-  Sidebar,
-  Spinner,
-  Input,
-} from '../primitives'
-import Utils from '../components/Utils'
+import { Card, Button, Flex, Text, Heading, Input } from '../primitives'
 
 const Login = ({ actions, location, history }) => {
   const cPage = location.pathname
@@ -130,7 +118,9 @@ const Register = ({ actions, location, user, token, history }) => {
     >
       <Heading> Username Registration </Heading>
       <Text color="primary" p={2}>
-        {error ? error : 'To protect your identity, we only require a username to register.'}
+        {error
+          ? error
+          : 'To protect your identity, we only require a username to register.'}
       </Text>
       <Flex
         flexDirection="column"
@@ -159,7 +149,6 @@ const Register = ({ actions, location, user, token, history }) => {
 }
 
 const Authenticate = p => {
-
   if (p.user) {
     p.history.push('/profile')
     return <Text>Redirecting...</Text>
@@ -169,7 +158,6 @@ const Authenticate = p => {
   const l = <Login {...p} />
 
   const [page, setPage] = useState(null)
-  
 
   if (page) return page
   return (

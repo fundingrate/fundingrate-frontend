@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { Box, Text, Flex, Icon } from '../primitives'
+import { Box, Text, Flex } from '../primitives'
 import Assets from './Assets'
 
 const Footer = () => (

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
-import { } from 'styled-system'
+import {} from 'styled-system'
 import { Box, Flex } from '.'
 import theme from '../styles/theme'
 import posed from 'react-pose'

@@ -7,7 +7,6 @@ import Play from '../assets/images/icons/icon_play.svg'
 import Search from '../assets/images/icons/icon_search.svg'
 import Close from '../assets/images/icons/times.svg'
 
-
 import User from '../assets/images/icons/user.svg'
 import Edit from '../assets/images/icons/edit.svg'
 import Envelope from '../assets/images/icons/envelope.svg'
@@ -79,11 +78,18 @@ const sets = mapAssets({
     Telegram,
     Discord,
     Github,
-  }
+  },
 })
 
 sets.Logos = {
-  MainLogoWhite: p => <Image src={Logos.color_logo_transparent} width={240} height={40} backgroundSize="180%" />
+  MainLogoWhite: p => (
+    <Image
+      src={Logos.color_logo_transparent}
+      width={240}
+      height={40}
+      backgroundSize="180%"
+    />
+  ),
 }
 
 export default sets

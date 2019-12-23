@@ -1,7 +1,5 @@
 import React from 'react'
 
-const TokenAuth = p => {
-
-}
+const TokenAuth = p => {}
 
 export default TokenAuth

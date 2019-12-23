@@ -40,14 +40,14 @@ export default async (baseURL, token) => {
         return data
       },
       setLocalStorage: (k, v) => {
-        window.localStorage.setItem(k, v);
+        window.localStorage.setItem(k, v)
       },
       getLocalStorage: k => {
-        return localStorage.getItem(k);
+        return localStorage.getItem(k)
       },
       deleteLocalStorage: k => {
         return localStorage.removeItem(k)
-      }
+      },
     }
   }, {})
 }

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-
-
 import brace from 'brace'
 import 'brace/mode/json'
 import 'brace/theme/monokai'
 import AceEditor from 'react-ace'
 
-import {Text} from '../primitives'
+import { Text } from '../primitives'
 
 const Editor = ({ onConfirm, children, getFunc }) => {
   const [schema, setSchema] = useState({})

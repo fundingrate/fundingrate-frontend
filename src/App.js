@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 // Pages

@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Flex, Box } from "./";
+import styled from 'styled-components'
+import { Flex, Box } from './'
 
-import theme from "../styles/theme";
+import theme from '../styles/theme'
 
 const Page = styled(Flex)`
   // margin: 0 auto;
@@ -29,14 +29,14 @@ const Page = styled(Flex)`
   ::-webkit-scrollbar-track {
     background-color: ${theme.colors.black};
   }
-`;
+`
 
-Page.displayName = "Page";
+Page.displayName = 'Page'
 
 Page.defaultProps = {
-  flexDirection: "column",
+  flexDirection: 'column',
   // justifyContent: 'center',
-  alignItems: 'center'
-};
+  alignItems: 'center',
+}
 
-export default Page;
+export default Page

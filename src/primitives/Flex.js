@@ -26,7 +26,7 @@ const Flex = styled(Box)`
 
 Flex.displayName = 'Flex'
 
-Flex.Content = ({children, ...p}) => {
+Flex.Content = ({ children, ...p }) => {
   return (
     <Flex
       flexDirection="column"

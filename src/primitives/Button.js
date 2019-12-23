@@ -1,6 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, textAlign, fontSize, space, width, themeGet } from 'styled-system'
+import {
+  color,
+  textAlign,
+  fontSize,
+  space,
+  width,
+  themeGet,
+} from 'styled-system'
 
 import theme from '../styles/theme'
 
@@ -157,7 +164,7 @@ const Button = styled(Text)`
 Button.defaultProps = {
   py: 2,
   px: 3,
-  fontSize: 2
+  fontSize: 2,
 }
 
 Button.displayName = 'Button'

@@ -10,11 +10,10 @@ import Theme from './Theme'
 import Utils from './components/Utils'
 
 const START = async p => {
-
   // render the loading page for now...
   ReactDOM.render(
     <Theme>
-      <Utils.LoadingPage bg='backing'/>
+      <Utils.LoadingPage bg="backing" />
     </Theme>,
     document.getElementById('app')
   )
@@ -40,4 +39,4 @@ const START = async p => {
   )
 }
 
-START();
+START()

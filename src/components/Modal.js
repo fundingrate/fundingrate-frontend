@@ -25,30 +25,41 @@ const WiredModal = ({
   ...p
 }) => {
   return (
-    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4} >
+    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4}>
       <Flex
         width={1}
         p={3}
         alignItems="center"
         bg="backing"
         borderBottom="1px solid rgba(0, 0, 0, 0.5)"
-        boxShadow='4px 0px 4px 0px rgba(0, 0, 0, 0.2)'
+        boxShadow="4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
       >
         <Text.Heading fontSize={6}>{title}</Text.Heading>
         <Box mx="auto" />
-        <Assets.Icons.Close onClick={onClose} clickable style={{ cursor: 'pointer' }} />
+        <Assets.Icons.Close
+          onClick={onClose}
+          clickable
+          style={{ cursor: 'pointer' }}
+        />
       </Flex>
       <Divider />
-      <Flex m={2} width={1} justifyContent="center" style={{
-        overflow: 'hidden',
-        overflowY: 'auto'
-      }}>{children}</Flex>
+      <Flex
+        m={2}
+        width={1}
+        justifyContent="center"
+        style={{
+          overflow: 'hidden',
+          overflowY: 'auto',
+        }}
+      >
+        {children}
+      </Flex>
       <Divider />
       <Flex
         width={1}
         p={3}
         borderTop="1px solid rgba(0, 0, 0, 0.5)"
-        boxShadow='-4px 0px 4px 0px rgba(0, 0, 0, 0.2)'
+        boxShadow="-4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
       >
         {onSearch && <Search onSearch={onSearch} />}
         <Box mx="auto" />
