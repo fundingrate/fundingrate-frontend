@@ -18,7 +18,7 @@ const Sidebar = styled(Flex)`
 `
 
 Sidebar.defaultProps = {
-  p: 4,
+  p: 3,
   height: '100%',
   flexDirection: 'column',
   boxShadow: "2px 0px 2px -2px rgba(0, 0, 0, 0.2)",

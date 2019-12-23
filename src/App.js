@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 // Pages
 import Pages from './pages'
 import Layout from './Layout'
+// import { LoadingPage } from './components/Utils'
 
 const App = ({ actions, user, token }) => {
   return (

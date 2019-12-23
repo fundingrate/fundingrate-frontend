@@ -48,8 +48,6 @@ const type = props => {
           font-weight: bold;
           opacity: 0.8
         };
-
-        
       `
     case 'magic':
       return `
@@ -159,7 +157,7 @@ const Button = styled(Text)`
 Button.defaultProps = {
   py: 2,
   px: 3,
-  fontSize: 3
+  fontSize: 2
 }
 
 Button.displayName = 'Button'

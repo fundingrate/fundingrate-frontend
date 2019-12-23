@@ -50,6 +50,14 @@ const SideNav = ({ user, links, onClick }) => {
               </Button>
             )
           }
+          case '/providers': {
+            if (!user) return null
+            return (
+              <Button key={href} textAlign="left" fontSize={4} type="simple" onClick={e => onClick(href)}>
+              - {label}
+              </Button>
+            )
+          }
           default:
             return (
               <Button key={href} textAlign="left" fontSize={4} key={label} type="simple" onClick={e => onClick(href)}>

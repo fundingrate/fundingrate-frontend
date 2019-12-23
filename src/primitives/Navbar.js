@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text } from './index'
+import { Flex, Button, Text } from './index'
 
 const Navbar = ({ links, onClick, cPage, fixedVertical }) => {
   // LINK: { label: 'Home', href: '/home' }
@@ -18,17 +18,18 @@ const Navbar = ({ links, onClick, cPage, fixedVertical }) => {
       {links.map(({ href, label }) => {
         const active = cPage === href
         return (
-          <Text.Link
+          <Button
+            type='simple'
             active={active}
             key={href + label}
-            fontSize={[2,4]}
+            fontSize={3}
             onClick={e => onClick(href)}
             href={href}
             mx={2}
-            p={3}
+            p={2}
           >
             {label}
-          </Text.Link>
+          </Button>
         )
       })}
     </Flex>
