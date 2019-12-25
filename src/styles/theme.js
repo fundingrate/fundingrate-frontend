@@ -27,7 +27,7 @@ const colors = {
   // orange: '#FB6C2B',
   orange: '#f78e1e',
   foregroundBacking: '#252B31',
-  // text: "#52565A",
+  textOther: "#52565A",
   backing: '#191E23',
   darkBacking: '#171C20',
   consumer: '#B0C3D9',

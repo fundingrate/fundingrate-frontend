@@ -1,85 +1,59 @@
-import React from 'react'
-
-import Popular from '../assets/images/icons/icon_popular.svg'
-import BestOffers from '../assets/images/icons/icon_offer.svg'
-import Trusted from '../assets/images/icons/icon_trusted.svg'
-import Play from '../assets/images/icons/icon_play.svg'
-import Search from '../assets/images/icons/icon_search.svg'
-import Close from '../assets/images/icons/times.svg'
-
-import User from '../assets/images/icons/user.svg'
-import Edit from '../assets/images/icons/edit.svg'
-import Envelope from '../assets/images/icons/envelope.svg'
-import Key from '../assets/images/icons/key.svg'
-
-// processors
-import Bitcoin from '../assets/images/processors/Bitcoin.svg'
-import Mastercard from '../assets/images/processors/Mastercard.svg'
-import PayPal from '../assets/images/processors/PayPal.svg'
-import Visa from '../assets/images/processors/Visa.svg'
-
-// import Logo from "../assets/images/P2P.svg";
-// import Banner01 from "../assets/images/banner01.png";
+import React from "react";
 
 // Social
-import Twitter from '../assets/images/icons/twitter.svg'
-// import Steam from '../assets/images/icons/steam.svg'
-// import Twitch from '../assets/images/icons/twitch.svg'
-import Telegram from '../assets/images/icons/telegram.svg'
-import Github from '../assets/images/icons/github.svg'
-import Discord from '../assets/images/icons/discord.svg'
+import Twitter from "../assets/images/icons/twitter.svg";
+import Telegram from "../assets/images/icons/telegram.svg";
+import Github from "../assets/images/icons/github.svg";
+import Discord from "../assets/images/icons/discord.svg";
+import ChipsLogoLight from "../assets/images/logos/chips_light.png";
 
-import Logos from '../assets/images/logos/*.svg'
+import Logos from "../assets/images/logos/*.svg";
+import Icons from "../assets/images/icons/*.svg";
+import Processors from "../assets/images/processors/*.svg";
 
-import { Box, Icon, Image } from '../primitives'
-import theme from '../styles/theme'
+import { Box, Icon, Image } from "../primitives";
+import theme from "../styles/theme";
 
 const mapAssets = tree => {
   return Object.keys(tree).reduce((memo, k) => {
-    const _k = k.toLowerCase()
-    const value = tree[k]
-    const bg = Object.keys(theme.colors).includes(_k) ? _k : 'primary'
+    const _k = k.toLowerCase();
+    const value = tree[k];
+    const bg = Object.keys(theme.colors).includes(_k) ? _k : "primary";
 
-    if (typeof value === 'object') {
-      memo[k] = mapAssets(value)
+    if (typeof value === "object") {
+      memo[k] = mapAssets(value);
     } else {
-      memo[k] = p => <Icon size={28} {...p} src={value} bg={bg} />
+      memo[k] = p => <Icon size={28} bg={bg} {...p} src={value} />;
     }
 
-    return memo
-  }, {})
-}
+    return memo;
+  }, {});
+};
 
 const sets = mapAssets({
   // Logo,
+  Processors,
   Icons: {
-    Close,
-    Popular,
-    BestOffers,
-    Trusted,
-    Play,
-    User,
-    Envelope,
-    Edit,
-    Key,
-    Search,
-  },
-  Processors: {
-    Bitcoin,
-    Mastercard,
-    PayPal,
-    Visa,
-  },
-  Banners: {
-    // Banner01
+    Linux: Icons.linux,
+    Close: Icons.times,
+    Popular: Icons.icon_popular,
+    BestOffers: Icons.icon_offer,
+    Trusted: Icons.icon_trusted,
+    Play: Icons.icon_play,
+    User: Icons.user,
+    Envelope: Icons.envelope,
+    Edit: Icons.edit,
+    Key: Icons.key,
+    Search: Icons.icon_search,
+    Help: Icons.concierge_bell
   },
   Social: {
     Twitter,
     Telegram,
     Discord,
-    Github,
-  },
-})
+    Github
+  }
+});
 
 sets.Logos = {
   MainLogoWhite: p => (
@@ -90,6 +64,14 @@ sets.Logos = {
       backgroundSize="180%"
     />
   ),
-}
+  Chips: p => (
+    <Image
+      src={ChipsLogoLight}
+      width={200}
+      height={32}
+      backgroundSize="100%"
+    />
+  )
+};
 
-export default sets
+export default sets;

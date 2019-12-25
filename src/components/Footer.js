@@ -32,13 +32,23 @@ export default p => {
       >
         <Assets.Social.Discord mx={2} /> Discord
       </Button>
+      <Button
+        as={Flex}
+        alignItems="center"
+        type="simple"
+        onClick={e => navigateTo("Support")}
+      >
+        <Assets.Icons.Help mx={2}  bg="consumer" /> Support
+      </Button>
       <Box mx="auto" />
-      <Text.Link as="a" target="_blank" href="https://tacyarg.com/">
-        Tacyarg.com
-      </Text.Link>
-      {/* <Text.Link as="a" target="_blank" href="https://chips.gg/">
-    Maintained by: Chips.gg
-  </Text.Link> */}
+      <Button
+        as={Flex}
+        alignItems="center"
+        type="simple"
+        onClick={e => navigateTo("https://chips.gg")}
+      >
+         <Assets.Logos.Chips />
+      </Button>
     </Flex>
   );
 };
