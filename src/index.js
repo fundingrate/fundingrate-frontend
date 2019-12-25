@@ -18,13 +18,13 @@ const START = async p => {
     document.getElementById('app')
   )
 
-  let actions = await Actions('https://api.fundingrate.io', null)
+  let actions = await Actions('https://api.fundingrate.io/v1', null)
 
   // if we have a token saved authenticate the user.
   const token = await actions.getLocalStorage('token')
   let user = null
   if (token) {
-    actions = await Actions('https://api.fundingrate.io', token)
+    actions = await Actions('https://api.fundingrate.io/v1', token)
     user = await actions.me() // authenticate the user
   }
 
