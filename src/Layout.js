@@ -20,13 +20,18 @@ const SideNav = ({ user, links, onClick }) => {
         // console.log(user)
         switch (href) {
           case '/authenticate': {
-            return <></>
-            // if (user) return null
-            // return (
-            //   <Button key={label} type="primary" onClick={e => onClick(href)}>
-            //     {label}
-            //   </Button>
-            // )
+            if (user) return null
+            return (
+              <Button
+                key={href}
+                textAlign="left"
+                fontSize={4}
+                type="simple"
+                onClick={e => onClick(href)}
+              >
+                - {label}
+              </Button>
+            )
           }
           case '/profile': {
             if (!user) return null
@@ -99,7 +104,7 @@ const Layout = ({ user, children, onClick }) => {
         justifyContent="center"
         // alignItems="center"
       >
-        <Header heading={'v1.2.7-beta'}>
+        {/* <Header>
           {user ? (
             <Text fontSize={[2, 4]}>{user.username}</Text>
           ) : (
@@ -107,7 +112,7 @@ const Layout = ({ user, children, onClick }) => {
               Login / Register
             </Button>
           )}
-        </Header>
+        </Header> */}
         <Page flex={1}>{children}</Page>
         <Footer />
       </Flex>

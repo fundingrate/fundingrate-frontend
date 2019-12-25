@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text, Flex, Box } from '../primitives'
 
-const Header = ({ children, heading = 'v1.0.0' }) => {
+const Header = ({ children, heading }) => {
   return (
     <Flex
       bg="foregroundBacking"

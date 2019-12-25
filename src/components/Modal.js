@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Flex, Box, Text, Button, Modal, Divider } from '../primitives'
+import React, { useState, useEffect } from "react";
+import { Flex, Box, Text, Button, Modal, Divider, Input } from "../primitives";
 
-import Assets from './Assets'
-import Utils from './Utils'
+import Assets from "./Assets";
+import Utils from "./Utils";
 
 const Amount = ({ amount = 0 }) => {
   return (
@@ -10,13 +10,13 @@ const Amount = ({ amount = 0 }) => {
       <Box mx={1}> | </Box>
       {Utils.parseValue(amount)}
     </>
-  )
-}
+  );
+};
 
 const WiredModal = ({
   children,
   isOpen,
-  title = 'Ello Moto',
+  title = "Ello Moto",
   onSearch,
   onConfirm,
   onClose,
@@ -39,7 +39,7 @@ const WiredModal = ({
         <Assets.Icons.Close
           onClick={onClose}
           clickable
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         />
       </Flex>
       <Divider />
@@ -48,8 +48,8 @@ const WiredModal = ({
         width={1}
         justifyContent="center"
         style={{
-          overflow: 'hidden',
-          overflowY: 'auto',
+          overflow: "hidden",
+          overflowY: "auto"
         }}
       >
         {children}
@@ -78,7 +78,138 @@ const WiredModal = ({
         </Button>
       </Flex>
     </Modal>
-  )
-}
+  );
+};
 
-export default WiredModal
+WiredModal.Button = ({
+  title = "Some Modal Dialog",
+  label = "Open Modal",
+  children
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = s => {
+    return setIsModalOpen(!isModalOpen);
+  };
+
+  return (
+    <>
+      <Modal
+        title={title}
+        isOpen={isModalOpen}
+        onConfirm={toggleModal}
+        onClose={toggleModal}
+      >
+        {children}
+      </Modal>
+      <Button m={2} type="warning" onClick={toggleModal}>
+        {label}
+      </Button>
+    </>
+  );
+};
+
+WiredModal.FAQ = p => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = s => {
+    return setIsModalOpen(!isModalOpen);
+  };
+
+  return (
+    <>
+      <WiredModal
+        title="Provider FAQ"
+        isOpen={isModalOpen}
+        onConfirm={toggleModal}
+        onClose={toggleModal}
+      >
+        <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/ee3ffe27874dcf9505e956bab6ea6f0e/raw/provider_FAQ.md" />
+      </WiredModal>
+      <Button m={2} type="warning" onClick={toggleModal}>
+        Help
+      </Button>
+    </>
+  );
+};
+
+WiredModal.CreateProvider = ({ actions }) => {
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [state, setState] = useState({});
+  const [provider, setProvider] = useState(null);
+
+  const setProp = (k, v) => {
+    return setState({
+      ...state,
+      [k]: v
+    });
+  };
+
+  const toggleModal = s => {
+    setProvider(null);
+    setState({});
+    return setIsModalOpen(!isModalOpen);
+  };
+
+  const CreateProvider = async p => {
+    if (!state.username) return;
+    if (!state.description) return;
+    if (state.username.length < 3) return;
+    if (state.description.length < 10) return;
+    setLoading(true);
+    await actions
+      .createProvider(state)
+      .then(setProvider)
+      .catch(console.error);
+    setLoading(false);
+  };
+
+  return (
+    <>
+      <WiredModal
+        loading={loading}
+        title="Create New Provider"
+        isOpen={isModalOpen}
+        onConfirm={CreateProvider}
+        onClose={toggleModal}
+      >
+        <Flex m={4} width={2 / 3} flexDirection="column" alignItems="center">
+          {provider ? (
+            <>
+              <Text color="red" fontSize={3} p={3}>
+                Please ensure you save this information or risk losing your
+                account.
+              </Text>
+              <Utils.DownloadJson data={provider} />
+              <Utils.RenderObject label="Provider" data={provider.provider} />
+              <Utils.RenderObject label="Token" data={provider.token} />
+            </>
+          ) : (
+            <>
+              <Input
+                label="Username:"
+                placeholder="Super Secret Signals #42069"
+                onChange={e => setProp("username", e.target.value)}
+                value={state.username}
+              />
+              <Box my={1} />
+              <Input
+                label="Description:"
+                placeholder="Uses top secret sauce to provide accurate signals!"
+                onChange={e => setProp("description", e.target.value)}
+                value={state.description}
+              />
+            </>
+          )}
+        </Flex>
+      </WiredModal>
+      <Button m={2} type="primary" onClick={toggleModal}>
+        Create New Provider
+      </Button>
+    </>
+  );
+};
+
+export default WiredModal;

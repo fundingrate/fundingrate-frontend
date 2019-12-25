@@ -10,7 +10,7 @@ const App = ({ actions, user, token }) => {
   return (
     <>
       <Switch>
-        <Redirect exact from="/" to="/home" />
+        <Redirect exact from="/" to="/authenticate" />
 
         {Object.keys(Pages).map(pageKey => {
           const Page = Pages[pageKey]
