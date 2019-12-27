@@ -748,6 +748,12 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@daywiss/utils@https://github.com/daywiss/utils":
+  version "0.0.1"
+  resolved "https://github.com/daywiss/utils#4d62f63fa8ca06af23c51c1dab2bc0027ba799f6"
+  dependencies:
+    lodash "^4.17.15"
+
 "@emotion/is-prop-valid@^0.7.3":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.7.3.tgz#a6bf4fa5387cbba59d44e698a4680f481a8da6cc"
@@ -5483,6 +5489,12 @@ react-visibility-sensor@^5.1.1:
   dependencies:
     prop-types "^15.7.2"
 
+"react-wiring@https://github.com/daywiss/react-wiring.git#3.0.1":
+  version "3.0.0"
+  resolved "https://github.com/daywiss/react-wiring.git#108ba3bc8667436bf3a4eda48ed15a8a1367abbc"
+  dependencies:
+    lodash "^4.17.15"
+
 react@>=16.0.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
@@ -7241,6 +7253,12 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+
+"ws-api-client@https://github.com/daywiss/ws-api-client.git#2.0":
+  version "1.0.0"
+  resolved "https://github.com/daywiss/ws-api-client.git#d3ad18138c9125236f5673fc3fcafced837aef29"
+  dependencies:
+    "@daywiss/utils" "https://github.com/daywiss/utils"
 
 ws@^5.1.1:
   version "5.2.2"
