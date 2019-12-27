@@ -105,7 +105,7 @@ const Providers = ({ actions, location }) => {
           <Modal.FAQ />
         </Flex>
       </Flex>
-      <Flex
+      {/* <Flex
         width={1}
         m={2}
         alignItems="center"
@@ -121,7 +121,7 @@ const Providers = ({ actions, location }) => {
             </Text>
           </Flex>
         ))}
-      </Flex>
+      </Flex> */}
       {state.length > 0 ? (
         state
           .sort((x, y) => {
