@@ -31,9 +31,13 @@ const START = async p => {
   // start the main react app.
   return ReactDOM.render(
     <Theme>
-      <HashRouter>
-        <App actions={actions} user={user} token={token} />
-      </HashRouter>
+      <BrowserRouter>
+        <Route
+          render={p => (
+            <App {...p} actions={actions} user={user} token={token} />
+          )}
+        />
+      </BrowserRouter>
     </Theme>,
     document.getElementById('app')
   )

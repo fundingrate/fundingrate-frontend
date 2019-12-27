@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Button, Flex, Text, Heading, Input } from '../primitives'
+import { Card, Box, Button, Flex, Text, Heading, Input } from '../primitives'
+import { Assets } from '../components'
 
 const Login = ({ actions, location, history }) => {
   const cPage = location.pathname
@@ -161,23 +162,26 @@ const Authenticate = p => {
 
   if (page) return page
   return (
-    <Flex
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="100%"
-      p={4}
-      width={[1, 2 / 3]}
-    >
-      <Heading>Have you been here before?</Heading>
-      <Card flexDirection="column" m={2}>
-        <Button type="simple" onClick={e => setPage(r)}>
-          I need to register my username.
-        </Button>
-        <Button type="simple" onClick={e => setPage(l)}>
-          I already have a account.
-        </Button>
-      </Card>
+    <Flex alignItems="center" justifyContent="center" height="100%" width={1}>
+      <Button
+        as={Flex}
+        alignItems="center"
+        type="card"
+        onClick={e => setPage(l)}
+      >
+        <Assets.Icons.Login mr={3} /> Login
+      </Button>
+      <Text mx={2} color="subtext" fontSize={1}>
+        OR
+      </Text>
+      <Button
+        as={Flex}
+        alignItems="center"
+        type="card"
+        onClick={e => setPage(r)}
+      >
+        <Assets.Icons.Signup mr={3} /> Signup
+      </Button>
     </Flex>
   )
 }

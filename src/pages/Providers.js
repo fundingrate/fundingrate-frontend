@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Card, Flex, Box, Text, Input } from "../primitives";
-import { Utils, Modal, Graph } from "../components";
-import CountUp from "react-countup";
+import React, { useEffect, useState } from 'react'
+import { Card, Flex, Box, Text, Input } from '../primitives'
+import { Utils, Modal, Graph } from '../components'
+import CountUp from 'react-countup'
 
 const SearchInput = ({ onSearch = x => x }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('')
 
-  const debouncedSearchTerm = Utils.useDebounce(search, 500);
+  const debouncedSearchTerm = Utils.useDebounce(search, 500)
   useEffect(() => {
-    onSearch(search);
-  }, [debouncedSearchTerm]);
+    onSearch(search)
+  }, [debouncedSearchTerm])
 
   return (
     <Input
@@ -17,70 +17,70 @@ const SearchInput = ({ onSearch = x => x }) => {
       value={search}
       onChange={e => setSearch(e.target.value)}
     />
-  );
-};
+  )
+}
 
 const Providers = ({ actions, location }) => {
-  const cPage = location.pathname;
+  const cPage = location.pathname
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [state, setState] = useState([]);
-  const [cache, setCache] = useState([]);
-  const [stats, setStats] = useState([]);
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [state, setState] = useState([])
+  const [cache, setCache] = useState([])
+  const [stats, setStats] = useState([])
 
   useEffect(() => {
     actions
       .listMyProviders()
       .then(s => {
-        setState(s);
-        setCache(s);
-        setLoading(false);
+        setState(s)
+        setCache(s)
+        setLoading(false)
       })
       .catch(e => {
-        setError(e);
-        setLoading(false);
-      });
-  }, []);
+        setError(e)
+        setLoading(false)
+      })
+  }, [])
 
   useEffect(() => {
     const valueProps = [
-      "longs",
-      "shorts",
-      "totalTrades",
-      "longProfit",
-      "shortProfit",
-      "profit"
-    ];
+      'longs',
+      'shorts',
+      'totalTrades',
+      'longProfit',
+      'shortProfit',
+      'profit',
+    ]
     const memo = state.reduce((memo, data, idx) => {
       if (idx === 0) {
         valueProps.map(v => {
           memo[v] = {
             label: v,
-            value: data.stats[v]
-          };
-        });
+            value: data.stats[v],
+          }
+        })
       } else {
         valueProps.map(v => {
-          memo[v].value += data.stats[v];
-        });
+          memo[v].value += data.stats[v]
+        })
       }
 
-      return memo;
-    }, {});
+      return memo
+    }, {})
 
-    console.log("STATS", memo);
+    console.log('STATS', memo)
 
-    setStats(Object.values(memo));
-  }, [state]);
+    setStats(Object.values(memo))
+  }, [state])
 
   const handleSearch = st => {
-    console.log("searching for:", st);
-    if (!st) return setState(cache);
-    const r = state.filter(o => Utils.searchProps(o, st));
-    console.log("search results:", r);
-    setState(r);
-  };
+    console.log('searching for:', st)
+    if (!st) return setState(cache)
+    const r = state.filter(o => Utils.searchProps(o, st))
+    console.log('search results:', r)
+    setState(r)
+  }
 
   return loading ? (
     <Utils.LoadingPage />
@@ -96,7 +96,7 @@ const Providers = ({ actions, location }) => {
         width={1}
         m={4}
         alignItems="center"
-        flexDirection={["column", "row"]}
+        flexDirection={['column', 'row']}
       >
         <SearchInput onSearch={handleSearch} />
         <Box mx={4} />
@@ -110,13 +110,13 @@ const Providers = ({ actions, location }) => {
         m={2}
         alignItems="center"
         style={{
-          overflowX: "auto"
+          overflowX: 'auto',
         }}
       >
         {stats.map(s => (
           <Flex alignItems="center" mx={2}>
             {s.label.toUpperCase()}: <Box mx={1} />
-            <Text color={s.value > 0 ? "lime" : "red"}>
+            <Text color={s.value > 0 ? 'lime' : 'red'}>
               <CountUp separator="," end={s.value} />
             </Text>
           </Flex>
@@ -125,7 +125,7 @@ const Providers = ({ actions, location }) => {
       {state.length > 0 ? (
         state
           .sort((x, y) => {
-            return x.stats.profit > y.stats.profit ? -1 : 1;
+            return x.stats.profit > y.stats.profit ? -1 : 1
           })
           .map((data, idx) => {
             return (
@@ -136,7 +136,7 @@ const Providers = ({ actions, location }) => {
                 // bg="darkBacking"
                 // borderRadius={2}
               >
-                <Flex flexDirection={["column", "column", "column", "row"]}>
+                <Flex flexDirection={['column', 'column', 'column', 'row']}>
                   <Utils.RenderObject
                     heading={data.username.toUpperCase()}
                     data={data}
@@ -150,7 +150,7 @@ const Providers = ({ actions, location }) => {
                   </Utils.RenderObject>
                   <Flex
                     width={[1, 1, 1, 1 / 3]}
-                    flexDirection={["column", "column", "row", "column"]}
+                    flexDirection={['column', 'column', 'row', 'column']}
                   >
                     <Utils.RenderObject
                       heading="Current Stats"
@@ -165,7 +165,7 @@ const Providers = ({ actions, location }) => {
                   </Flex>
                 </Flex>
               </Box>
-            );
+            )
           })
       ) : (
         <Card flexDirection="column" m={2}>
@@ -173,7 +173,7 @@ const Providers = ({ actions, location }) => {
         </Card>
       )}
     </Flex>
-  );
-};
+  )
+}
 
-export default Providers;
+export default Providers

@@ -4,9 +4,9 @@ import { Flex, Divider, Text } from './index'
 const Heading = props => (
   <Flex py={2} justifyContet="center" alignItems="center" width={1}>
     <Divider />
-    <Text minWidth="fit-content" fontSize={6} mx={4}>
+    <Text.Heading minWidth="fit-content" fontSize={7} mx={4}>
       {props.children}
-    </Text>
+    </Text.Heading>
     <Divider />
   </Flex>
 )
