@@ -10,9 +10,10 @@
 import React from "react";
 import { Flex, Box, Text } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
-import { Utils } from '../components'
+import { Utils } from "../components";
 
 export default p => {
-  const [state,dispatch] = useWiring()
-  return <Utils.RenderObject data={state} />
+  const [{actions, ...s}, dispatch] = useWiring();
+  // actions.private.me().then(console.log)
+  return <Utils.RenderObject data={s} />;
 };

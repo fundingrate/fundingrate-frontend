@@ -1,5 +1,6 @@
 export default {
     init(state,props){
+      console.log('init', state, props)
       return {
         ...state,
         ...props

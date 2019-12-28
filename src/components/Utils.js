@@ -76,6 +76,10 @@ const RenderObject = ({ heading, data, children, ...p }) => {
 const renderProp = (value, type) => {
   // console.log('render', typeof value, value)
   switch (type || typeof value) {
+    case 'function':
+      return '[function]'
+    // case 'object':
+      // return renderProp(Object.keys(value))
     case 'time':
       return moment(value).calendar()
     case 'boolean':

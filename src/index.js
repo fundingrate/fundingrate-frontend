@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, HashRouter, Switch, Route } from "react-router-dom";
-import Actions from "./libs/actions";
 import App from "./App";
 import Theme from "./Theme";
 import Utils from "./components/Utils";
@@ -62,6 +61,7 @@ async function init() {
         store.dispatch('showSuccess','Server Online')
         Authenticate(actions, window.localStorage.getItem("tokenid"))
           .then(result => {
+            console.log('authenticated', result)
             store.dispatch("setAuth", result);
           })
           .catch(store.curry("showError"));
@@ -73,6 +73,7 @@ async function init() {
     actions,
     window.localStorage.getItem("tokenid")
   );
+
   return { userid, token: tokenid, actions, Authenticate, config };
 }
 
@@ -87,6 +88,7 @@ ReactDOM.render(
 init()
   .then(store.curry("init"))
   .then(libs => {
+    console.log('libs', libs)
     return ReactDOM.render(
       <Theme>
         <BrowserRouter>
