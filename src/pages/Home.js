@@ -13,7 +13,24 @@ import { useWiring, store } from "../libs/wiring";
 import { Utils } from "../components";
 
 export default p => {
-  const [{actions, ...s}, dispatch] = useWiring();
-  // actions.private.me().then(console.log)
-  return <Utils.RenderObject data={s} />;
+  const [state, dispatch] = useWiring(["connected"]);
+  console.log("state", state);
+
+
+  state.actions.auth("login", { 
+    login: 'test7@test.com',
+    password: 'testies',
+    token: state.token
+   }).then(console.log);
+
+
+  return (
+    <Flex
+      height='100%'
+      flexDirection='center'
+      alignItems="center"
+    >
+      <Utils.RenderObject data={state} />
+    </Flex>
+  );
 };

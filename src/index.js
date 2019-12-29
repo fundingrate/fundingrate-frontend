@@ -46,23 +46,24 @@ async function init() {
       keepAlive: 10000
     },
     (type, state) => {
-
-      console.log('socket', type, state)
+      console.log("socket", type, state);
 
       if (type == "change") {
         return store.dispatch("setState", state, channels);
       }
       if (type == "close") {
-        return connect().catch(err =>
-          store.dispatch("showError", new Error("Server Offline"))
-        );
+        return connect().catch(err => {
+          store.dispatch("showError", new Error("Server Offline"));
+          // store.dispatch("setConnected", false);
+        });
       }
       if (type == "reconnect") {
-        store.dispatch('showSuccess','Server Online')
+        store.dispatch("showSuccess", "Server Online");
         Authenticate(actions, window.localStorage.getItem("tokenid"))
           .then(result => {
-            console.log('authenticated', result)
+            console.log("authenticated", result);
             store.dispatch("setAuth", result);
+            // store.dispatch("setConnected",  true);
           })
           .catch(store.curry("showError"));
       }
@@ -74,7 +75,14 @@ async function init() {
     window.localStorage.getItem("tokenid")
   );
 
-  return { userid, token: tokenid, actions, Authenticate, config };
+  return {
+    userid,
+    token: tokenid,
+    actions,
+    Authenticate,
+    config,
+    // connected: true
+  };
 }
 
 // RENDER LOADER WHILE THE SERVER FETCHES STATE.
@@ -88,7 +96,7 @@ ReactDOM.render(
 init()
   .then(store.curry("init"))
   .then(libs => {
-    console.log('libs', libs)
+    console.log("libs", libs);
     return ReactDOM.render(
       <Theme>
         <BrowserRouter>

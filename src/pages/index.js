@@ -7,8 +7,8 @@ import Authenticate from './Authenticate'
 
 export default {
   Home,
-  // Authenticate,
-  // Profile,
+  Authenticate,
+  Profile,
   // Providers,
   // Marketplace,
   // NotFound,

@@ -49,9 +49,6 @@ const RenderObject = ({ heading, data, children, ...p }) => {
       {valid ? (
         <>
           {Object.keys(data).map(k => {
-            if (typeof data[k] === 'object') return
-            // if (!data[k]) return
-
             return (
               <RenderObject.Prop
                 key={k}
@@ -78,8 +75,8 @@ const renderProp = (value, type) => {
   switch (type || typeof value) {
     case 'function':
       return '[function]'
-    // case 'object':
-      // return renderProp(Object.keys(value))
+    case 'object':
+      return '[object]' 
     case 'time':
       return moment(value).calendar()
     case 'boolean':

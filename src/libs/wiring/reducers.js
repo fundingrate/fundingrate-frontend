@@ -6,6 +6,12 @@ export default {
         ...props
       }
     },
+    setConnected(state, b=false) {
+      return {
+        ...state,
+        connected: b
+      }
+    },
     logout(state,props){
       window.localStorage.removeItem('token')
       window.location='/'
