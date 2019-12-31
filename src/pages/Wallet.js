@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Button, Text, Box, Flex, Divider, Input, Image } from "../primitives";
+import {
+  Button,
+  Text,
+  Box,
+  Flex,
+  Divider,
+  Input,
+  Image,
+  Card
+} from "../primitives";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Assets, Utils } from "../components";
+import { Inputs, Assets, Utils } from "../components";
 import { useWiring, store } from "../libs/wiring";
 
 const TitleBar = ({ onClick = x => x, label = "Wallet", children }) => {
@@ -145,8 +154,8 @@ const DepositGateways = ({ onClick = x => x }) => {
 };
 
 const Bitcoin = p => {
-  const [state, setState] = useWiring(["userid"]);
-  const { me, myWallet, commands } = state;
+  const [state, setState] = useWiring(["myWallet", "myCommands"]);
+  const { me, myWallet, myCommands } = state;
 
   const [loading, setLoading] = useState(false);
   const [tx, setTx] = useState(null);
@@ -164,36 +173,57 @@ const Bitcoin = p => {
 
   return (
     <Flex
-      width={1 / 2}
+      width={[1, 2 / 3]}
       my={4}
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
     >
-      <Text.Heading fontSize={8}>Process Transaction</Text.Heading>
+      <Text.Heading fontSize={8}>Wallet Transaction</Text.Heading>
       <Divider m={4} bg="offwhite" />
-      <Input
-        width={1}
-        label="Deposit Address:"
-        placeholder={"1APT1UoYgA8tJEnN1qe8rcvaN55NoASDju"}
-      >
-        <Button disabled={loading} type="primary" onClick={CreateTransaction}>
-          {loading ? <Utils.LoadingPage /> : "Claim Wallet"}
-        </Button>
-      </Input>
-      {tx && (
+      {!tx ? (
+          <>
+          {loading ? <Utils.LoadingPage /> : <Button disabled={loading} type="primary" onClick={CreateTransaction}>
+          Begin Transaction
+        </Button>}
+          </>
+        
+      ) : (
         <>
-          {commands[tx.id] && (
-            <Flex alignItems="center" m={2}>
-              {commands[tx.id].tx && (
-                <Image m={2} size={250} src={commands[tx.id].tx.qr} />
-              )}
-              <Utils.RenderObject
+          {myCommands[tx.id].tx && (
+            <Card m={2} alignItems="center" justifyContent="center">
+              <Image size={240} src={myCommands[tx.id].tx.qr} />
+              <Box mx={2} />
+              <Flex
+                // width={1}
                 m={2}
-                data={commands[tx.id]}
-                heading="Transaction Details:"
-              />
-            </Flex>
+                height={"100%"}
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Inputs.Copy
+                  flex={1}
+                  label="Send Exactly:"
+                  placeholder="0.01"
+                  value={myCommands[tx.id].tx.amount}
+                />
+                <Box m={2} />
+                <Inputs.Copy
+                  flex={1}
+                  label="To Address:"
+                  placeholder="1APT1UoYgA8tJEnN1qe8rcvaN55NoASDju"
+                  value={myCommands[tx.id].tx.to}
+                />
+                <Box my={3} />
+                <Text color="subtext" m={2}>
+                  Current Transaction State: {myCommands[tx.id].state}.
+                </Text>
+                <Text color="subtext" m={1}>
+                  Last updated @ {Utils.renderProp(myCommands[tx.id].updated, 'time')} with a total of {myCommands[tx.id].tries} attempt(s).
+                </Text>
+              </Flex>
+            </Card>
           )}
         </>
       )}

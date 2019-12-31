@@ -45,21 +45,13 @@ export default ({ actions, location, token, history }) => {
           label="USERID: "
           placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
           value={state.user.id}
-        >
-          <Button onClick={e => copy(state.user.id)} type="simple">
-            Copy
-          </Button>
-        </Inputs.Copy>
+        />
         <Box my={2} />
         <Inputs.Copy
           label="TOKENID: "
           placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
           value={state.token}
-        >
-          <Button onClick={e => copy(state.token)} type="simple">
-            Copy
-          </Button>
-        </Inputs.Copy>
+        />
         <Box my={2} />
         <Flex alignItems="center">
           {state.token && <Utils.DownloadJson data={state} />}

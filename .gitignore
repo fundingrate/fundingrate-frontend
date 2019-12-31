@@ -92,3 +92,4 @@ typings/
 /dist
 config.*
 config_*
+.zip
