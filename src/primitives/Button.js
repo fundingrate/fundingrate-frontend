@@ -1,24 +1,24 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 import {
   color,
   textAlign,
   fontSize,
   space,
   width,
-  themeGet,
-} from 'styled-system'
+  themeGet
+} from "styled-system";
 
-import theme from '../styles/theme'
+import theme from "../styles/theme";
 
-import Text from './Text'
-import Flex from './Flex'
+import Text from "./Text";
+import Flex from "./Flex";
 
 // console.log(theme);
 
 const type = props => {
   switch (props.type) {
-    case 'primary':
+    case "primary":
       return `
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
           background-color: rgba(0,0,0,0);
@@ -35,8 +35,8 @@ const type = props => {
           &:focus {
               opacity: 0.8
           };
-        `
-    case 'attention':
+        `;
+    case "attention":
       return `
         box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
         background-color: rgba(0,0,0,0);
@@ -55,8 +55,21 @@ const type = props => {
           font-weight: bold;
           opacity: 0.8
         };
-      `
-    case 'magic':
+      `;
+    case "offwhite":
+      return `
+        box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+        color: ${theme.colors.backingDark};
+        border: ${theme.colors.offwhiteBorder} ${theme.borders.normal};
+        // background-color: ${theme.colorStyles.textOnPrimary.bgColor};
+        background-image: linear-gradient(290deg, ${theme.colors.offwhiteBorder}, ${theme.colors.offwhite});
+        
+        &:hover,
+        &:focus {
+            opacity: 0.8
+        };
+      `;
+    case "magic":
       return `
         background-color: rgba(0,0,0,0);
         color: ${theme.colors.offwhite};
@@ -66,8 +79,8 @@ const type = props => {
         &:focus {
           opacity: 0.8
         };
-      `
-    case 'warning':
+      `;
+    case "warning":
       return `
         box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
         color: ${theme.colorStyles.textOnPrimary.color};
@@ -78,8 +91,8 @@ const type = props => {
         &:focus {
             opacity: 0.8
         };
-      `
-    case 'simple':
+      `;
+    case "simple":
       return `
         background-color: rgba(0,0,0,0);
         color: ${theme.colors.lightGray};
@@ -88,8 +101,8 @@ const type = props => {
           box-shadow: 0px 2px 4px -4px ${theme.colors.primary};
           color: ${props.disabled ? null : theme.colors.primary};
         };
-    `
-    case 'card':
+    `;
+    case "card":
       return `
         background-color: ${theme.colors.card};
         color: ${theme.colors.lightGray};
@@ -98,8 +111,8 @@ const type = props => {
           box-shadow: 0px 2px 4px -4px ${theme.colors.primary};
           color: ${props.disabled ? null : theme.colors.primary};
         };
-    `
-    case 'simple-icon':
+    `;
+    case "simple-icon":
       return `
         background-color: rgba(0,0,0,0);
         color: ${theme.colors.lightGray};
@@ -116,8 +129,8 @@ const type = props => {
           color: ${props.disabled ? null : theme.colors.primary};
           background-color: ${props.disabled ? null : theme.colors.primary};
         };
-    `
-    case 'simple-shaded':
+    `;
+    case "simple-shaded":
       return `
         background-color: rgba(0,0,0,0.5);
         color: ${theme.colors.darkGray};
@@ -126,7 +139,7 @@ const type = props => {
           box-shadow: 0px 2px 4px -4px ${theme.colors.primary};
           color: ${props.disabled ? null : theme.colors.primary}
         };
-    `
+    `;
     default:
       return `
           background-color: rgba(0,0,0,0);
@@ -136,7 +149,7 @@ const type = props => {
           &:focus {
             background-color: ${props.disabled ? null : theme.colors.lightGray}
           };
-      `
+      `;
     // return `
     //   &:hover,
     //   &:focus {
@@ -146,17 +159,17 @@ const type = props => {
     //   }
     // `;
   }
-}
+};
 
 const disabled = () => {
   return `
     pointer: not-allowed;
-  `
-}
+  `;
+};
 
 const Button = styled(Text)`
   text-transform: uppercase;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   border-radius: ${theme.radii.normal};
   border: none;
   outline: none;   
@@ -181,7 +194,7 @@ const Button = styled(Text)`
 	${width}
   ${type}
   ${textAlign}
-`
+`;
 
 // const Button = props => (
 //   <StyledButton {...props}>
@@ -192,9 +205,9 @@ const Button = styled(Text)`
 Button.defaultProps = {
   py: 2,
   px: 3,
-  fontSize: 2,
-}
+  fontSize: 2
+};
 
-Button.displayName = 'Button'
+Button.displayName = "Button";
 
-export default Button
+export default Button;

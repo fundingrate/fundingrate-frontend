@@ -276,6 +276,7 @@ export default {
   useDebounce,
   RenderError,
   RenderObject,
+  renderProp,
   LoadingPage,
   MarkdownLink,
   RenderMarkdown(p) {
