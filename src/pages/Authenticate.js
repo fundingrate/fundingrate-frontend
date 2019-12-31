@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Card, Box, Button, Flex, Text, Heading, Input } from "../primitives";
-import { Assets } from "../components";
+import React, { useEffect, useState } from 'react'
+import { Card, Box, Button, Flex, Text, Heading, Input } from '../primitives'
+import { Assets } from '../components'
+import { useWiring, store } from '../libs/wiring'
 
-const Login = ({ actions, location, history }) => {
-  const [loading, setLoading] = useState(false);
+const Login = ({ onSubmit = x => x, history }) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [state, setState] = useState({
-    login: "",
-    password: ""
-  });
+    login: '',
+    password: '',
+  })
 
   const handleInput = prop => e => {
-    const value = e.target.value;
+    const value = e.target.value
     // console.log(prop, value)
     setState({
       ...state,
-      [prop]: value
-    });
-  };
+      [prop]: value,
+    })
+  }
 
   const Submit = () => {
-    setLoading(true);
-    return actions
-      .me(state)
-      .then(user => {
-        setLoading(false);
-        history.push("/profile");
-        // window.location.reload()
+    setLoading(true)
+    return onSubmit(state)
+      .then(r => {
+        setLoading(false)
+        history.push('/profile')
+        window.location.reload()
       })
       .catch(e => {
-        setLoading(false);
-        console.error("REGISTER ERROR:", state, e);
-      });
-  };
+        setLoading(false)
+        console.error('LOGIN ERROR:', state, e)
+        setError('LOGIN ERROR:', e.message)
+      })
+  }
 
   return (
     <Flex
@@ -43,8 +45,8 @@ const Login = ({ actions, location, history }) => {
       justifyContent="center"
     >
       <Heading> Account Login </Heading>
-      <Text color="primary" p={2}>
-        Welcome back, please enter your account credentials.
+      <Text color={error ? 'red' : 'primary'} p={2}>
+        {error ? error : 'Welcome back, please enter your account credentials.'}
       </Text>
       <Card
         flexDirection="column"
@@ -58,7 +60,7 @@ const Login = ({ actions, location, history }) => {
           disabled={loading}
           label="Login: "
           value={state.login}
-          onChange={handleInput("login")}
+          onChange={handleInput('login')}
           placeholder="kyle@fr.io"
         />
         <Box my={2} />
@@ -67,7 +69,7 @@ const Login = ({ actions, location, history }) => {
           disabled={loading}
           label="Password: "
           value={state.password}
-          onChange={handleInput("password")}
+          onChange={handleInput('password')}
           placeholder="********************"
         />
         <Button
@@ -80,50 +82,48 @@ const Login = ({ actions, location, history }) => {
         </Button>
       </Card>
     </Flex>
-  );
-};
+  )
+}
 
-const Register = ({ actions, location, user, token, history }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const Register = ({ onSubmit = x => x, history }) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [state, setState] = useState({
-    login: "",
-    password: "",
-    verifyPassword: ""
-  });
+    login: '',
+    password: '',
+    verifyPassword: '',
+  })
 
   const handleInput = prop => e => {
-    const value = e.target.value;
+    const value = e.target.value
     setState({
       ...state,
-      [prop]: value
-    });
-  };
+      [prop]: value,
+    })
+  }
 
   const Submit = () => {
-    setLoading(true);
-    return actions
-      .registerUsername(state)
-      .then(({ user, token }) => {
-        setLoading(false);
-        actions.setLocalStorage("token", token.id);
-        history.push("/profile");
-        window.location.reload();
+    setLoading(true)
+    return onSubmit(state)
+      .then(r => {
+        setLoading(false)
+        history.push('/profile')
+        window.location.reload()
       })
       .catch(e => {
-        setLoading(false);
-        console.error("REGISTER ERROR:", state, e);
-        setError(e.message);
-      });
-  };
+        setLoading(false)
+        console.error('REGISTER ERROR:', state, e)
+        setError(e.message)
+      })
+  }
 
   useEffect(() => {
     if (state.password.length < 8)
-      return setError("Password needs to be at least 8 characters.");
+      return setError('Password needs to be at least 8 characters.')
     if (state.password !== state.verifyPassword)
-      return setError("Passwords do not match.");
-    setError(null);
-  }, [state]);
+      return setError('Passwords do not match.')
+    setError(null)
+  }, [state])
 
   return (
     <Flex
@@ -135,8 +135,8 @@ const Register = ({ actions, location, user, token, history }) => {
       justifyContent="center"
     >
       <Heading> Account Registration </Heading>
-      <Text color={error ? "red" : "primary"} p={2}>
-        {error ? error : "Hello, please enter your desired credentials below."}
+      <Text color={error ? 'red' : 'primary'} p={2}>
+        {error ? error : 'Hello, please enter your desired credentials below.'}
       </Text>
       <Card
         flexDirection="column"
@@ -150,7 +150,7 @@ const Register = ({ actions, location, user, token, history }) => {
           disabled={loading}
           label="Login: "
           value={state.login}
-          onChange={handleInput("login")}
+          onChange={handleInput('login')}
           placeholder="kyle@fr.io"
         />
         <Box my={2} />
@@ -159,7 +159,7 @@ const Register = ({ actions, location, user, token, history }) => {
           disabled={loading}
           label="Password: "
           value={state.password}
-          onChange={handleInput("password")}
+          onChange={handleInput('password')}
           placeholder="********************"
         />
         <Box my={2} />
@@ -168,7 +168,7 @@ const Register = ({ actions, location, user, token, history }) => {
           disabled={loading}
           label="Verify Password: "
           value={state.verifyPassword}
-          onChange={handleInput("verifyPassword")}
+          onChange={handleInput('verifyPassword')}
           placeholder="********************"
         />
         <Button disabled={error} mt={3} type="primary" onClick={Submit}>
@@ -176,21 +176,38 @@ const Register = ({ actions, location, user, token, history }) => {
         </Button>
       </Card>
     </Flex>
-  );
-};
+  )
+}
 
-const Authenticate = p => {
-  if (p.user) {
-    p.history.push("/profile");
-    return <Text>Redirecting...</Text>;
+export default p => {
+  const [state, dispatch] = useWiring(['userid'])
+
+  if (state.userid) {
+    p.history.push('/home')
+    // setTimeout(() => {
+    //   p.history.push("/home")
+    // }, 1000)
+    // return <Flex height='100%' alignItems="center" justifyContent="center">
+    //   <Text>Redirecting...</Text>
+    // </Flex>;
   }
 
-  const r = <Register {...p} />;
-  const l = <Login {...p} />;
+  const r = (
+    <Register
+      {...p}
+      onSubmit={s => state.actions.auth('signup', { ...s, token: state.token })}
+    />
+  )
+  const l = (
+    <Login
+      {...p}
+      onSubmit={s => state.actions.auth('login', { ...s, token: state.token })}
+    />
+  )
 
-  const [page, setPage] = useState(null);
+  const [page, setPage] = useState(null)
 
-  if (page) return page;
+  if (page) return page
   return (
     <Flex alignItems="center" justifyContent="center" height="100%" width={1}>
       <Button
@@ -213,7 +230,5 @@ const Authenticate = p => {
         <Assets.Icons.Signup mr={3} /> Signup
       </Button>
     </Flex>
-  );
-};
-
-export default Authenticate;
+  )
+}

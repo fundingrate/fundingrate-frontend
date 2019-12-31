@@ -7,30 +7,17 @@
 //   )
 // }
 
-import React from "react";
-import { Flex, Box, Text } from "../primitives";
-import { useWiring, store } from "../libs/wiring";
-import { Utils } from "../components";
+import React from 'react'
+import { Flex, Box, Text } from '../primitives'
+import { useWiring, store } from '../libs/wiring'
+import { Utils } from '../components'
 
 export default p => {
-  const [state, dispatch] = useWiring(["connected"]);
-  console.log("state", state);
-
-
-  state.actions.auth("login", { 
-    login: 'test7@test.com',
-    password: 'testies',
-    token: state.token
-   }).then(console.log);
-
+  const [state, dispatch] = useWiring(['connected'])
 
   return (
-    <Flex
-      height='100%'
-      flexDirection='center'
-      alignItems="center"
-    >
+    <Flex height="100%" flexDirection="center" alignItems="center">
       <Utils.RenderObject data={state} />
     </Flex>
-  );
-};
+  )
+}

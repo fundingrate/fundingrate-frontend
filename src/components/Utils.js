@@ -76,7 +76,7 @@ const renderProp = (value, type) => {
     case 'function':
       return '[function]'
     case 'object':
-      return '[object]' 
+      return '[object]'
     case 'time':
       return moment(value).calendar()
     case 'boolean':
