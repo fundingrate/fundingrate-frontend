@@ -13,25 +13,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Inputs, Assets, Utils } from "../components";
 import { useWiring, store } from "../libs/wiring";
 
-const TitleBar = ({ onClick = x => x, label = "Wallet", children }) => {
-  return (
-    <Flex
-      width={1}
-      alignItems="center"
-      p={3}
-      bg="backingDark"
-      borderBottom="2px solid rgba(0, 0, 0, 0.5)"
-      // boxShadow='0px 0px 2px 0px rgba(0, 0, 0, 1)'
-    >
-      <Text onClick={onClick} fontSize={4}>
-        {label}
-      </Text>
-      <Box mx="auto" />
-      {children}
-    </Flex>
-  );
-};
-
 const DepositGateways = ({ onClick = x => x }) => {
   return (
     <Flex
@@ -153,23 +134,60 @@ const DepositGateways = ({ onClick = x => x }) => {
   );
 };
 
+const InputButtons = ({ values = [], onClick = x => x }) => {
+  values = [0.1, 0.25, 0.5, 0.75, 1];
+  return (
+    <Flex bg="darkBacking" p={2} borderRadius="normal">
+      {values.map(v => (
+        <Button onClick={e => onClick(v)} type="simple" mx={2} flex={0}>
+          {v}
+        </Button>
+      ))}
+    </Flex>
+  );
+};
+
 const Bitcoin = p => {
   const [state, setState] = useWiring(["myWallet", "myCommands"]);
   const { me, myWallet, myCommands } = state;
 
+  const [amount, setAmount] = useState(0.01);
+  const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingExchange, setLoadingExchange] = useState(false);
   const [tx, setTx] = useState(null);
 
-  const CreateTransaction = async () => {
+  const CreateTransaction = async (amount, ticker = "btc") => {
+    amount = Number(amount);
+
+    console.log("CreateTransaction:", amount, ticker);
+
     setLoading(true);
     const tx = await state.actions.private("createCryptapiTransaction", {
-      ticker: "btc",
-      amount: 0.01
+      ticker,
+      amount
     });
     console.log("CREATE TX:", tx);
     setTx(tx);
     setLoading(false);
   };
+
+  useEffect(() => {
+    setLoadingExchange(true);
+  }, [amount]);
+
+  const debouncedAmount = Utils.useDebounce(amount, 500);
+  useEffect(() => {
+    state.actions
+      .private("getCryptapiTickerPrice", { ticker: "btc", amount })
+      .then(v => {
+        setValue(v || 0);
+        setLoadingExchange(false);
+      });
+  }, [debouncedAmount]);
+
+  const cmd = tx ? (myCommands[tx.id].tx ? myCommands[tx.id] : null) : null;
+  console.log("cmd", cmd);
 
   return (
     <Flex
@@ -180,52 +198,77 @@ const Bitcoin = p => {
       flexDirection="column"
     >
       <Text.Heading fontSize={8}>Wallet Transaction</Text.Heading>
-      <Divider m={4} bg="offwhite" />
-      {!tx ? (
-          <>
-          {loading ? <Utils.LoadingPage /> : <Button disabled={loading} type="primary" onClick={CreateTransaction}>
-          Begin Transaction
-        </Button>}
-          </>
-        
-      ) : (
+      <Divider m={2} bg="offwhite" />
+      {!cmd ? (
         <>
-          {myCommands[tx.id].tx && (
-            <Card m={2} alignItems="center" justifyContent="center">
-              <Image size={240} src={myCommands[tx.id].tx.qr} />
-              <Box mx={2} />
-              <Flex
-                // width={1}
-                m={2}
-                height={"100%"}
+          {loading ? (
+            <Utils.LoadingPage />
+          ) : (
+            <>
+              <Text m={3} color="subtext">
+                Please select your desired amount to begin the transaction.
+              </Text>
+
+              <Card
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
               >
-                <Inputs.Copy
-                  flex={1}
-                  label="Send Exactly:"
-                  placeholder="0.01"
-                  value={myCommands[tx.id].tx.amount}
-                />
+                <InputButtons onClick={setAmount} />
                 <Box m={2} />
-                <Inputs.Copy
+                <Input
                   flex={1}
-                  label="To Address:"
-                  placeholder="1APT1UoYgA8tJEnN1qe8rcvaN55NoASDju"
-                  value={myCommands[tx.id].tx.to}
-                />
-                <Box my={3} />
-                <Text color="subtext" m={2}>
-                  Current Transaction State: {myCommands[tx.id].state}.
-                </Text>
-                <Text color="subtext" m={1}>
-                  Last updated @ {Utils.renderProp(myCommands[tx.id].updated, 'time')} with a total of {myCommands[tx.id].tries} attempt(s).
-                </Text>
-              </Flex>
-            </Card>
+                  label="Amount:"
+                  placeholder="0.01"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                >
+                  <Button
+                    disabled={loadingExchange}
+                    type="primary"
+                    onClick={e => CreateTransaction(amount, "btc")}
+                  >
+                    ${value}
+                  </Button>
+                </Input>
+              </Card>
+            </>
           )}
         </>
+      ) : (
+        <Card m={2} alignItems="center" justifyContent="center">
+          <Image size={240} src={cmd.tx.qr} />
+          <Box mx={2} />
+          <Flex
+            m={2}
+            height={"100%"}
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Inputs.Copy
+              flex={1}
+              label="Send Exactly:"
+              placeholder="0.01"
+              value={cmd.tx.amount}
+            />
+            <Box m={2} />
+            <Inputs.Copy
+              flex={1}
+              label="To Address:"
+              placeholder="1APT1UoYgA8tJEnN1qe8rcvaN55NoASDju"
+              value={cmd.tx.to}
+            />
+            <Box my={3} />
+            <Text color="subtext" m={2}>
+              Current Transaction State: {cmd.state}.
+            </Text>
+            <Text fontSize={1} color="subtext" m={1}>
+              Last updated @ {Utils.renderProp(cmd.updated, "time")} with a
+              total of {cmd.tries} attempt(s).
+            </Text>
+          </Flex>
+        </Card>
       )}
     </Flex>
   );
