@@ -93,3 +93,5 @@ typings/
 config.*
 config_*
 *.zip
+dist
+node_modules
