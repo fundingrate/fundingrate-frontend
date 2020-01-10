@@ -31,7 +31,9 @@ export default ({ actions, location, token, history }) => {
   return (
     <Flex.Content>
       <Flex my={2} flexDirection="column" alignItems="center">
-        <Text.Heading m={2}>Welcome, {state.user.username}</Text.Heading>
+        <Text.Heading fontSize={7} m={2}>
+          Welcome, {state.user.username}
+        </Text.Heading>
         <Divider />
         <Text color="red" fontSize={3} p={3}>
           Please ensure you save this information or risk losing access to your
@@ -39,30 +41,13 @@ export default ({ actions, location, token, history }) => {
         </Text>
       </Flex>
       <Box my={2} />
-      <Heading>User Details</Heading>
-      <Card flexDirection="column" width={1} m={2}>
-        <Inputs.Copy
-          label="USERID: "
-          placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
-          value={state.user.id}
-        />
-        <Box my={2} />
-        <Inputs.Copy
-          label="TOKENID: "
-          placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
-          value={state.token}
-        />
-        <Box my={2} />
-        <Flex alignItems="center">
-          {state.token && <Utils.DownloadJson data={state} />}
-          <Box mx="auto" />
-          <Button.Logout disabled={!state} m={3}>
-            LOGOUT
-          </Button.Logout>
-        </Flex>
-      </Card>
-
-      {/* <Trades actions={actions} /> */}
+      <Card.ProfileData userid={state.user.id} token={state.token}>
+        {state.token && <Utils.DownloadJson data={state} />}
+        <Box mx="auto" />
+        <Button.Logout disabled={!state} mx={2}>
+          LOGOUT
+        </Button.Logout>
+      </Card.ProfileData>
     </Flex.Content>
   );
 };
