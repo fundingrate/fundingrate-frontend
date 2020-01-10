@@ -116,7 +116,7 @@ const Infobar = p => {
   const {me, myWallet} = state
 
   return (
-    <Header>
+    <Header heading="v2.0.0">
       {me ? (
         <Flex alignItems="center" justifyContent="center">
           <Assets.Icons.Wallet mx={2} size={20} />

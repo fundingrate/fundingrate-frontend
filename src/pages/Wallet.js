@@ -116,7 +116,7 @@ const Deposit = ({ ticker }) => {
           ) : (
             <>
               <Text m={3} color="subtext">
-                Please select your desired amount to begin the transaction.
+                Please enter or select your desired amount of {ticker.toUpperCase()} to begin the transaction.
               </Text>
               <Cards.InputAmount
                 ticker={ticker}
