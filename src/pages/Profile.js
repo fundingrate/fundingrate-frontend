@@ -7,7 +7,8 @@ import {
   Text,
   Heading,
   Input,
-  Divider
+  Divider,
+  Avatar
 } from "../primitives";
 import { Utils, Inputs, Buttons } from "../components";
 import { useWiring, store } from "../libs/wiring";
@@ -29,7 +30,8 @@ export default ({ actions, location, token, history }) => {
   });
 
   return (
-    <Flex.Content>
+    <Flex.Content height={'100%'}>
+      <Avatar src={state.user.avatar} size={128} mb={4} border="4px solid" borderColor="offwhite" />
       <Flex my={2} flexDirection="column" alignItems="center">
         <Text.Heading fontSize={7} m={2}>
           Welcome, {state.user.username}

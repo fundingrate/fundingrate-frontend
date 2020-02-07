@@ -38,16 +38,18 @@ const GatewayLayout = ({ children }) => {
 
 const LoadingGateway = ({ onClick = x => x }) => {
   const [loading, setLoading] = useState(true);
-  const [tickers, setTickers] = useState([]);
+  const [tickers, setTickers] = useState(['btc']);
 
   const [state, setState] = useWiring(["myWallet", "myCommands"]);
   const { me, myWallet, myCommands } = state;
 
   useEffect(() => {
-    state.actions.private("listCryptapiSupportedTickers").then(t => {
-      setTickers(t);
-      setLoading(false);
-    });
+    // state.actions.private("listCryptapiSupportedTickers").then(t => {
+    //   setTickers(t);
+    //   setLoading(false);
+    // });
+
+    setLoading(false);
   }, []);
 
   return loading ? (
@@ -172,7 +174,7 @@ export default ({
   //   );
 
   return (
-    <Flex.Content>
+    <Flex.Content height="100%">
       <Switch>
         <Redirect exact from={from} to={to} />
         {Object.keys(Pages).map(k => {
