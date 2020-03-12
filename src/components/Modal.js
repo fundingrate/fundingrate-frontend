@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Flex, Box, Text, Button, Modal, Divider, Input } from '../primitives'
+import React, { useState, useEffect } from "react";
+import { Flex, Box, Text, Button, Modal, Divider, Input } from "../primitives";
 
-import Assets from './Assets'
-import Utils from './Utils'
+import Assets from "./Assets";
+import Utils from "./Utils";
 
 const Amount = ({ amount = 0 }) => {
   return (
@@ -10,13 +10,13 @@ const Amount = ({ amount = 0 }) => {
       <Box mx={1}> | </Box>
       {Utils.parseValue(amount)}
     </>
-  )
-}
+  );
+};
 
 const WiredModal = ({
   children,
   isOpen,
-  title = 'Ello Moto',
+  title = "Ello Moto",
   onSearch,
   onConfirm,
   onClose,
@@ -39,7 +39,7 @@ const WiredModal = ({
         <Assets.Icons.Close
           onClick={onClose}
           clickable
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         />
       </Flex>
       <Divider />
@@ -48,8 +48,8 @@ const WiredModal = ({
         width={1}
         justifyContent="center"
         style={{
-          overflow: 'hidden',
-          overflowY: 'auto',
+          overflow: "hidden",
+          overflowY: "auto"
         }}
       >
         {children}
@@ -78,19 +78,19 @@ const WiredModal = ({
         </Button>
       </Flex>
     </Modal>
-  )
-}
+  );
+};
 
 WiredModal.Button = ({
-  title = 'Some Modal Dialog',
-  label = 'Open Modal',
-  children,
+  title = "Some Modal Dialog",
+  label = "Open Modal",
+  children
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = s => {
-    return setIsModalOpen(!isModalOpen)
-  }
+    return setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <>
@@ -106,15 +106,15 @@ WiredModal.Button = ({
         {label}
       </Button>
     </>
-  )
-}
+  );
+};
 
 WiredModal.FAQ = p => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = s => {
-    return setIsModalOpen(!isModalOpen)
-  }
+    return setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <>
@@ -130,41 +130,71 @@ WiredModal.FAQ = p => {
         Help
       </Button>
     </>
-  )
-}
+  );
+};
+
+WiredModal.FeedbackSurvey = p => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = s => {
+    return setIsModalOpen(!isModalOpen);
+  };
+
+  return (
+    <>
+      <WiredModal
+        title="Feedback"
+        isOpen={isModalOpen}
+        onConfirm={toggleModal}
+        onClose={toggleModal}
+      >
+        <iframe
+          src="https://service963572.typeform.com/to/dr7S0q"
+          // height="500"
+          // width="100%"
+          // style="border:none;"
+        />
+      </WiredModal>
+      <Button m={2} type="warning" onClick={toggleModal}>
+        Rate Us!
+      </Button>
+    </>
+  );
+};
 
 WiredModal.CreateProvider = ({ actions }) => {
-  const [loading, setLoading] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [state, setState] = useState({})
-  const [provider, setProvider] = useState(null)
+  const [state, setState] = useState({});
+  const [provider, setProvider] = useState(null);
+  const [error, setError] = useState(null);
 
   const setProp = (k, v) => {
     return setState({
       ...state,
-      [k]: v,
-    })
-  }
+      [k]: v
+    });
+  };
 
   const toggleModal = s => {
-    setProvider(null)
-    setState({})
-    return setIsModalOpen(!isModalOpen)
-  }
+    setProvider(null);
+    setState({});
+    return setIsModalOpen(!isModalOpen);
+  };
 
   const CreateProvider = async p => {
-    if (!state.username) return
-    if (!state.description) return
-    if (state.username.length < 3) return
-    if (state.description.length < 10) return
-    setLoading(true)
+    if (!state.username) return;
+    if (!state.description) return;
+    if (state.username.length < 3) return;
+    if (state.description.length < 10) return;
+    setLoading(true);
     await actions
       .createProvider(state)
       .then(setProvider)
-      .catch(console.error)
-    setLoading(false)
-  }
+      .catch(setError);
+    setLoading(false);
+  };
 
   return (
     <>
@@ -188,17 +218,18 @@ WiredModal.CreateProvider = ({ actions }) => {
             </>
           ) : (
             <>
+              {error && <Text color="red">{error}</Text>}
               <Input
                 label="Username:"
                 placeholder="Super Secret Signals #42069"
-                onChange={e => setProp('username', e.target.value)}
+                onChange={e => setProp("username", e.target.value)}
                 value={state.username}
               />
               <Box my={1} />
               <Input
                 label="Description:"
                 placeholder="Uses top secret sauce to provide accurate signals!"
-                onChange={e => setProp('description', e.target.value)}
+                onChange={e => setProp("description", e.target.value)}
                 value={state.description}
               />
             </>
@@ -209,7 +240,7 @@ WiredModal.CreateProvider = ({ actions }) => {
         Create New Provider
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default WiredModal
+export default WiredModal;

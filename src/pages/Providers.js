@@ -103,6 +103,7 @@ const Providers = ({ actions, location }) => {
         <Flex>
           <Modal.CreateProvider actions={actions} />
           <Modal.FAQ />
+          {/* <Modal.FeedbackSurvey /> */}
         </Flex>
       </Flex>
       {/* <Flex
