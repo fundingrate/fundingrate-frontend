@@ -58,7 +58,7 @@
     "delete-modules": "find . -type d -name node_modules -exec rm -rf \"{}\" +",
     "mass-install": "find . -maxdepth 1 -type d \\( ! -name . \\) -exec bash -c \"cd '{}' && npm install\" \\;",
     "cleanup": "yarn delete-locks && yarn delete-modules",
-    "zipdist": "zip ceb-dist.zip dist/*",
+    "zipdist": "zip uploadme.zip dist/*",
     "build-prod": "yarn cleanup && yarn && yarn predeploy && yarn zipdist"
   },
   "targets": {

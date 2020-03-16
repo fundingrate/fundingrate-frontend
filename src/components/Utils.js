@@ -95,7 +95,7 @@ const renderProp = (value, type) => {
   }
 }
 
-RenderObject.Prop = ({ label, value, type, color = 'subtext', ...p }) => {
+RenderObject.Prop = React.memo(({ label, value, type, color = 'subtext', ...p }) => {
   return (
     <Flex
       flexDirection={['column', 'row']}
@@ -108,7 +108,7 @@ RenderObject.Prop = ({ label, value, type, color = 'subtext', ...p }) => {
       <Text color={color}>{renderProp(value, type)}</Text>
     </Flex>
   )
-}
+})
 
 const LoadingPage = p => {
   return (
