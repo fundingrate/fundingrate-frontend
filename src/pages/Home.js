@@ -7,17 +7,26 @@
 //   )
 // }
 
-import React from 'react'
-import { Flex, Box, Text } from '../primitives'
-import { useWiring, store } from '../libs/wiring'
-import { Utils } from '../components'
+import React from "react";
+import { Flex, Box, Text } from "../primitives";
+import { useWiring, store } from "../libs/wiring";
+import { Utils } from "../components";
 
 export default p => {
-  const [state, dispatch] = useWiring(['connected'])
+  const [state, dispatch] = useWiring(["serverTime", "myAlerts", 'supportedTickers']);
 
   return (
-    <Flex height="100%" flexDirection="center" alignItems="center">
-      <Utils.RenderObject data={state} />
+    <Flex p={4}>
+      <Flex.Column>
+        <Utils.RenderObject heading="Server State" data={state} />
+        <Utils.RenderObject heading="Supported Tickers" data={state.supportedTickers} />
+      </Flex.Column>
+      <Box mx={4} />
+      <Flex.Column>
+        {state.myAlerts && Object.values(state.myAlerts).map(a => {
+          return <Utils.RenderObject heading="Alert" data={a} key={a.id} />;
+        })}
+      </Flex.Column>
     </Flex>
-  )
-}
+  );
+};

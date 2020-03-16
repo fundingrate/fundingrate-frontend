@@ -16,13 +16,13 @@ Card.ProfileData = ({ userid, token, children, ...p }) => {
   return (
     <Card flexDirection="column" width={1} m={2} {...p}>
       <Inputs.Copy
-        label="USERID: "
+        label="USER ID: "
         placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
         value={userid}
       />
       <Box my={2} />
       <Inputs.Copy
-        label="TOKENID: "
+        label="TOKEN: "
         placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
         value={token}
       />

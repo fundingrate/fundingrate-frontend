@@ -83,7 +83,7 @@ const renderProp = (value, type) => {
       return Boolean(value) ? 'yes' : 'no'
     case 'number':
       return value.toLocaleString(undefined, {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       })
     case 'money':
       return value.toLocaleString('en-US', {

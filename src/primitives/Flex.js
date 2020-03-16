@@ -1,30 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-  alignItems,
-  flex,
-  flexDirection,
-  flexWrap,
-  justifyContent,
-  alignSelf,
-  justifySelf,
-} from 'styled-system'
+import { flexbox } from 'styled-system'
 
 import Box from './Box'
 
 const Flex = styled(Box)`
   display: flex;
-
-	${alignItems}
-  ${flex}
-  ${flexDirection}
-  ${flexWrap}
-  ${justifyContent}
-  ${alignSelf}
-  ${justifySelf}
+  ${flexbox}
 `
 
 Flex.displayName = 'Flex'
+
+Flex.Column = p => {
+  return <Flex {...p} flexDirection="column"/>
+}
+
+Flex.Row = p => {
+  return <Flex {...p} flexDirection="row" alignItems="center"/>
+}
+
+Flex.RowMobile = p => {
+  return <Flex {...p} flexDirection={['column', 'row']}  alignItems="center"/>
+}
 
 Flex.Content = ({ children, ...p }) => {
   return (
