@@ -25,7 +25,7 @@ const Login = ({ onSubmit = x => x, history }) => {
     return onSubmit(state)
       .then(r => {
         setLoading(false)
-        history.push('/profile')
+        // history.push('/profile')
         window.location.reload()
       })
       .catch(e => {
@@ -107,7 +107,7 @@ const Register = ({ onSubmit = x => x, history }) => {
     return onSubmit(state)
       .then(r => {
         setLoading(false)
-        history.push('/profile')
+        // history.push('/profile')
         window.location.reload()
       })
       .catch(e => {

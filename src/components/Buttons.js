@@ -8,7 +8,7 @@ Button.Logout = p => {
   console.log(state);
   const Logout = async s => {
     await state.actions.auth("logout", {});
-    actions.deleteLocalStorage("token");
+    // state.actions.deleteLocalStorage("token");
     window.location.reload();
   };
 
