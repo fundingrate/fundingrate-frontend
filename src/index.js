@@ -36,7 +36,7 @@ async function init() {
     // appid:'730' //csgo
   }
 
-  const channels = ['public', 'private', 'auth', 'admin']
+  const channels = ['public', 'private', 'auth', 'admin', 'provider']
 
   let { actions, connect } = await Client(
     WebSocket,
