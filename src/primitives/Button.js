@@ -92,6 +92,18 @@ const type = props => {
             opacity: 0.8
         };
       `;
+      case "success":
+        return `
+          box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+          color: ${theme.colorStyles.textOnPrimary.color};
+          border: #42b142 ${theme.borders.normal};
+          // background-color: ${theme.colorStyles.textOnPrimary.bgColor};
+          background-image: linear-gradient(290deg, #3DDD37, #42b142);
+          &:hover,
+          &:focus {
+              opacity: 0.8
+          };
+        `;
     case "simple":
       return `
         background-color: rgba(0,0,0,0);

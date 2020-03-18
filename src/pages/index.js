@@ -3,15 +3,17 @@ import Authenticate from './Authenticate'
 import Profile from './Profile'
 import Wallet from './Wallet'
 import NotFound from './NotFound'
-// import Providers from './Providers'
+import Providers from './Providers'
 // import Marketplace from './Marketplace'
 
 export default {
   Home,
   Authenticate,
   Profile,
-  Wallet,
-  NotFound,
-  // Providers,
+  // Wallet,
+  Providers,
   // Marketplace,
+
+  // NOTE: default if no match above.
+  NotFound,
 }
