@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Button, Flex } from "../primitives";
+import { Button, Flex, Spinner, Box } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
 import { Inputs, Assets, Utils, Buttons } from "../components";
 
 Button.Logout = p => {
   const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
 
   const onClick = async s => {
+    setLoading(true);
+
     await state.actions.auth("logout", {});
     // state.actions.deleteLocalStorage("token");
+    setLoading(false);
     window.location.reload();
   };
 
   return (
     <Button {...p} onClick={onClick} type="warning">
-      LOGOUT
+      {loading ? <Utils.Loading /> : "Logout"}
     </Button>
   );
 };
@@ -30,15 +34,13 @@ Button.listProviderAlerts = ({ providerid, ...p }) => {
       .provider("listAlerts", {
         providerid
       })
-      .then(a =>
-        dispatch("updateProp", ["providerAlerts", providerid], a)
-      );
+      .then(a => dispatch("updateProp", ["providerAlerts", providerid], a));
     setLoading(false);
   };
 
   return (
     <Button {...p} disabled={loading} onClick={onClick} type="primary">
-      View Alerts
+      {loading ? <Utils.Loading /> : "View Alerts"}
     </Button>
   );
 };
@@ -49,13 +51,13 @@ Button.hideProviderAlerts = ({ providerid, ...p }) => {
 
   const onClick = async s => {
     setLoading(true);
-    dispatch("updateProp", ["providerAlerts", providerid], null)
+    dispatch("updateProp", ["providerAlerts", providerid], null);
     setLoading(false);
   };
 
   return (
     <Button {...p} disabled={loading} onClick={onClick} type="warning">
-      Hide Alerts
+      {loading ? <Utils.Loading /> : "Hide Alerts"}
     </Button>
   );
 };
@@ -75,7 +77,7 @@ Button.setProviderPublic = ({ providerid, ...p }) => {
 
   return (
     <Button {...p} disabled={loading} onClick={onClick} type="success">
-      Set Public
+      {loading ? <Utils.Loading /> : "Set Public"}
     </Button>
   );
 };
@@ -94,7 +96,7 @@ Button.setProviderPrivate = ({ providerid, ...p }) => {
 
   return (
     <Button {...p} disabled={loading} onClick={onClick} type="warning">
-      Set Private
+      {loading ? <Utils.Loading /> : "Set Private"}
     </Button>
   );
 };

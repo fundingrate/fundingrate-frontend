@@ -98,7 +98,8 @@ const Providers = ({ actions, location }) => {
         alignItems="center"
         flexDirection={['column', 'row']}
       >
-        <SearchInput onSearch={handleSearch} width={1/4}/>
+        <SearchInput onSearch={handleSearch} />
+        <Box mx={4} />
         <Flex>
           <Modal.CreateProvider actions={actions} />
           <Modal.FAQ />

@@ -56,6 +56,7 @@ export const NavigationLinks = ({
         key={`${label}_${path}`}
         onClick={e => {
           history.push(path);
+          document.title = path + ' | Fundingrate.io'
           if (onClick) onClick(path);
         }}
         // active={true}
@@ -71,7 +72,7 @@ export const NavigationLinks = ({
 export const NavigationRouter = ({
   // root = "/account",
   // defaultRoute = "/account/settings",
-  root,
+  root = '',
   defaultRoute,
   pages = {}
 }) => {

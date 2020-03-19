@@ -10,9 +10,7 @@ const Infobar = p => {
   const { me, myWallet } = state;
 
   return (
-    <Header
-      heading={<Text>{new Date(state.serverTime).toUTCString()}</Text>}
-    >
+    <Header heading={<Text>{new Date(state.serverTime).toUTCString()}</Text>}>
       {me ? (
         <Flex alignItems="center" justifyContent="center">
           <Assets.Icons.Wallet mx={2} size={20} />
@@ -34,7 +32,7 @@ const Layout = ({ children, onClick }) => {
   const links = Object.keys(Pages).reduce((memo, k) => {
     if (k === "NotFound") return memo;
     if (user && k === "Authenticate") return memo;
-    if (!user && k === "Profile") return memo;
+    if (!user && ["Profile", "My Providers"].includes(k)) return memo;
 
     memo.push({ label: k, path: `/${k.toLowerCase()}` });
     return memo;

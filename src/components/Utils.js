@@ -130,6 +130,16 @@ const LoadingPage = p => {
   );
 };
 
+const Loading = p => {
+  return (
+    <Flex.Row>
+      <Spinner>/</Spinner>
+      <Box mx={2} />
+      Loading...
+    </Flex.Row>
+  );
+};
+
 // const toc = require('remark-toc')
 
 import PropTypes from "prop-types";
@@ -286,6 +296,7 @@ export default {
   RenderMarkdown(p) {
     return <ReactMarkdown {...p} />;
   },
+  Loading,
   DownloadCSV,
   DownloadJson,
   DayOfWeek,

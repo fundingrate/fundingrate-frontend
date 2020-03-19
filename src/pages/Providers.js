@@ -16,11 +16,11 @@ export default p => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
 
   const myProviders = state.myProviders ? Object.values(state.myProviders) : [];
-  const [filteredList, setFiltered] = useState([]);
+  const [filteredList, setFiltered] = useState(myProviders);
 
   // if the state changes while searching, hydrate the shortlist
   useEffect(() => {
-    if (filteredList.length < 1) return;
+    // if (filteredList.length < 1) return;
     setFiltered(
       filteredList.map(r => {
         return state.myProviders[r.id];
@@ -30,13 +30,13 @@ export default p => {
 
   const handleSearch = st => {
     console.log("searching for:", st);
-    if (!st) return setFiltered([]);
+    if (!st) return setFiltered(myProviders);
     const r = myProviders.filter(o => Utils.searchProps(o, st));
     console.log("search results:", r);
     setFiltered(r);
   };
 
-  const list = filteredList.length > 0 ? filteredList : myProviders;
+  // const list = filteredList.length > 0 ? filteredList : myProviders;
 
   return (
     <Box width={1} px={4} py={2}>
@@ -53,8 +53,8 @@ export default p => {
         </Flex>
       </Flex.Row>
       <Box my={4} />
-      <Flex.Column>
-        {list.map(p => {
+      <Flex.Column px={4}>
+        {filteredList.map(p => {
           const alerts = state.providerAlerts
             ? state.providerAlerts[p.id]
             : null;

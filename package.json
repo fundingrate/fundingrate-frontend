@@ -49,10 +49,10 @@
     "styled-system": "^5.1.2"
   },
   "scripts": {
-    "predeploy": "rm -rf dist &&  parcel build index.html --out-dir dist",
+    "predeploy": "parcel build index.html --out-dir dist",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
-    "build": "parcel build index.html --out-dir dist && yarn deletemaps",
+    "build": "rm -rf dist && parcel build index.html --out-dir dist && yarn deletemaps",
     "deletemaps": "find . -type f -name *.map -delete",
     "lint": "prettier-eslint --write '**/*.{js,jsx}' --no-semi --trailing-comma es5 --tab-width 2 --single-quote",
     "delete-locks": "find . -type f -name package-lock.json -delete && find . -type f -name yarn.lock -delete",
@@ -61,7 +61,7 @@
     "cleanup": "yarn delete-locks && yarn delete-modules",
     "delzip": "find . -type f -name *.zip -delete",
     "zipdist": "yarn delzip && zip uploadme.zip dist/*",
-    "build-prod": "yarn cleanup && yarn && yarn predeploy && yarn zipdist"
+    "build-prod": "yarn cleanup && yarn && yarn build && yarn zipdist"
   },
   "targets": {
     "chrome": "58",

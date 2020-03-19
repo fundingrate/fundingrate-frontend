@@ -22,6 +22,7 @@ const WiredModal = ({
   onClose,
   amount,
   loading,
+  disabled,
   hideActions,
   ...p
 }) => {
@@ -79,9 +80,10 @@ const WiredModal = ({
             mx={1}
             type="primary"
             onClick={onConfirm}
-            disabled={loading}
+            disabled={disabled || loading}
           >
-            Confirm {amount > 0 && <Amount amount={amount} />}
+            {loading ? <Utils.Loading /> : "Confirm"}
+            {amount > 0 && <Amount amount={amount} />}
           </Button>
           <Button mx={1} type="warning" onClick={onClose}>
             Cancel
@@ -183,13 +185,14 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
   return (
     <>
       <WiredModal
-        loading={loading || !ready}
+        disabled={!ready}
+        loading={loading}
         title={"Create New Provider"}
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
         onClose={toggleModal}
       >
-        <Flex m={4} width={2 / 3} flexDirection="column" alignItems="center">
+        <Flex.Column m={4} width={[1, 1/2]}>
           {error && (
             <Text color="red" fontSize={3} p={3}>
               {error}
@@ -205,6 +208,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
           />
           <Box my={1} />
           <Input
+            // type="textarea"
             disabled={loading}
             label="Description:"
             placeholder="Uses top secret sauce to provide accurate signals!"
@@ -212,7 +216,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             value={state.description}
             error={state.description && state.description.length < 10}
           />
-        </Flex>
+        </Flex.Column>
       </WiredModal>
       <Button disabled={isModalOpen} m={2} type="primary" onClick={toggleModal}>
         Create New Provider
