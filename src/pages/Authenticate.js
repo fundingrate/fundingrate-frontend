@@ -175,7 +175,11 @@ const Register = ({ onSubmit = x => x }) => {
 
 export default p => {
   const [state, dispatch] = useWiring(["userid"]);
-  if (state.userid) return history.push("/home");
+  const history = useHistory();
+  if (state.userid) {
+    history.push("/home")
+    return <Text>Redirecting...</Text>
+  }
 
   const pages = {
     "/signup": r,
