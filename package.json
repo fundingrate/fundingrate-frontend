@@ -50,7 +50,7 @@
     "styled-system": "^5.1.2"
   },
   "scripts": {
-    "predeploy": "parcel build index.html --out-dir dist",
+    "predeploy": "rm -rf dist && parcel build index.html --out-dir dist",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
     "build": "rm -rf dist && parcel build index.html --out-dir dist && yarn deletemaps",
@@ -62,6 +62,7 @@
     "cleanup": "yarn delete-locks && yarn delete-modules",
     "delzip": "find . -type f -name *.zip -delete",
     "zipdist": "yarn delzip && zip uploadme.zip dist/*",
+    "build-staging": "yarn cleanup && yarn && yarn predeploy && yarn zipdist",
     "build-prod": "yarn cleanup && yarn && yarn build && yarn zipdist"
   },
   "targets": {
