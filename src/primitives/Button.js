@@ -41,6 +41,19 @@ const type = props => {
               filter: brightness(1.2);
           };
         `;
+    case "success":
+      return `
+        box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+        color: ${theme.colorStyles.textOnPrimary.color};
+        border: #42b142 ${theme.borders.normal};
+        background-color: ${theme.colorStyles.textOnPrimary.bgColor};
+        background-image: linear-gradient(290deg, #3DDD37, #42b142);
+
+        &:hover,
+          &:focus {
+              filter: brightness(1.2);
+          };
+      `;
     case "secondary":
       return `
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);

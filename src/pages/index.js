@@ -11,7 +11,7 @@ export default {
   Authenticate,
   Profile,
   // Wallet,
-  Providers,
+  'My Providers': Providers,
   // Marketplace,
 
   // NOTE: default if no match above.

@@ -5,16 +5,96 @@ import { Inputs, Assets, Utils, Buttons } from "../components";
 
 Button.Logout = p => {
   const [state, dispatch] = useWiring(["me"]);
-  console.log(state);
-  const Logout = async s => {
+
+  const onClick = async s => {
     await state.actions.auth("logout", {});
     // state.actions.deleteLocalStorage("token");
     window.location.reload();
   };
 
   return (
-    <Button {...p} onClick={Logout} type="warning">
+    <Button {...p} onClick={onClick} type="warning">
       LOGOUT
+    </Button>
+  );
+};
+
+Button.listProviderAlerts = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions
+      .provider("listAlerts", {
+        providerid
+      })
+      .then(a =>
+        dispatch("updateProp", ["providerAlerts", providerid], a)
+      );
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="primary">
+      View Alerts
+    </Button>
+  );
+};
+
+Button.hideProviderAlerts = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    dispatch("updateProp", ["providerAlerts", providerid], null)
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      Hide Alerts
+    </Button>
+  );
+};
+
+Button.setProviderPublic = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("setPublic", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      Set Public
+    </Button>
+  );
+};
+
+Button.setProviderPrivate = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.provider("setPrivate", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      Set Private
     </Button>
   );
 };

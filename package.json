@@ -31,7 +31,8 @@
     "unfetch": "^4.1.0",
     "victory": "^33.1.6",
     "whatwg-fetch": "^3.0.0",
-    "ws-api-client": "https://github.com/daywiss/ws-api-client#2.0.1"
+    "ws-api-client": "https://github.com/daywiss/ws-api-client#2.0.1",
+    "ynk": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
@@ -58,7 +59,8 @@
     "delete-modules": "find . -type d -name node_modules -exec rm -rf \"{}\" +",
     "mass-install": "find . -maxdepth 1 -type d \\( ! -name . \\) -exec bash -c \"cd '{}' && npm install\" \\;",
     "cleanup": "yarn delete-locks && yarn delete-modules",
-    "zipdist": "zip uploadme.zip dist/*",
+    "delzip": "find . -type f -name *.zip -delete",
+    "zipdist": "yarn delzip && zip uploadme.zip dist/*",
     "build-prod": "yarn cleanup && yarn && yarn predeploy && yarn zipdist"
   },
   "targets": {

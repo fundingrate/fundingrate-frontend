@@ -33,17 +33,18 @@ export default ({ actions, location, token, history }) => {
 
   return (
     <Flex.Content height={'100%'}>
-      <Avatar src={state.user.avatar} size={128} mb={4} border="4px solid" borderColor="offwhite" />
-      <Flex my={2} flexDirection="column" alignItems="center">
-        <Text.Heading fontSize={7} m={2}>
+      <Avatar src={state.user.avatar} size={[64, 128]} mb={2} border="4px solid" borderColor="offwhite" />
+      <Box m={2} />
+      <Flex.Column alignItems="center">
+        <Text.Heading fontSize={[4,7]} m={2}>
           Welcome, {state.user.username}
         </Text.Heading>
         <Divider />
-        <Text color="red" fontSize={3} p={3}>
+        <Text color="red" fontSize={[1, 3]} p={3}>
           Please ensure you save this information or risk losing access to your
           account.
         </Text>
-      </Flex>
+      </Flex.Column>
       <Box my={2} />
       <Card.ProfileData userid={state.user.id} token={state.token}>
         {state.token && <Utils.DownloadJson data={state} />}

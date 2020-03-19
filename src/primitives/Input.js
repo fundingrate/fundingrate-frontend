@@ -31,7 +31,7 @@ const StyledInput = ({
   ...props
 }) =>
   withWrapper ? (
-    <StyledInput.Wrapper width={1} error={error}>
+    <StyledInput.Wrapper flex={1} error={error}>
       {icon && <Image src={icon} size={20} mr={2} />}
       {label && (
         <>

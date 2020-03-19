@@ -13,13 +13,13 @@ import { useWiring, store } from "../libs/wiring";
 import { Utils } from "../components";
 
 export default p => {
-  const [state, dispatch] = useWiring(["serverTime", "myAlerts", 'supportedTickers']);
+  const [state, dispatch] = useWiring(["serverTime", "myAlerts"]);
 
   return (
     <Flex p={4}>
       <Flex.Column>
         <Utils.RenderObject heading="Server State" data={state} />
-        <Utils.RenderObject heading="Supported Tickers" data={state.supportedTickers} />
+        {/* <Utils.RenderObject heading="Supported Tickers" data={state.supportedTickers} /> */}
       </Flex.Column>
       <Box mx={4} />
       <Flex.Column>

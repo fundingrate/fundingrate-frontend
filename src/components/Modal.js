@@ -83,7 +83,7 @@ const WiredModal = ({
           >
             Confirm {amount > 0 && <Amount amount={amount} />}
           </Button>
-          <Button disabled={loading} mx={1} type="warning" onClick={onClose}>
+          <Button mx={1} type="warning" onClick={onClose}>
             Cancel
           </Button>
         </Flex>
@@ -160,9 +160,9 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
 
   const toggleModal = s => {
     setState({
-      name: '',
-      description: ''
-    })
+      name: "",
+      description: ""
+    });
     return setIsModalOpen(!isModalOpen);
   };
 
@@ -178,10 +178,12 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
     setLoading(false);
   };
 
+  const ready = state.name && state.description;
+
   return (
     <>
       <WiredModal
-        loading={loading}
+        loading={loading || !ready}
         title={"Create New Provider"}
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
@@ -212,7 +214,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
           />
         </Flex>
       </WiredModal>
-      <Button m={2} type="primary" onClick={toggleModal}>
+      <Button disabled={isModalOpen} m={2} type="primary" onClick={toggleModal}>
         Create New Provider
       </Button>
     </>

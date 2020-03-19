@@ -6,11 +6,13 @@ import Pages from "./pages";
 import { useWiring, store } from "./libs/wiring";
 
 const Infobar = p => {
-  const [state, setState] = useWiring(["userid"]);
+  const [state, setState] = useWiring(["userid", "serverTime"]);
   const { me, myWallet } = state;
 
   return (
-    <Header heading="v2.0.0">
+    <Header
+      heading={<Text>{new Date(state.serverTime).toUTCString()}</Text>}
+    >
       {me ? (
         <Flex alignItems="center" justifyContent="center">
           <Assets.Icons.Wallet mx={2} size={20} />
