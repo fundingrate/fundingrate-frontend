@@ -39,7 +39,8 @@ const Shade = posed(Container)({
 })
 
 const Modal = styled(Flex)`
-  max-height: 100%;
+  max-height: 75%;
+  max-width: 75%;
   flex-direction: column;
   justify-content: center;
   align-items: center;

@@ -39,7 +39,7 @@ export default p => {
   // const list = filteredList.length > 0 ? filteredList : myProviders;
 
   return (
-    <Box width={1} px={4} py={2}>
+    <Box width={1} px={4} py={4}>
       <Flex.Row>
         <Inputs.Search onSearch={handleSearch} flexGrow={0} />
         <Box mx={4} />
@@ -64,7 +64,7 @@ export default p => {
               {alerts && [
                 <Flex.Column as={Well} p={2} bg="darkBacking">
                   {alerts.length > 0 ? (
-                    <Editor data={alerts} readOnly />
+                    <Editor data={alerts} readOnly lang="json" height='300px'/>
                   ) : (
                     <Text color="red">No alerts yet.</Text>
                   )}

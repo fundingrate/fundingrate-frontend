@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Box, Text, Button, Modal, Divider, Input } from "../primitives";
+import {
+  Flex,
+  Box,
+  Text,
+  Button,
+  Modal,
+  Divider,
+  Input,
+  Well
+} from "../primitives";
 
 import Assets from "./Assets";
 import Utils from "./Utils";
+import Editor from "./Editor";
 
 const Amount = ({ amount = 0 }) => {
   return (
@@ -17,6 +27,7 @@ const WiredModal = ({
   children,
   isOpen,
   title = "Ello Moto",
+  subtitle = "Call me maybe...",
   onSearch,
   onConfirm,
   onClose,
@@ -28,9 +39,10 @@ const WiredModal = ({
 }) => {
   return (
     <Modal
-      isOpen={isOpen}
-      width={[1, 2 / 3]}
+      // width={[1, 2 / 3]}
+      {...p}
       m={4}
+      isOpen={isOpen}
       onKeyPress={e => {
         if (e.key !== "Enter") return;
         if (onConfirm) onConfirm();
@@ -44,7 +56,11 @@ const WiredModal = ({
         borderBottom="1px solid rgba(0, 0, 0, 0.5)"
         boxShadow="4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
       >
-        <Text.Heading fontSize={6}>{title}</Text.Heading>
+        <Box>
+          <Text.Heading fontSize={6}>{title}</Text.Heading>
+          <Box m={2} />
+          <Text color="subtext">{subtitle}</Text>
+        </Box>
         <Box mx="auto" />
         <Assets.Icons.Close
           onClick={onClose}
@@ -64,8 +80,8 @@ const WiredModal = ({
       >
         {children}
       </Flex>
-      <Divider />
-      {!hideActions && (
+      {!hideActions && [
+        <Divider />,
         <Flex
           width={1}
           p={3}
@@ -89,7 +105,7 @@ const WiredModal = ({
             Cancel
           </Button>
         </Flex>
-      )}
+      ]}
     </Modal>
   );
 };
@@ -132,6 +148,7 @@ WiredModal.FAQ = p => {
   return (
     <>
       <WiredModal
+        hideActions={true}
         title="Provider FAQ"
         isOpen={isModalOpen}
         onConfirm={toggleModal}
@@ -185,19 +202,25 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
   return (
     <>
       <WiredModal
+        width={1 / 2}
         disabled={!ready}
         loading={loading}
         title={"Create New Provider"}
+        subtitle={
+          "Please fill out the form below, the editor allows you to use markdown."
+        }
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
         onClose={toggleModal}
       >
-        <Flex.Column m={4} width={[1, 1/2]}>
-          {error && (
-            <Text color="red" fontSize={3} p={3}>
-              {error}
-            </Text>
-          )}
+        <Flex.Column mx={4} width={1}>
+          <Box mx="auto" my={2}>
+            {error ? (
+              <Text color="red">{error}</Text>
+            ) : (
+              <Text color="primary"></Text>
+            )}
+          </Box>
           <Input
             disabled={loading}
             label="Name:"
@@ -206,8 +229,17 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             value={state.name}
             error={state.name && state.name.length < 3}
           />
-          <Box my={1} />
-          <Input
+          <Divider my={2} />
+
+          <Well p={2} bg="darkBacking">
+            <Editor
+              lang="md"
+              data={`# Hello World`}
+              onChange={e => setProp("description", e)}
+            />
+          </Well>
+
+          {/* <Input
             // type="textarea"
             disabled={loading}
             label="Description:"
@@ -215,7 +247,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             onChange={e => setProp("description", e.target.value)}
             value={state.description}
             error={state.description && state.description.length < 10}
-          />
+          /> */}
         </Flex.Column>
       </WiredModal>
       <Button disabled={isModalOpen} m={2} type="primary" onClick={toggleModal}>
