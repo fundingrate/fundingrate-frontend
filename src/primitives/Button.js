@@ -59,9 +59,9 @@ const type = props => {
 
         &:hover,
         &:focus {
-          color: ${props.disabled ? null : theme.colors.secondary}
           filter: brightness(1.2);
-        };
+          color: ${props.disabled ? null : theme.colors.primary};
+        };   
       `;
     case "outline":
       return `
@@ -92,6 +92,12 @@ const type = props => {
           color: ${theme.colors.gray};
           border: ${theme.colors.lightGray} ${theme.borders.normal};
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
+
+          &:hover,
+          &:focus {
+            filter: brightness(1.2);
+            color: ${props.disabled ? null : theme.colors.primary};
+          };       
       `;
   }
 };

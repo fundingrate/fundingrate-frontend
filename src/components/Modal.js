@@ -22,10 +22,19 @@ const WiredModal = ({
   onClose,
   amount,
   loading,
+  hideActions,
   ...p
 }) => {
   return (
-    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4}>
+    <Modal
+      isOpen={isOpen}
+      width={[1, 2 / 3]}
+      m={4}
+      onKeyPress={e => {
+        if (e.key !== "Enter") return;
+        if (onConfirm) onConfirm();
+      }}
+    >
       <Flex
         width={1}
         p={3}
@@ -55,28 +64,30 @@ const WiredModal = ({
         {children}
       </Flex>
       <Divider />
-      <Flex
-        width={1}
-        p={3}
-        borderTop="1px solid rgba(0, 0, 0, 0.5)"
-        boxShadow="-4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
-      >
-        {onSearch && <Search onSearch={onSearch} />}
-        <Box mx="auto" />
-        <Button
-          as={Flex}
-          alignItems="center"
-          mx={1}
-          type="primary"
-          onClick={onConfirm}
-          disabled={loading}
+      {!hideActions && (
+        <Flex
+          width={1}
+          p={3}
+          borderTop="1px solid rgba(0, 0, 0, 0.5)"
+          boxShadow="-4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
         >
-          Confirm {amount > 0 && <Amount amount={amount} />}
-        </Button>
-        <Button disabled={loading} mx={1} type="warning" onClick={onClose}>
-          Cancel
-        </Button>
-      </Flex>
+          {onSearch && <Search onSearch={onSearch} />}
+          <Box mx="auto" />
+          <Button
+            as={Flex}
+            alignItems="center"
+            mx={1}
+            type="primary"
+            onClick={onConfirm}
+            disabled={loading}
+          >
+            Confirm {amount > 0 && <Amount amount={amount} />}
+          </Button>
+          <Button disabled={loading} mx={1} type="warning" onClick={onClose}>
+            Cancel
+          </Button>
+        </Flex>
+      )}
     </Modal>
   );
 };
@@ -138,7 +149,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [state, setState] = useState({});
-  const [provider, setProvider] = useState(null);
+  const [error, setError] = useState(null);
 
   const setProp = (k, v) => {
     return setState({
@@ -148,8 +159,10 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
   };
 
   const toggleModal = s => {
-    setProvider(null);
-    setState({});
+    setState({
+      name: '',
+      description: ''
+    })
     return setIsModalOpen(!isModalOpen);
   };
 
@@ -160,8 +173,8 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
     if (state.description.length < 10) return;
     setLoading(true);
     await onConfirm(state)
-      .then(setProvider)
-      .catch(console.error);
+      .then(toggleModal)
+      .catch(e => setError(e.message));
     setLoading(false);
   };
 
@@ -169,40 +182,34 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
     <>
       <WiredModal
         loading={loading}
-        title={!provider ? "Create New Provider" : 'Provider Successfully Created'}
+        title={"Create New Provider"}
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
         onClose={toggleModal}
       >
         <Flex m={4} width={2 / 3} flexDirection="column" alignItems="center">
-          {provider ? (
-            <>
-              <Utils.RenderObject data={provider} />
-              {/* <Text color="red" fontSize={3} p={3}>
-                Please ensure you save this information or risk losing your
-                account.
-              </Text> */}
-              {/* <Utils.DownloadJson data={provider} /> */}
-              {/* <Utils.RenderObject heading="Provider" data={provider} /> */}
-              {/* <Utils.RenderObject heading="Token" data={provider.token} /> */}
-            </>
-          ) : (
-            <>
-              <Input
-                label="Name:"
-                placeholder="Super Secret Signals #42069"
-                onChange={e => setProp("name", e.target.value)}
-                value={state.name}
-              />
-              <Box my={1} />
-              <Input
-                label="Description:"
-                placeholder="Uses top secret sauce to provide accurate signals!"
-                onChange={e => setProp("description", e.target.value)}
-                value={state.description}
-              />
-            </>
+          {error && (
+            <Text color="red" fontSize={3} p={3}>
+              {error}
+            </Text>
           )}
+          <Input
+            disabled={loading}
+            label="Name:"
+            placeholder="Super Secret Signals #42069"
+            onChange={e => setProp("name", e.target.value)}
+            value={state.name}
+            error={state.name && state.name.length < 3}
+          />
+          <Box my={1} />
+          <Input
+            disabled={loading}
+            label="Description:"
+            placeholder="Uses top secret sauce to provide accurate signals!"
+            onChange={e => setProp("description", e.target.value)}
+            value={state.description}
+            error={state.description && state.description.length < 10}
+          />
         </Flex>
       </WiredModal>
       <Button m={2} type="primary" onClick={toggleModal}>
