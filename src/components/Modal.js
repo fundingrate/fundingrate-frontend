@@ -229,29 +229,21 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             value={state.name}
             error={state.name && state.name.length < 3}
           />
-          <Divider my={2} />
-
+          <Box my={2} />
+          <Text.Heading m={2} fontSize={2}>
+            Description
+          </Text.Heading>
           <Well p={2} bg="darkBacking">
             <Editor
-              lang="md"
-              data={`# Hello World`}
+              lang="markdown"
+              data={`# How To Use Our Alerts`}
               onChange={e => setProp("description", e)}
             />
           </Well>
-
-          {/* <Input
-            // type="textarea"
-            disabled={loading}
-            label="Description:"
-            placeholder="Uses top secret sauce to provide accurate signals!"
-            onChange={e => setProp("description", e.target.value)}
-            value={state.description}
-            error={state.description && state.description.length < 10}
-          /> */}
         </Flex.Column>
       </WiredModal>
-      <Button disabled={isModalOpen} m={2} type="primary" onClick={toggleModal}>
-        Create New Provider
+      <Button as={Flex.Row} disabled={isModalOpen} m={2} type="card" onClick={toggleModal}>
+        <Assets.Icons.Signup mr={3} /> Create New Provider
       </Button>
     </>
   );

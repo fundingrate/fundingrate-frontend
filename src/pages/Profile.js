@@ -45,7 +45,7 @@ export default ({ actions, location, token, history }) => {
           account.
         </Text>
       </Flex.Column>
-      <Box my={2} />
+      <Box my={4} />
       <Card.ProfileData userid={state.user.id} token={state.token}>
         {state.token && <Utils.DownloadJson data={state} />}
         <Box mx="auto" />

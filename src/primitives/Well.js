@@ -13,7 +13,7 @@ Well.defaultProps = {
   as: 'code',
   // bg: "foregroundBacking",
   bg: 'darkBacking',
-  p: 2,
+  p: 1,
 }
 
 export default Well

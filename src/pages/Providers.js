@@ -49,7 +49,7 @@ export default p => {
               state.actions.private("createProvider", params)
             }
           />
-          <Modal.FAQ />
+          {/* <Modal.FAQ /> */}
         </Flex>
       </Flex.Row>
       <Box my={4} />
@@ -62,11 +62,11 @@ export default p => {
           return (
             <Utils.RenderObject heading={p.name} data={p} key={p.id}>
               {alerts && [
-                <Flex.Column as={Well} p={2} bg="darkBacking">
+                <Flex.Column as={Well} bg="darkBacking">
                   {alerts.length > 0 ? (
                     <Editor data={alerts} readOnly lang="json" height='300px'/>
                   ) : (
-                    <Text color="red">No alerts yet.</Text>
+                    <Text.Link m={2}>No Alerts Found, Start by using our API!</Text.Link>
                   )}
                 </Flex.Column>,
                 <Box my={2} />
