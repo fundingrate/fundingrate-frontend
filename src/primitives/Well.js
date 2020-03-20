@@ -10,7 +10,7 @@ const Well = styled(Box)`
 `
 
 Well.defaultProps = {
-  as: 'code',
+  // as: 'code',
   // bg: "foregroundBacking",
   bg: 'darkBacking',
   p: 1,

@@ -1,16 +1,18 @@
 import React from 'react'
 import { Box, Flex, Image, Container } from '.'
 
+import bg from '../assets/images/ticks.png'
+
 const Banner = ({
-  src = 'https://i.imgur.com/1wl1Jkn.jpg',
-  opacity = 0.8,
+  src=bg,
+  opacity = 0.1,
   children,
   ...props
 }) => {
   return (
     <Flex
       // flex={1}
-      // height={"50%"}
+      height={"100%"}
       bg="darkBacking"
       {...props}
       position="relative"
@@ -21,8 +23,9 @@ const Banner = ({
       // }}
     >
       <Image
-        backgroundSize="cover"
-        backgroundPosition="top"
+        // backgroundSize="cover"
+        // backgroundPosition="top"
+        // backgroundRepeat="repeat"
         src={src}
         style={{
           opacity,
@@ -34,9 +37,11 @@ const Banner = ({
           position: 'absolute',
           height: '100%',
           width: '100%',
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto'
         }}
       />
-      <Box
+      <Flex
         style={{
           top: 0,
           left: 0,
@@ -48,7 +53,7 @@ const Banner = ({
         }}
       >
         {children}
-      </Box>
+      </Flex>
       {/* <Container
         style={{
           top: 0,

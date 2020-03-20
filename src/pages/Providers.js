@@ -8,7 +8,7 @@
 // }
 
 import React, { useEffect, useState } from "react";
-import { Flex, Box, Text, Well } from "../primitives";
+import { Flex, Box, Text, Well, Card, Divider } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
 import { Utils, Modal, Buttons, Inputs, Editor } from "../components";
 
@@ -60,35 +60,78 @@ export default p => {
             : null;
 
           return (
-            <Utils.RenderObject heading={p.name} data={p} key={p.id}>
-              {alerts && [
-                <Flex.Column as={Well} bg="darkBacking">
-                  {alerts.length > 0 ? (
-                    <Editor data={alerts} readOnly lang="json" height='300px'/>
-                  ) : (
-                    <Text.Link m={2}>No Alerts Found, Start by using our API!</Text.Link>
-                  )}
-                </Flex.Column>,
-                <Box my={2} />
-              ]}
-              <Flex.Row>
-                <Box mx={"auto"} />
+            <Card as={Flex.Column} key={p.id} my={3} p={0}>
+              <ProviderHeading
+                title={p.name}
+                subtitle={p.id}
+                created={p.created}
+              />
+
+              <Box m={4}>
                 {alerts ? (
-                  <Buttons.hideProviderAlerts providerid={p.id} />
+                  <AlertLog alerts={alerts} />
                 ) : (
-                  <Buttons.listProviderAlerts providerid={p.id} />
+                  <Utils.RenderMarkdown source={p.description} />
                 )}
+              </Box>
+
+              <Flex.Row m={4} mt={0}>
+                <Box mx={"auto"} />
+                <ButtonAlertsShowLog isHidden={alerts} id={p.id} />
                 <Box mx={2} />
-                {p.public ? (
-                  <Buttons.setProviderPrivate providerid={p.id} />
-                ) : (
-                  <Buttons.setProviderPublic providerid={p.id} />
-                )}
+                <ButtonSetPublic isPublic={p.public} id={p.id} />
               </Flex.Row>
-            </Utils.RenderObject>
+            </Card>
           );
         })}
       </Flex.Column>
     </Box>
+  );
+};
+
+const ButtonAlertsShowLog = ({ isHidden, id }) => {
+  return isHidden ? (
+    <Buttons.hideProviderAlerts providerid={id} />
+  ) : (
+    <Buttons.listProviderAlerts providerid={id} />
+  );
+};
+
+const ButtonSetPublic = ({ isPublic, id }) => {
+  return isPublic ? (
+    <Buttons.setProviderPrivate providerid={id} />
+  ) : (
+    <Buttons.setProviderPublic providerid={id} />
+  );
+};
+
+const ProviderHeading = ({ title, subtitle, created }) => {
+  return (
+    <Flex.Row
+      p={2}
+      bg="backing"
+      borderBottom="1px solid rgba(0, 0, 0, 0.5)"
+      boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
+    >
+      <Flex.Column>
+        <Text.Heading fontSize={6}>{title}</Text.Heading>
+        <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
+      </Flex.Column>
+
+      <Box mx="auto" />
+      <Text>{Utils.renderProp(created, "time")}</Text>
+    </Flex.Row>
+  );
+};
+
+const AlertLog = ({ alerts }) => {
+  return (
+    <Flex.Column height="300px" as={Well} bg="darkBacking">
+      {alerts.length > 0 ? (
+        <Editor data={alerts} readOnly lang="json" height="300px" />
+      ) : (
+        <Text.Link m={2}>No Alerts Found, Start by using our API!</Text.Link>
+      )}
+    </Flex.Column>
   );
 };

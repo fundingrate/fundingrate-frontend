@@ -301,5 +301,12 @@ export default {
   DownloadJson,
   DayOfWeek,
   GetDateFormatted,
+  clickProp({value, type, color, ...p}) {
+    return (
+      <Text.Link onClick={e => copy(value)} color={color} {...p}>
+        {renderProp(value, type)}
+      </Text.Link>
+    );
+  },
   searchProps
 };
