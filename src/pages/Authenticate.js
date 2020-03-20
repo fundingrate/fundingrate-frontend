@@ -42,7 +42,11 @@ const Login = ({ onSubmit = x => x }) => {
   };
 
   return (
-    <Flex.Column width={[1, 2 / 3]} p={4} height="100%" alignItems="center">
+    <Flex.Column width={[1, 2 / 3]} p={4} height="100%" alignItems="center" onKeyPress={e => {
+      if (e.key !== "Enter") return;
+      if(error) return;
+      Submit()
+    }}>
       <Heading> Account Login </Heading>
       <Text color={error ? "red" : "primary"} p={2}>
         {error ? error : "Welcome back, please enter your account credentials."}
@@ -128,6 +132,11 @@ const Register = ({ onSubmit = x => x }) => {
       p={4}
       height="100%"
       alignItems="center"
+      onKeyPress={e => {
+        if (e.key !== "Enter") return;
+        if(error) return;
+        Submit()
+      }}
     >
       <Heading> Account Registration </Heading>
       <Text color={error ? "red" : "primary"} p={2}>

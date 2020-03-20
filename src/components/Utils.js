@@ -13,12 +13,9 @@ import {
 } from "../primitives";
 
 import Assets from "./Assets";
-
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-
 import assert from "assert";
-
 import moment from "moment";
 import copy from "clipboard-copy";
 
@@ -114,7 +111,7 @@ RenderObject.Prop = React.memo(
   }
 );
 
-const LoadingPage = p => {
+const LoadingPage = ({ message = "Loading...", ...p }) => {
   return (
     <Flex
       p={4}
@@ -125,7 +122,7 @@ const LoadingPage = p => {
       {...p}
     >
       <Spinner>/</Spinner>
-      <Box mx={2} /> Loading...
+      <Box mx={2} /> {message}
     </Flex>
   );
 };
@@ -293,15 +290,19 @@ export default {
   renderProp,
   LoadingPage,
   MarkdownLink,
-  RenderMarkdown(p) {
-    return <ReactMarkdown {...p} />;
+  RenderMarkdown({ as, ...p }) {
+    return (
+      <Box as={as} p={2}>
+        <ReactMarkdown {...p} />
+      </Box>
+    );
   },
   Loading,
   DownloadCSV,
   DownloadJson,
   DayOfWeek,
   GetDateFormatted,
-  clickProp({value, type, color, ...p}) {
+  clickProp({ value, type, color, ...p }) {
     return (
       <Text.Link onClick={e => copy(value)} color={color} {...p}>
         {renderProp(value, type)}

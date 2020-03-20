@@ -43,10 +43,11 @@ const WiredModal = ({
       {...p}
       m={4}
       isOpen={isOpen}
-      onKeyPress={e => {
-        if (e.key !== "Enter") return;
-        if (onConfirm) onConfirm();
-      }}
+      // onKeyPress={e => {
+      //   if (e.key !== "Enter") return;
+      //   if (disabled || loading) return;
+      //   if (onConfirm) onConfirm();
+      // }}
     >
       <Flex
         width={1}
@@ -58,7 +59,7 @@ const WiredModal = ({
       >
         <Box>
           <Text.Heading fontSize={6}>{title}</Text.Heading>
-          <Box m={2} />
+          <Box m={1} />
           <Text color="subtext">{subtitle}</Text>
         </Box>
         <Box mx="auto" />
@@ -150,14 +151,21 @@ WiredModal.FAQ = p => {
       <WiredModal
         hideActions={true}
         title="Provider FAQ"
+        subtitle="Confused about how to setup your provider?"
         isOpen={isModalOpen}
         onConfirm={toggleModal}
         onClose={toggleModal}
       >
         <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/ee3ffe27874dcf9505e956bab6ea6f0e/raw/provider_FAQ.md" />
       </WiredModal>
-      <Button m={2} type="warning" onClick={toggleModal}>
-        Help
+      <Button
+        as={Flex.Row}
+        disabled={isModalOpen}
+        m={2}
+        type="warning"
+        onClick={toggleModal}
+      >
+        <Assets.Icons.Help mr={2} size={20} bg='white' /> Help
       </Button>
     </>
   );
@@ -242,8 +250,14 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
           </Well>
         </Flex.Column>
       </WiredModal>
-      <Button as={Flex.Row} disabled={isModalOpen} m={2} type="card" onClick={toggleModal}>
-        <Assets.Icons.Signup mr={3} /> Create New Provider
+      <Button
+        as={Flex.Row}
+        disabled={isModalOpen}
+        m={2}
+        type="card"
+        onClick={toggleModal}
+      >
+        <Assets.Icons.Login mr={2} size={20} /> Create New Provider
       </Button>
     </>
   );

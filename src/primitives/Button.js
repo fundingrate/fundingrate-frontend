@@ -10,7 +10,7 @@ import {
 } from "styled-system";
 
 import theme from "../styles/theme";
-import Box from "./Box";
+import {Box,Flex} from ".";
 
 const type = props => {
   switch (props.type) {

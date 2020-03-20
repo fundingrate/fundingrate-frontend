@@ -8,94 +8,142 @@
 // }
 
 import React, { useEffect, useState } from "react";
-import { Flex, Box, Text, Well, Card, Divider } from "../primitives";
+import { Button, Flex, Box, Text, Well, Card, Divider } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
 import { Utils, Modal, Buttons, Inputs, Editor } from "../components";
 
 export default p => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const [state, dispatch] = useWiring(["myProviders"]);
+  let list = state.myProviders ? Object.values(state.myProviders) : [];
 
-  const myProviders = state.myProviders ? Object.values(state.myProviders) : [];
-  const [filteredList, setFiltered] = useState(myProviders);
-
-  // if the state changes while searching, hydrate the shortlist
-  useEffect(() => {
-    // if (filteredList.length < 1) return;
-    setFiltered(
-      filteredList.map(r => {
-        return state.myProviders[r.id];
-      })
-    );
-  }, [state.myProviders]);
-
-  const handleSearch = st => {
-    console.log("searching for:", st);
-    if (!st) return setFiltered(myProviders);
-    const r = myProviders.filter(o => Utils.searchProps(o, st));
-    console.log("search results:", r);
-    setFiltered(r);
-  };
-
-  // const list = filteredList.length > 0 ? filteredList : myProviders;
+  // const handleSearch = st => {
+  //   if (!st) return setReducedList(list);
+  //   const r = list.filter(o => Utils.searchProps(o, st));
+  //   setReducedList(r);
+  // };
 
   return (
-    <Box width={1} px={4} py={4}>
-      <Flex.Row>
-        <Inputs.Search onSearch={handleSearch} flexGrow={0} />
-        <Box mx={4} />
-        <Flex>
-          <Modal.CreateProvider
-            onConfirm={params =>
-              state.actions.private("createProvider", params)
-            }
-          />
-          {/* <Modal.FAQ /> */}
-        </Flex>
-      </Flex.Row>
-      <Box my={4} />
+    <Box width={1} p={4}>
       <Flex.Column px={4}>
-        {filteredList.map(p => {
-          const alerts = state.providerAlerts
-            ? state.providerAlerts[p.id]
-            : null;
-
-          return (
-            <Card as={Flex.Column} key={p.id} my={3} p={0}>
-              <ProviderHeading
-                title={p.name}
-                subtitle={p.id}
-                created={p.created}
-              />
-
-              <Box m={4}>
-                {alerts ? (
-                  <AlertLog alerts={alerts} />
-                ) : (
-                  <Utils.RenderMarkdown source={p.description} />
-                )}
-              </Box>
-
-              <Flex.Row m={4} mt={0}>
+        {list.length > 0
+          ? [
+              <Flex.Row>
+                {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
                 <Box mx={"auto"} />
-                <ButtonAlertsShowLog isHidden={alerts} id={p.id} />
-                <Box mx={2} />
-                <ButtonSetPublic isPublic={p.public} id={p.id} />
-              </Flex.Row>
-            </Card>
-          );
-        })}
+                <Flex>
+                  <Modal.CreateProvider
+                    onConfirm={params =>
+                      state.actions.private("createProvider", params)
+                    }
+                  />
+                  <Modal.FAQ />
+                </Flex>
+              </Flex.Row>,
+              <Box my={2} />,
+              list.map(p => <ProviderCard providerid={p.id} />)
+            ]
+          : [
+              <Text.Heading fontSize={6}>
+                No providers, Why not create one?
+              </Text.Heading>,
+              <Box m={4} />,
+              <Modal.CreateProvider
+                type="simple"
+                onConfirm={params =>
+                  state.actions.private("createProvider", params)
+                }
+              />
+            ]}
       </Flex.Column>
     </Box>
   );
 };
 
-const ButtonAlertsShowLog = ({ isHidden, id }) => {
-  return isHidden ? (
-    <Buttons.hideProviderAlerts providerid={id} />
-  ) : (
-    <Buttons.listProviderAlerts providerid={id} />
+const ProviderCard = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders"]);
+
+  const p = state.myProviders[providerid];
+
+  const pages = {
+    Description: () => <Description providerid={p.id} />,
+    "Alert Log": () => <AlertLog providerid={p.id} />
+  };
+
+  const [page, setPage] = useState("Description");
+  const PAGE = pages[page];
+
+  return (
+    <Card as={Flex.Column} key={p.id} my={3} p={0}>
+      <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
+      <Flex.Row m={3}>
+        {Object.keys(pages).map(k => {
+          return (
+            <Button
+              onClick={e => setPage(k)}
+              type={page === k ? "primary" : "simple"}
+              mx={2}
+            >
+              {k}
+            </Button>
+          );
+        })}
+        <Box mx="auto" />
+        <ButtonSetPublic isPublic={p.public} id={p.id} />
+      </Flex.Row>
+      <Flex.Column mx={2} mb={2}>
+        {<PAGE />}
+      </Flex.Column>
+    </Card>
   );
-};
+});
+
+const Description = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const [isEditing, setEditing] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const toggle = p => setEditing(!isEditing);
+  const p = state.myProviders[providerid];
+
+  const [data, setData] = useState(p.description);
+
+  return [
+    <Well height="300px">
+      {isEditing ? (
+        isLoading ? (
+          <Utils.LoadingPage message="Saving Description..." />
+        ) : (
+          <Editor data={p.description} lang="markdown" onChange={setData} />
+        )
+      ) : (
+        <Utils.RenderMarkdown source={p.description} />
+      )}
+    </Well>,
+    <Flex.Row m={3}>
+      <Box mx="auto" />
+      {!isEditing ? (
+        <Button type="primary" onClick={toggle}>
+          Edit Description
+        </Button>
+      ) : (
+        <Button
+          type="success"
+          onClick={async e => {
+            setLoading(true);
+            await state.actions.provider("setDescription", {
+              providerid: p.id,
+              description: data
+            });
+            setLoading(false);
+            toggle();
+          }}
+        >
+          {isLoading ? <Utils.Loading /> : "SaveDescription"}
+        </Button>
+      )}
+    </Flex.Row>
+  ];
+});
 
 const ButtonSetPublic = ({ isPublic, id }) => {
   return isPublic ? (
@@ -108,7 +156,7 @@ const ButtonSetPublic = ({ isPublic, id }) => {
 const ProviderHeading = ({ title, subtitle, created }) => {
   return (
     <Flex.Row
-      p={2}
+      p={3}
       bg="backing"
       borderBottom="1px solid rgba(0, 0, 0, 0.5)"
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
@@ -124,14 +172,46 @@ const ProviderHeading = ({ title, subtitle, created }) => {
   );
 };
 
-const AlertLog = ({ alerts }) => {
-  return (
-    <Flex.Column height="300px" as={Well} bg="darkBacking">
-      {alerts.length > 0 ? (
-        <Editor data={alerts} readOnly lang="json" height="300px" />
+const AlertLog = ({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+
+  const alerts = state.providerAlerts ? state.providerAlerts[providerid] : [];
+  const [loading, setLoading] = useState(false);
+
+  const fetchState = async () => {
+    setLoading(true);
+    await state.actions
+      .provider("listAlerts", {
+        providerid
+      })
+      .then(a => dispatch("updateProp", ["providerAlerts", providerid], a));
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchState();
+  }, []);
+
+  return [
+    <Well height="300px">
+      {loading ? (
+        <Utils.LoadingPage message="Refreshing Alert Log..." />
       ) : (
-        <Text.Link m={2}>No Alerts Found, Start by using our API!</Text.Link>
+        <Editor
+          data={alerts}
+          readOnly
+          lang="json"
+          height="300px"
+          placeholder="No alerts found."
+        />
       )}
-    </Flex.Column>
-  );
+    </Well>,
+
+    <Flex.Row m={3}>
+      <Box mx="auto" />
+      <Button type="success" onClick={fetchState}>
+        {loading ? <Utils.Loading /> : "Refresh Log"}
+      </Button>
+    </Flex.Row>
+  ];
 };
