@@ -33,24 +33,26 @@ export default ({ actions, location, token, history }) => {
     <Flex.Content height={'100%'}>
       <Avatar src={state.user.avatar} size={[64, 128]} mb={2} border="4px solid" borderColor="offwhite" />
       <Box m={2} />
-      <Flex.Column alignItems="center">
-        <Text.Heading fontSize={[4,7]} m={2}>
-          Welcome, {state.user.username}
-        </Text.Heading>
-        <Divider />
-        <Text color="red" fontSize={[1, 3]} p={3}>
-          Please ensure you save this information or risk losing access to your
-          account.
-        </Text>
-      </Flex.Column>
+      <ProfileHeading username={state.user.username} />
       <Box my={4} />
       <Card.ProfileData userid={state.user.id} token={state.token}>
         {state.token && <Utils.DownloadJson data={state} />}
         <Box mx="auto" />
-        <Button.Logout disabled={!state} mx={2}>
-          LOGOUT
-        </Button.Logout>
+        <Button.Logout disabled={!state} mx={2} />
       </Card.ProfileData>
     </Flex.Content>
   );
 };
+
+const ProfileHeading = ({ username }) => {
+  return <Flex.Column alignItems="center">
+    <Text.Heading fontSize={[4, 7]} m={2}>
+      Welcome, {username}
+    </Text.Heading>
+    <Divider />
+    <Text color="red" fontSize={[1, 3]} p={3}>
+      Please ensure you save this information or risk losing access to your
+      account.
+    </Text>
+  </Flex.Column>
+}

@@ -1,12 +1,3 @@
-// import React from 'react'
-// import Utils from '../components/Utils'
-
-// export default p => {
-//   return (
-//     <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/c7f2cc5574218a008bd59e9a088c1a51/raw/fundingrateio_howto.md" />
-//   )
-// }
-
 import React, { useEffect, useState } from "react";
 import {
   Input,
@@ -90,12 +81,13 @@ const ProviderCard = React.memo(({ providerid }) => {
   const PAGE = pages[page];
 
   return (
-    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3, 1 / 2]}>
+    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3]}>
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
       <Flex.Row m={3}>
         {Object.keys(pages).map(k => {
           return (
             <Button
+              key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
               mx={2}
@@ -104,8 +96,6 @@ const ProviderCard = React.memo(({ providerid }) => {
             </Button>
           );
         })}
-        {/* <Box mx="auto" /> */}
-        {/* <ButtonSetPublic isPublic={p.public} id={p.id} /> */}
       </Flex.Row>
       <Flex.Column mx={2} mb={2}>
         {<PAGE />}
@@ -118,27 +108,12 @@ const Settings = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
   const p = state.myProviders[providerid];
 
-  const [data, setData] = useState(p.description);
-
   return [
     <Well height="300px">
-      {/* <Input disabled value={p.public} label="Process Trades: ">
-        <Buttons.Process />
-      </Input>
-      <Box m={1}/> */}
       <Input disabled value={p.public} label="Listed Publicly: ">
         <ButtonSetPublic isPublic={p.public} id={p.id} />
       </Input>
-      {/* <Inputs.Copy
-        label="ID: "
-        placeholder={p.id}
-        value={p.id}
-      /> */}
     </Well>
-    // <Flex.Row m={3}>
-    //   <Box mx="auto" />
-    //   <Button type="primary">Do Something</Button>
-    // </Flex.Row>
   ];
 });
 
@@ -194,8 +169,8 @@ const ButtonSetPublic = ({ isPublic, id }) => {
   return isPublic ? (
     <Buttons.setProviderPrivate providerid={id} />
   ) : (
-      <Buttons.setProviderPublic providerid={id} />
-    );
+    <Buttons.setProviderPublic providerid={id} />
+  );
 };
 
 const ProviderHeading = ({ title, subtitle, created }) => {

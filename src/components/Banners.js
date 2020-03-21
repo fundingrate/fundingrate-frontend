@@ -7,13 +7,11 @@ const Welcome = props => {
   return (
     <Banner
       {...props}
-      // src={banner01}
       height={['40%', '60%']}
     >
       <Flex
         as={Container}
         height={'100%'}
-        // bg='green'
         flexDirection="column"
         justifyContent="center"
         pl={[2, '20%']}
@@ -60,7 +58,6 @@ const ColorBar = ({ children, ...p }) => {
       {...p}
     >
       {children}
-      {/* <Text.Heading fontSize={5}>Welcome back, {user.username}</Text.Heading> */}
     </Flex>
   )
 }
@@ -72,7 +69,7 @@ const Notice = ({ children }) => (
 )
 
 export default {
-  // Welcome,
+  Welcome,
   ColorBar,
   Notice,
 }

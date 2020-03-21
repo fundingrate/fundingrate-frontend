@@ -115,8 +115,4 @@ Card.QrDeposit = ({ data }) => {
   );
 };
 
-// Card.InputAmount.propTypes = {
-  // ticker: p => "string"
-// }
-
 export default Card;

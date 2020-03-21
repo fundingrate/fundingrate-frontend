@@ -32,14 +32,14 @@ export default p => {
       >
         <Assets.Social.Discord mx={2} /> Discord
       </Button>
-      {/* <Button
+      <Button
         as={Flex}
         alignItems="center"
         type="simple"
         onClick={e => navigateTo("Support")}
       >
         <Assets.Icons.Help mx={2}  bg="consumer" /> Support
-      </Button> */}
+      </Button>
       <Box mx="auto" />
       <Button
         as={Flex}

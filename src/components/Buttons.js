@@ -164,10 +164,8 @@ Button.Gateway = ({ children, ...p }) => {
       m={2}
       width={128}
       height={64}
-      // onClick={x => onClick("/wallet/btc")}
     >
       {children}
-      {/* <Assets.Processors.Bitcoin_logo height={"100%"} /> */}
     </Button>
   );
 };

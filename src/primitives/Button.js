@@ -123,6 +123,7 @@ const disabled = () => {
 
 const Button = styled(Box)`
   // text-transform: uppercase;
+  // cursor: pointer;
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   border-radius: ${props => props.borderRadius || theme.radii.normal};
   border: none;
