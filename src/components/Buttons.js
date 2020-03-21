@@ -2,6 +2,61 @@ import React, { useEffect, useState } from "react";
 import { Button, Flex, Spinner, Box } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
 import { Inputs, Assets, Utils, Buttons } from "../components";
+import { useHistory, useLocation } from "react-router-dom";
+
+Button.Close = p => {
+  return (
+    <Button {...p} type="simple" p={0}>
+      <Assets.Icons.Close />
+    </Button>
+  );
+};
+
+Button.AuthenticateRedirect = p => {
+  const history = useHistory();
+
+  return (
+    <Button type="primary" onClick={e => history.push("/authenticate")}>
+      Login / Register
+    </Button>
+  );
+};
+
+Button.Process = p => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    // do somthing
+    // setLoading(false);
+  };
+
+  return (
+    <Button {...p} onClick={onClick} type="simple" disabled={loading}>
+      {loading ? <Utils.Loading message="Processing..." /> : "Start Processing"}
+    </Button>
+  );
+};
+
+Button.Toggle = ({ options = ["Stop", "Start"], onClick = x => x, ...p }) => {
+  const [state, setState] = useState(false);
+
+  const tOptions = state ? options[0] : options[1];
+
+  return (
+    <Button
+      onClick={e => {
+        setState(!state);
+        onClick(state);
+      }}
+      type={"simple"}
+      mx={2}
+    >
+      {tOptions}
+    </Button>
+  );
+};
 
 Button.Logout = p => {
   const [state, dispatch] = useWiring(["me"]);

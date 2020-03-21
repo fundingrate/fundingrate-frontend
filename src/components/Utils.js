@@ -111,28 +111,26 @@ RenderObject.Prop = React.memo(
   }
 );
 
-const LoadingPage = ({ message = "Loading...", ...p }) => {
+const LoadingPage = p => {
   return (
-    <Flex
+    <Loading
+      as={Flex}
       p={4}
       width={1}
       height="100%"
       alignItems="center"
       justifyContent="center"
       {...p}
-    >
-      <Spinner>/</Spinner>
-      <Box mx={2} /> {message}
-    </Flex>
+    />
   );
 };
 
-const Loading = p => {
+const Loading = ({ message = "Loading...", ...p }) => {
   return (
-    <Flex.Row>
+    <Flex.Row {...p}>
       <Spinner>/</Spinner>
       <Box mx={2} />
-      Loading...
+      {message}
     </Flex.Row>
   );
 };

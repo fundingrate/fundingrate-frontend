@@ -29,8 +29,6 @@ export default ({ actions, location, token, history }) => {
     token: gState.token
   });
 
-  console.log('s', state)
-
   return (
     <Flex.Content height={'100%'}>
       <Avatar src={state.user.avatar} size={[64, 128]} mb={2} border="4px solid" borderColor="offwhite" />

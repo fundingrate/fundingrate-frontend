@@ -8,9 +8,19 @@
 // }
 
 import React, { useEffect, useState } from "react";
-import { Button, Flex, Box, Text, Well, Card, Divider } from "../primitives";
+import {
+  Input,
+  Button,
+  Flex,
+  Box,
+  Text,
+  Well,
+  Card,
+  Divider
+} from "../primitives";
 import { useWiring, store } from "../libs/wiring";
 import { Utils, Modal, Buttons, Inputs, Editor } from "../components";
+import { useHistory, useLocation } from "react-router-dom";
 
 export default p => {
   const [state, dispatch] = useWiring(["myProviders"]);
@@ -21,6 +31,12 @@ export default p => {
   //   const r = list.filter(o => Utils.searchProps(o, st));
   //   setReducedList(r);
   // };
+
+  const history = useHistory();
+  if (!state.userid) {
+    history.push("/authenticate");
+    return <Text>Redirecting...</Text>;
+  }
 
   return (
     <Box width={1} p={4}>
@@ -65,11 +81,12 @@ const ProviderCard = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   const pages = {
+    Settings: () => <Settings providerid={p.id} />,
     Description: () => <Description providerid={p.id} />,
     "Alert Log": () => <AlertLog providerid={p.id} />
   };
 
-  const [page, setPage] = useState("Description");
+  const [page, setPage] = useState("Settings");
   const PAGE = pages[page];
 
   return (
@@ -87,14 +104,42 @@ const ProviderCard = React.memo(({ providerid }) => {
             </Button>
           );
         })}
-        <Box mx="auto" />
-        <ButtonSetPublic isPublic={p.public} id={p.id} />
+        {/* <Box mx="auto" /> */}
+        {/* <ButtonSetPublic isPublic={p.public} id={p.id} /> */}
       </Flex.Row>
       <Flex.Column mx={2} mb={2}>
         {<PAGE />}
       </Flex.Column>
     </Card>
   );
+});
+
+const Settings = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const p = state.myProviders[providerid];
+
+  const [data, setData] = useState(p.description);
+
+  return [
+    <Well height="300px">
+      {/* <Input disabled value={p.public} label="Process Trades: ">
+        <Buttons.Process />
+      </Input>
+      <Box m={1}/> */}
+      <Input disabled value={p.public} label="Listed Publicly: ">
+        <ButtonSetPublic isPublic={p.public} id={p.id} />
+      </Input>
+      {/* <Inputs.Copy
+        label="ID: "
+        placeholder={p.id}
+        value={p.id}
+      /> */}
+    </Well>
+    // <Flex.Row m={3}>
+    //   <Box mx="auto" />
+    //   <Button type="primary">Do Something</Button>
+    // </Flex.Row>
+  ];
 });
 
 const Description = React.memo(({ providerid }) => {

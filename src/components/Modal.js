@@ -63,11 +63,12 @@ const WiredModal = ({
           <Text color="subtext">{subtitle}</Text>
         </Box>
         <Box mx="auto" />
-        <Assets.Icons.Close
+        <Button.Close onClick={onClose} />
+        {/* <Assets.Icons.Close
           onClick={onClose}
           clickable
           style={{ cursor: "pointer" }}
-        />
+        /> */}
       </Flex>
       <Divider />
       <Flex
@@ -165,7 +166,7 @@ WiredModal.FAQ = p => {
         type="warning"
         onClick={toggleModal}
       >
-        <Assets.Icons.Help mr={2} size={20} bg='white' /> Help
+        <Assets.Icons.Help mr={2} size={20} bg="white" /> Help
       </Button>
     </>
   );

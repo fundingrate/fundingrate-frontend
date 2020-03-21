@@ -17,9 +17,7 @@ const Infobar = p => {
           <Text>{Utils.renderProp(myWallet.balance, "money")}</Text>
         </Flex>
       ) : (
-        <Button type="primary" onClick={e => onClick("/authenticate")}>
-          Login / Register
-        </Button>
+        <Button.AuthenticateRedirect />
       )}
     </Header>
   );
