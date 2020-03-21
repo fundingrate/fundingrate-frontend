@@ -1,47 +1,31 @@
 # Introduction
 
-Fundingrate.io is a software platform that allows the user to easily
-manage tradingview webhooks to formulate trade strategies. Utilizing
-these strategies the user can then trigger trade executions on thier
-exchange of choice. This allows the user to tailor thier trading
-experience however they see fit.
+Fundingrate is a software as a service platform that allows vendors to collect empirical data on live market conditions. We Provide a platform for both consumers and producers to safely create & share trade strategies, indicator events, and statistical data.
 
-![Provider](https://i.imgur.com/lsHwrTn.png)
-
-# Features
+## Features
 
 Fundingrate.io provides a few compelling features and services.
 
-- Alert/Event Tracking
-- Alert/Event Filtering
-- Alert/Event Triggers
-- Alert/Event Replay & Backtesting
-- Paper Trading
-- Statistical Reporting
-- Web Portal / Dashboard
-- Secure and Anonymous
-- Authentication
-- Follow other userids
-- Share Strategies
+* Alert/Event Tracking
+* Alert/Event Replay
+* Code Editior
+* Statistical Processing
+* Paralleled Testing
+* Trade Automation
+* Share Strategies
+* Marketplace
 
-# Open Source
-
-All the code supporting Fundingrate.io is open-source.
-
-- [Tradingview-listener](https://github.com/tacyarg/tradingview-listener)
-- [Tradingview-dashboard](https://github.com/tacyarg/tradingview-dashboard)
-
-# Social Media
+## Social Media
 
 - [Twitter](https://twitter.com/FundingrateIO)
-- [Community Forum](https://forum.tacyarg.com/c/projects/fundingrate-io)
+- [Discord](https://discord.gg/jWcakUj)
 
-# Installation
+## Installation
 ```
 yarn && yarn start
 ```
 
-# license
+## license
 
 [license zero parity](https://licensezero.com/licenses/parity)
 and [apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
