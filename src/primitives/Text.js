@@ -73,10 +73,10 @@ const textDecoration = style({
 })
 
 Text.Link = styled(Text)`
-  color: 
-  transition: all 0.2s ease-in-out;
+  // color: 
+  transition: all 0.1s ease-in-out;
   text-decoration: none;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   border-radius: ${theme.radii.normal};
   letter-spacing: ${theme.letterSpacings.slight};
@@ -84,8 +84,15 @@ Text.Link = styled(Text)`
 
   &:hover,
   &:focus {
-    opacity: 0.5;
-  }
+    filter: brightness(1.2);
+  };
+
+  :active {
+    transform: scale(0.98);
+    box-shadow: none;
+    opacity: ${0.5};
+    color: ${theme.colors.primary}
+  };
 `
 
 Text.Link.defaultProps = {

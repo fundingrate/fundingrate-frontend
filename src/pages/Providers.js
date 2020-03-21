@@ -1,180 +1,262 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Flex, Box, Text, Input } from '../primitives'
-import { Utils, Modal, Graph } from '../components'
-import CountUp from 'react-countup'
+// import React from 'react'
+// import Utils from '../components/Utils'
 
-const SearchInput = ({ onSearch = x => x }) => {
-  const [search, setSearch] = useState('')
+// export default p => {
+//   return (
+//     <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/c7f2cc5574218a008bd59e9a088c1a51/raw/fundingrateio_howto.md" />
+//   )
+// }
 
-  const debouncedSearchTerm = Utils.useDebounce(search, 500)
-  useEffect(() => {
-    onSearch(search)
-  }, [debouncedSearchTerm])
+import React, { useEffect, useState } from "react";
+import {
+  Input,
+  Button,
+  Flex,
+  Box,
+  Text,
+  Well,
+  Card,
+  Divider
+} from "../primitives";
+import { useWiring, store } from "../libs/wiring";
+import { Utils, Modal, Buttons, Inputs, Editor } from "../components";
+import { useHistory, useLocation } from "react-router-dom";
 
-  return (
-    <Input
-      placeholder="Search..."
-      value={search}
-      onChange={e => setSearch(e.target.value)}
-    />
-  )
-}
+export default p => {
+  const [state, dispatch] = useWiring(["myProviders"]);
+  let list = state.myProviders ? Object.values(state.myProviders) : [];
 
-const Providers = ({ actions, location }) => {
-  const cPage = location.pathname
+  // const handleSearch = st => {
+  //   if (!st) return setReducedList(list);
+  //   const r = list.filter(o => Utils.searchProps(o, st));
+  //   setReducedList(r);
+  // };
 
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [state, setState] = useState([])
-  const [cache, setCache] = useState([])
-  const [stats, setStats] = useState([])
-
-  useEffect(() => {
-    actions
-      .listMyProviders()
-      .then(s => {
-        setState(s)
-        setCache(s)
-        setLoading(false)
-      })
-      .catch(e => {
-        setError(e)
-        setLoading(false)
-      })
-  }, [])
-
-  useEffect(() => {
-    const valueProps = [
-      'longs',
-      'shorts',
-      'totalTrades',
-      'longProfit',
-      'shortProfit',
-      'profit',
-    ]
-    const memo = state.reduce((memo, data, idx) => {
-      if (idx === 0) {
-        valueProps.map(v => {
-          memo[v] = {
-            label: v,
-            value: data.stats[v],
-          }
-        })
-      } else {
-        valueProps.map(v => {
-          memo[v].value += data.stats[v]
-        })
-      }
-
-      return memo
-    }, {})
-
-    console.log('STATS', memo)
-
-    setStats(Object.values(memo))
-  }, [state])
-
-  const handleSearch = st => {
-    console.log('searching for:', st)
-    if (!st) return setState(cache)
-    const r = state.filter(o => Utils.searchProps(o, st))
-    console.log('search results:', r)
-    setState(r)
+  const history = useHistory();
+  if (!state.userid) {
+    history.push("/authenticate");
+    return <Text>Redirecting...</Text>;
   }
 
-  return loading ? (
-    <Utils.LoadingPage />
-  ) : (
-    <Flex
-      // flexDirection="column"
-      p={2}
-      width={1}
-      justifyContent="space-evenly"
-      flexWrap="wrap"
-    >
-      <Flex
-        width={1}
-        m={4}
-        alignItems="center"
-        flexDirection={['column', 'row']}
-      >
-        <SearchInput onSearch={handleSearch} />
-        <Box mx={4} />
-        <Flex>
-          <Modal.CreateProvider actions={actions} />
-          <Modal.FAQ />
-          {/* <Modal.FeedbackSurvey /> */}
-        </Flex>
-      </Flex>
-      {/* <Flex
-        width={1}
-        m={2}
-        alignItems="center"
-        style={{
-          overflowX: 'auto',
-        }}
-      >
-        {stats.map(s => (
-          <Flex alignItems="center" mx={2}>
-            {s.label.toUpperCase()}: <Box mx={1} />
-            <Text color={s.value > 0 ? 'lime' : 'red'}>
-              <CountUp separator="," end={s.value} />
-            </Text>
-          </Flex>
-        ))}
-      </Flex> */}
-      {state.length > 0 ? (
-        state
-          .sort((x, y) => {
-            return x.stats.profit > y.stats.profit ? -1 : 1
-          })
-          .map((data, idx) => {
-            return (
-              <Box
-                width={1}
-                my={2}
-                key={data.id}
-                // bg="darkBacking"
-                // borderRadius={2}
-              >
-                <Flex flexDirection={['column', 'column', 'column', 'row']}>
-                  <Utils.RenderObject
-                    heading={data.username.toUpperCase()}
-                    data={data}
-                    width={[1, 1, 1, 2 / 3]}
-                  >
-                    <Graph.LineGraph
-                      listMyProviderTrades={e =>
-                        actions.listMyProviderTrades({ providerid: data.id })
-                      }
-                    />
-                  </Utils.RenderObject>
-                  <Flex
-                    width={[1, 1, 1, 1 / 3]}
-                    flexDirection={['column', 'column', 'row', 'column']}
-                  >
-                    <Utils.RenderObject
-                      heading="Current Stats"
-                      data={data.stats}
-                      flex={1}
-                    />
-                    <Utils.RenderObject
-                      heading="Current Position"
-                      data={data.stats.position}
-                      flex={1}
-                    />
-                  </Flex>
-                </Flex>
-              </Box>
-            )
-          })
-      ) : (
-        <Card flexDirection="column" m={2}>
-          <Text>No providers are available right now.</Text>
-        </Card>
-      )}
-    </Flex>
-  )
-}
+  return (
+    <Box width={1} p={4}>
+      <Flex.Column px={4} alignItems="center" width={1}>
+        {list.length > 0
+          ? [
+            <Flex.Row width={1}>
+              {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
+              <Box mx={"auto"} />
+              <Flex>
+                <Modal.CreateProvider
+                  onConfirm={params =>
+                    state.actions.private("createProvider", params)
+                  }
+                />
+                <Modal.FAQ />
+              </Flex>
+            </Flex.Row>,
+            <Box my={2} />,
+            list.map(p => <ProviderCard providerid={p.id} />)
+          ]
+          : [
+            <Text.Heading fontSize={6}>
+              No providers, Why not create one?
+            </Text.Heading>,
+            <Box m={4} />,
+            <Modal.CreateProvider
+              type="simple"
+              onConfirm={params =>
+                state.actions.private("createProvider", params)
+              }
+            />
+          ]}
+      </Flex.Column>
+    </Box>
+  );
+};
 
-export default Providers
+const ProviderCard = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders"]);
+
+  const p = state.myProviders[providerid];
+
+  const pages = {
+    Settings: () => <Settings providerid={p.id} />,
+    Description: () => <Description providerid={p.id} />,
+    "Alert Log": () => <AlertLog providerid={p.id} />
+  };
+
+  const [page, setPage] = useState("Settings");
+  const PAGE = pages[page];
+
+  return (
+    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3, 1 / 2]}>
+      <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
+      <Flex.Row m={3}>
+        {Object.keys(pages).map(k => {
+          return (
+            <Button
+              onClick={e => setPage(k)}
+              type={page === k ? "primary" : "simple"}
+              mx={2}
+            >
+              {k}
+            </Button>
+          );
+        })}
+        {/* <Box mx="auto" /> */}
+        {/* <ButtonSetPublic isPublic={p.public} id={p.id} /> */}
+      </Flex.Row>
+      <Flex.Column mx={2} mb={2}>
+        {<PAGE />}
+      </Flex.Column>
+    </Card>
+  );
+});
+
+const Settings = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const p = state.myProviders[providerid];
+
+  const [data, setData] = useState(p.description);
+
+  return [
+    <Well height="300px">
+      {/* <Input disabled value={p.public} label="Process Trades: ">
+        <Buttons.Process />
+      </Input>
+      <Box m={1}/> */}
+      <Input disabled value={p.public} label="Listed Publicly: ">
+        <ButtonSetPublic isPublic={p.public} id={p.id} />
+      </Input>
+      {/* <Inputs.Copy
+        label="ID: "
+        placeholder={p.id}
+        value={p.id}
+      /> */}
+    </Well>
+    // <Flex.Row m={3}>
+    //   <Box mx="auto" />
+    //   <Button type="primary">Do Something</Button>
+    // </Flex.Row>
+  ];
+});
+
+const Description = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const [isEditing, setEditing] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const toggle = p => setEditing(!isEditing);
+  const p = state.myProviders[providerid];
+
+  const [data, setData] = useState(p.description);
+
+  return [
+    <Well height="300px">
+      {isEditing ? (
+        isLoading ? (
+          <Utils.LoadingPage message="Saving Description..." />
+        ) : (
+            <Editor data={p.description} lang="markdown" onChange={setData} />
+          )
+      ) : (
+          <Utils.RenderMarkdown source={p.description} />
+        )}
+    </Well>,
+    <Flex.Row m={3}>
+      <Box mx="auto" />
+      {!isEditing ? (
+        <Button type="primary" onClick={toggle}>
+          Edit Description
+        </Button>
+      ) : (
+          <Button
+            type="success"
+            onClick={async e => {
+              setLoading(true);
+              await state.actions.provider("setDescription", {
+                providerid: p.id,
+                description: data
+              });
+              setLoading(false);
+              toggle();
+            }}
+          >
+            {isLoading ? <Utils.Loading /> : "SaveDescription"}
+          </Button>
+        )}
+    </Flex.Row>
+  ];
+});
+
+const ButtonSetPublic = ({ isPublic, id }) => {
+  return isPublic ? (
+    <Buttons.setProviderPrivate providerid={id} />
+  ) : (
+      <Buttons.setProviderPublic providerid={id} />
+    );
+};
+
+const ProviderHeading = ({ title, subtitle, created }) => {
+  return (
+    <Flex.Row
+      p={3}
+      bg="backing"
+      borderBottom="1px solid rgba(0, 0, 0, 0.5)"
+      boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
+    >
+      <Flex.Column>
+        <Text.Heading fontSize={6}>{title}</Text.Heading>
+        <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
+      </Flex.Column>
+
+      <Box mx="auto" />
+      <Text>{Utils.renderProp(created, "time")}</Text>
+    </Flex.Row>
+  );
+};
+
+const AlertLog = ({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+
+  const alerts = state.providerAlerts ? state.providerAlerts[providerid] : [];
+  const [loading, setLoading] = useState(false);
+
+  const fetchState = async () => {
+    setLoading(true);
+    await state.actions
+      .provider("listAlerts", {
+        providerid
+      })
+      .then(a => dispatch("updateProp", ["providerAlerts", providerid], a));
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchState();
+  }, []);
+
+  return [
+    <Well height="300px">
+      {loading ? (
+        <Utils.LoadingPage message="Refreshing Alert Log..." />
+      ) : (
+          <Editor
+            data={alerts}
+            readOnly
+            lang="json"
+            height="300px"
+            placeholder="No alerts found."
+          />
+        )}
+    </Well>,
+
+    <Flex.Row m={3}>
+      <Box mx="auto" />
+      <Button type="success" onClick={fetchState}>
+        {loading ? <Utils.Loading /> : "Refresh Log"}
+      </Button>
+    </Flex.Row>
+  ];
+};

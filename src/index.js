@@ -1,46 +1,112 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-
 import { BrowserRouter, HashRouter, Switch, Route } from 'react-router-dom'
-
-import Actions from './libs/actions'
 import App from './App'
 import Theme from './Theme'
-
 import Utils from './components/Utils'
 
-const START = async p => {
-  // render the loading page for now...
-  ReactDOM.render(
-    <Theme>
-      <Utils.LoadingPage bg="backing" />
-    </Theme>,
-    document.getElementById('app')
-  )
+import { useWiring, store } from './libs/wiring'
+import Client from 'ws-api-client'
 
-  let actions = await Actions('https://api.fundingrate.io/v1', null)
-
-  // if we have a token saved authenticate the user.
-  const token = await actions.getLocalStorage('token')
-  let user = null
-  if (token) {
-    actions = await Actions('https://api.fundingrate.io/v1', token)
-    user = await actions.me() // authenticate the user
+async function Authenticate(actions, tokenid) {
+  if (tokenid == null) {
+    return Authenticate(actions, await actions.auth('token'))
   }
-
-  // start the main react app.
-  return ReactDOM.render(
-    <Theme>
-      <BrowserRouter>
-        <Route
-          render={p => (
-            <App {...p} actions={actions} user={user} token={token} />
-          )}
-        />
-      </BrowserRouter>
-    </Theme>,
-    document.getElementById('app')
-  )
+  return actions
+    .auth('authenticate', tokenid)
+    .then(userid => {
+      window.localStorage.setItem('tokenid', tokenid)
+      return { userid, tokenid }
+    })
+    .catch(err => {
+      console.log(err)
+      return Authenticate(actions)
+    })
 }
 
-START()
+async function init() {
+  const config = {
+    version: '2.0.0',
+    // languages: ["us", "cn"],
+    // language: window.localStorage.getItem("language") || "us",
+    // translations: JSON.parse(
+    //   window.localStorage.getItem("translations") || "{}"
+    // ),
+    // appid: "570" //dota
+    // appid:'730' //csgo
+  }
+
+  const channels = ['public', 'private', 'auth', 'admin', 'provider']
+
+  let { actions, connect } = await Client(
+    WebSocket,
+    {
+      host: process.env.SOCKET,
+      channels,
+      keepAlive: 10000,
+    },
+    (type, state) => {
+      console.log('socket', type, state)
+
+      if (type == 'change') {
+        return store.dispatch('setState', state, channels)
+      }
+      if (type == 'close') {
+        return connect().catch(err => {
+          store.dispatch('showError', new Error('Server Offline'))
+          // store.dispatch("setConnected", false);
+        })
+      }
+      if (type == 'reconnect') {
+        store.dispatch('showSuccess', 'Server Online')
+        Authenticate(actions, window.localStorage.getItem('tokenid'))
+          .then(result => {
+            console.log('authenticated', result)
+            store.dispatch('setAuth', result)
+            // store.dispatch("setConnected",  true);
+          })
+          .catch(store.curry('showError'))
+      }
+    }
+  )
+
+  const { userid, tokenid } = await Authenticate(
+    actions,
+    window.localStorage.getItem('tokenid')
+  )
+
+  return {
+    userid,
+    token: tokenid,
+    actions,
+    Authenticate,
+    config,
+    // connected: true
+  }
+}
+
+// RENDER LOADER WHILE THE SERVER FETCHES STATE.
+ReactDOM.render(
+  <Theme>
+    <Utils.LoadingPage bg="backing" />
+  </Theme>,
+  document.getElementById('app')
+)
+
+init()
+  .then(store.curry('init'))
+  .then(libs => {
+
+    // define local state
+    store.dispatch("updateProp", ["providerAlerts"], {})
+
+    console.log('libs', libs)
+    return ReactDOM.render(
+      <Theme>
+        <BrowserRouter>
+          <Route render={App} />
+        </BrowserRouter>
+      </Theme>,
+      document.getElementById('app')
+    )
+  })

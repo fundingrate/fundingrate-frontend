@@ -1,49 +1,50 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import brace from 'brace'
-import 'brace/mode/json'
-import 'brace/theme/monokai'
-import AceEditor from 'react-ace'
+import AceEditor from "react-ace";
+// import "ace-builds/src-noconflict/mode-javascript";
+// import "ace-builds/src-noconflict/mode-markdown";
+// import "ace-builds/src-noconflict/mode-json";
+// import "ace-builds/src-noconflict/theme-vibrant_ink";
 
-import { Text } from '../primitives'
+const Editor = ({
+  lang = "markdown",
+  theme = "vibrant_ink",
+  onChange = x => x,
+  data,
+  readOnly = false
+}) => {
 
-const Editor = ({ onConfirm, children, getFunc }) => {
-  const [schema, setSchema] = useState({})
-  const [match, setMatch] = useState('')
-  const [loading, setLoading] = useState(true)
+  if (["json", "javascript"].includes(lang)) {
+    data = JSON.stringify(data, null, 2);
+  }
 
-  useEffect(() => {
-    setLoading(true)
+  const [state, setState] = useState(data);
 
-    if (getFunc) {
-      getFunc()
-        .then(schema => JSON.stringify(schema, null, 2))
-        .then(schema => {
-          setSchema(schema)
-          setLoading(false)
-        })
-    } else {
-      setLoading(false)
-    }
-  }, [])
+  const change = c => {
+    onChange(c);
+    setState(c);
+  };
 
-  return loading ? (
-    <Text>Loading</Text>
-  ) : (
+  return (
     <AceEditor
+      readOnly={readOnly}
       fontSize={14}
-      width={'100%'}
-      height={'100%'}
+      width={"100%"}
+      height={"300px"}
       name="editor"
-      mode="json"
-      theme="monokai"
-      defaultValue={schema}
-      value={match}
-      onChange={match => setMatch(match)}
-      editorProps={{ $blockScrolling: true }}
+      mode={lang}
+      theme={theme}
+      // defaultValue={data}
+      value={state}
+      onChange={change}
+      editorProps={{
+        $blockScrolling: true,
+        showGutter: false,
+        readOnly,
+      }}
       tabSize={2}
     />
-  )
-}
+  );
+};
 
-export default Editor
+export default Editor;

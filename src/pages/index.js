@@ -1,15 +1,19 @@
 import Home from './Home'
-import NotFound from './NotFound'
-import Profile from './Profile'
-import Providers from './Providers'
-import Marketplace from './Marketplace'
 import Authenticate from './Authenticate'
+import Profile from './Profile'
+import Wallet from './Wallet'
+import NotFound from './NotFound'
+import Providers from './Providers'
+// import Marketplace from './Marketplace'
 
 export default {
   Home,
   Authenticate,
   Profile,
-  Providers,
-  Marketplace,
+  // Wallet,
+  'My Providers': Providers,
+  // Marketplace,
+
+  // NOTE: default if no match above.
   NotFound,
 }

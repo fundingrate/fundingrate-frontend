@@ -1,173 +1,244 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Box, Button, Flex, Text, Heading, Input } from '../primitives'
-import { Assets } from '../components'
+import React, { useEffect, useState } from "react";
+import { Card, Box, Button, Flex, Text, Heading, Input } from "../primitives";
+import { Assets, Utils } from "../components";
+import { useWiring, store } from "../libs/wiring";
+import { NavigationRouter, NavigationLinks } from "../primitives/Navigate";
 
-const Login = ({ actions, location, history }) => {
-  const cPage = location.pathname
+import { useHistory, useLocation } from "react-router-dom";
 
+const Login = ({ onSubmit = x => x }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [state, setState] = useState({
-    token: '',
-  })
-  const [loading, setLoading] = useState(false)
+    login: "",
+    password: ""
+  });
+  const history = useHistory();
+  const isReady = state.login.length < 5 && state.password.length < 8;
 
   const handleInput = prop => e => {
-    const value = e.target.value
+    const value = e.target.value;
     // console.log(prop, value)
     setState({
       ...state,
-      [prop]: value,
-    })
-  }
+      [prop]: value
+    });
+  };
 
   const Submit = () => {
-    setLoading(true)
-    return actions
-      .me(state)
-      .then(user => {
-        setLoading(false)
-        actions.setLocalStorage('token', state.token)
-        history.push('/profile')
-        window.location.reload()
+    if (isReady) return;
+    setLoading(true);
+    return onSubmit(state)
+      .then(r => {
+        setLoading(false);
+        // history.push('/profile')
+        window.location.reload();
       })
       .catch(e => {
-        setLoading(false)
-        console.error('REGISTER ERROR:', state, e)
-      })
-  }
+        setLoading(false);
+        console.error("LOGIN ERROR:", state, e);
+        setError("LOGIN ERROR:", e.message);
+      });
+  };
 
   return (
-    <Flex
-      flexDirection="column"
-      width={1}
-      p={4}
-      height="100%"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Heading> Token Login </Heading>
-      <Text color="primary" p={2}>
-        To protect your identity, we only require your token to login.
+    <Flex.Column width={[1, 2 / 3]} p={4} height="100%" alignItems="center" onKeyPress={e => {
+      if (e.key !== "Enter") return;
+      if(error) return;
+      Submit()
+    }}>
+      <Heading> Account Login </Heading>
+      <Text color={error ? "red" : "primary"} p={2}>
+        {error ? error : "Welcome back, please enter your account credentials."}
       </Text>
-      <Flex
-        flexDirection="column"
-        width={[1, 1 / 2]}
-        alignItems="center"
-        justifyContent="center"
-        p={2}
-      >
+      <Flex.Column as={Card} width={[1, 1 / 2]} p={4} m={4}>
         <Input
           disabled={loading}
-          label="Token: "
-          value={state.token}
-          onChange={handleInput('token')}
+          label="Login: "
+          value={state.login}
+          onChange={handleInput("login")}
+          placeholder="kyle@fr.io"
         />
-        <Button
-          disabled={state.token.length < 1}
-          m={3}
-          type="primary"
-          onClick={Submit}
-        >
-          LOGIN
-        </Button>
-      </Flex>
-    </Flex>
-  )
-}
+        <Box my={2} />
+        <Input
+          type="password"
+          disabled={loading}
+          label="Password: "
+          value={state.password}
+          onChange={handleInput("password")}
+          placeholder="********************"
+        />
+        <Flex.Row mt={2}>
+          <Box mx="auto" />
+          <Button disabled={isReady} mt={3} type="primary" onClick={Submit}>
+            {loading ? <Utils.Loading /> : "Login"}
+          </Button>
+        </Flex.Row>
+      </Flex.Column>
+      <Text.Link onClick={e => history.push("/authenticate")}>
+        Go Back
+      </Text.Link>
+    </Flex.Column>
+  );
+};
 
-const Register = ({ actions, location, user, token, history }) => {
-  const cPage = location.pathname
-
+const Register = ({ onSubmit = x => x }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [state, setState] = useState({
-    username: '',
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+    login: "",
+    password: "",
+    verifyPassword: ""
+  });
+
+  const history = useHistory();
 
   const handleInput = prop => e => {
-    const value = e.target.value
+    const value = e.target.value;
     setState({
       ...state,
-      [prop]: value,
-    })
-  }
+      [prop]: value
+    });
+  };
 
   const Submit = () => {
-    setLoading(true)
-    return actions
-      .registerUsername(state)
-      .then(({ user, token }) => {
-        setLoading(false)
-        actions.setLocalStorage('token', token.id)
-        history.push('/profile')
-        window.location.reload()
+    if (error) return;
+    setLoading(true);
+    return onSubmit(state)
+      .then(r => {
+        setLoading(false);
+        // history.push('/profile')
+        window.location.reload();
       })
       .catch(e => {
-        setLoading(false)
-        console.error('REGISTER ERROR:', state, e)
-        setError(e.message)
-      })
-  }
+        setLoading(false);
+        console.error("REGISTER ERROR:", state, e);
+        setError(e.message);
+      });
+  };
+
+  useEffect(() => {
+    if (state.password.length < 8)
+      return setError("Password needs to be at least 8 characters.");
+    if (state.password !== state.verifyPassword)
+      return setError("Passwords do not match.");
+    setError(null);
+  }, [state]);
 
   return (
-    <Flex
+    <Flex.Column
       flexDirection="column"
-      width={1}
+      width={[1, 2 / 3]}
       p={4}
       height="100%"
       alignItems="center"
-      justifyContent="center"
+      onKeyPress={e => {
+        if (e.key !== "Enter") return;
+        if(error) return;
+        Submit()
+      }}
     >
-      <Heading> Username Registration </Heading>
-      <Text color="primary" p={2}>
-        {error
-          ? error
-          : 'To protect your identity, we only require a username to register.'}
+      <Heading> Account Registration </Heading>
+      <Text color={error ? "red" : "primary"} p={2}>
+        {error ? error : "Hello, please enter your desired credentials below."}
       </Text>
-      <Flex
-        flexDirection="column"
-        width={[1, 1 / 2]}
-        alignItems="center"
-        justifyContent="center"
-        p={2}
-      >
+      <Flex.Column as={Card} width={[1, 1 / 2]} p={4} m={4}>
         <Input
           disabled={loading}
-          label="Username: "
-          value={state.username}
-          onChange={handleInput('username')}
+          label="Login: "
+          value={state.login}
+          onChange={handleInput("login")}
+          placeholder="kyle@fr.io"
         />
-        <Button
-          disabled={state.username.length < 3}
-          m={3}
-          type="primary"
-          onClick={Submit}
-        >
-          REGISTER
-        </Button>
-      </Flex>
-    </Flex>
-  )
-}
+        <Box my={2} />
+        <Input
+          type="password"
+          disabled={loading}
+          label="Password: "
+          value={state.password}
+          onChange={handleInput("password")}
+          placeholder="********************"
+        />
+        <Box my={2} />
+        <Input
+          type="password"
+          disabled={loading}
+          label="Verify Password: "
+          value={state.verifyPassword}
+          onChange={handleInput("verifyPassword")}
+          placeholder="********************"
+        />
+        <Flex.Row mt={2}>
+          <Box mx="auto" />
+          <Button disabled={error} mt={3} type="primary" onClick={Submit}>
+            {loading ? <Utils.Loading /> : "Register"}
+          </Button>
+        </Flex.Row>
+      </Flex.Column>
+      <Text.Link onClick={e => history.push("/authenticate")}>
+        Go Back
+      </Text.Link>
+    </Flex.Column>
+  );
+};
 
-const Authenticate = p => {
-  if (p.user) {
-    p.history.push('/profile')
+export default p => {
+  const [state, dispatch] = useWiring(["userid"]);
+  const history = useHistory();
+  if (state.userid) {
+    history.push("/home")
     return <Text>Redirecting...</Text>
   }
 
-  const r = <Register {...p} />
-  const l = <Login {...p} />
+  const pages = {
+    "/signup": r,
+    "/login": l,
+    "/home": Home
+  };
 
-  const [page, setPage] = useState(null)
-
-  if (page) return page
   return (
-    <Flex alignItems="center" justifyContent="center" height="100%" width={1}>
+    <NavigationRouter
+      pages={pages}
+      root="/authenticate"
+      defaultRoute="/authenticate/home"
+    />
+  );
+};
+
+const r = p => {
+  const [state, dispatch] = useWiring(["userid"]);
+
+  return (
+    <Register
+      {...p}
+      onSubmit={s => state.actions.auth("signup", { ...s, token: state.token })}
+    />
+  );
+};
+
+const l = p => {
+  const [state, dispatch] = useWiring(["userid"]);
+
+  return (
+    <Login
+      {...p}
+      onSubmit={s => state.actions.auth("login", { ...s, token: state.token })}
+    />
+  );
+};
+
+const Home = p => {
+  const history = useHistory();
+
+  const setPage = p => history.push(p);
+
+  return (
+    <Flex.Row justifyContent="center" height="100%" width={1}>
       <Button
         as={Flex}
         alignItems="center"
         type="card"
-        onClick={e => setPage(l)}
+        onClick={e => setPage("/authenticate/login")}
       >
         <Assets.Icons.Login mr={3} /> Login
       </Button>
@@ -178,12 +249,10 @@ const Authenticate = p => {
         as={Flex}
         alignItems="center"
         type="card"
-        onClick={e => setPage(r)}
+        onClick={e => setPage("/authenticate/signup")}
       >
         <Assets.Icons.Signup mr={3} /> Signup
       </Button>
-    </Flex>
-  )
-}
-
-export default Authenticate
+    </Flex.Row>
+  );
+};

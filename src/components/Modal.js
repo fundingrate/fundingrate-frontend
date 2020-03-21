@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Box, Text, Button, Modal, Divider, Input } from "../primitives";
+import {
+  Flex,
+  Box,
+  Text,
+  Button,
+  Modal,
+  Divider,
+  Input,
+  Well
+} from "../primitives";
 
 import Assets from "./Assets";
 import Utils from "./Utils";
+import Editor from "./Editor";
 
 const Amount = ({ amount = 0 }) => {
   return (
@@ -17,15 +27,28 @@ const WiredModal = ({
   children,
   isOpen,
   title = "Ello Moto",
+  subtitle = "Call me maybe...",
   onSearch,
   onConfirm,
   onClose,
   amount,
   loading,
+  disabled,
+  hideActions,
   ...p
 }) => {
   return (
-    <Modal isOpen={isOpen} width={[1, 2 / 3]} m={4}>
+    <Modal
+      // width={[1, 2 / 3]}
+      {...p}
+      m={4}
+      isOpen={isOpen}
+      // onKeyPress={e => {
+      //   if (e.key !== "Enter") return;
+      //   if (disabled || loading) return;
+      //   if (onConfirm) onConfirm();
+      // }}
+    >
       <Flex
         width={1}
         p={3}
@@ -34,13 +57,18 @@ const WiredModal = ({
         borderBottom="1px solid rgba(0, 0, 0, 0.5)"
         boxShadow="4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
       >
-        <Text.Heading fontSize={6}>{title}</Text.Heading>
+        <Box>
+          <Text.Heading fontSize={6}>{title}</Text.Heading>
+          <Box m={1} />
+          <Text color="subtext">{subtitle}</Text>
+        </Box>
         <Box mx="auto" />
-        <Assets.Icons.Close
+        <Button.Close onClick={onClose} />
+        {/* <Assets.Icons.Close
           onClick={onClose}
           clickable
           style={{ cursor: "pointer" }}
-        />
+        /> */}
       </Flex>
       <Divider />
       <Flex
@@ -54,29 +82,32 @@ const WiredModal = ({
       >
         {children}
       </Flex>
-      <Divider />
-      <Flex
-        width={1}
-        p={3}
-        borderTop="1px solid rgba(0, 0, 0, 0.5)"
-        boxShadow="-4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
-      >
-        {onSearch && <Search onSearch={onSearch} />}
-        <Box mx="auto" />
-        <Button
-          as={Flex}
-          alignItems="center"
-          mx={1}
-          type="primary"
-          onClick={onConfirm}
-          disabled={loading}
+      {!hideActions && [
+        <Divider />,
+        <Flex
+          width={1}
+          p={3}
+          borderTop="1px solid rgba(0, 0, 0, 0.5)"
+          boxShadow="-4px 0px 4px 0px rgba(0, 0, 0, 0.2)"
         >
-          Confirm {amount > 0 && <Amount amount={amount} />}
-        </Button>
-        <Button disabled={loading} mx={1} type="warning" onClick={onClose}>
-          Cancel
-        </Button>
-      </Flex>
+          {onSearch && <Search onSearch={onSearch} />}
+          <Box mx="auto" />
+          <Button
+            as={Flex}
+            alignItems="center"
+            mx={1}
+            type="primary"
+            onClick={onConfirm}
+            disabled={disabled || loading}
+          >
+            {loading ? <Utils.Loading /> : "Confirm"}
+            {amount > 0 && <Amount amount={amount} />}
+          </Button>
+          <Button mx={1} type="warning" onClick={onClose}>
+            Cancel
+          </Button>
+        </Flex>
+      ]}
     </Modal>
   );
 };
@@ -119,55 +150,33 @@ WiredModal.FAQ = p => {
   return (
     <>
       <WiredModal
+        hideActions={true}
         title="Provider FAQ"
+        subtitle="Confused about how to setup your provider?"
         isOpen={isModalOpen}
         onConfirm={toggleModal}
         onClose={toggleModal}
       >
         <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/ee3ffe27874dcf9505e956bab6ea6f0e/raw/provider_FAQ.md" />
       </WiredModal>
-      <Button m={2} type="warning" onClick={toggleModal}>
-        Help
-      </Button>
-    </>
-  );
-};
-
-WiredModal.FeedbackSurvey = p => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const toggleModal = s => {
-    return setIsModalOpen(!isModalOpen);
-  };
-
-  return (
-    <>
-      <WiredModal
-        title="Feedback"
-        isOpen={isModalOpen}
-        onConfirm={toggleModal}
-        onClose={toggleModal}
+      <Button
+        as={Flex.Row}
+        disabled={isModalOpen}
+        m={2}
+        type="warning"
+        onClick={toggleModal}
       >
-        <iframe
-          src="https://service963572.typeform.com/to/dr7S0q"
-          // height="500"
-          // width="100%"
-          // style="border:none;"
-        />
-      </WiredModal>
-      <Button m={2} type="warning" onClick={toggleModal}>
-        Rate Us!
+        <Assets.Icons.Help mr={2} size={20} bg="white" /> Help
       </Button>
     </>
   );
 };
 
-WiredModal.CreateProvider = ({ actions }) => {
+WiredModal.CreateProvider = ({ onConfirm }) => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [state, setState] = useState({});
-  const [provider, setProvider] = useState(null);
   const [error, setError] = useState(null);
 
   const setProp = (k, v) => {
@@ -178,66 +187,78 @@ WiredModal.CreateProvider = ({ actions }) => {
   };
 
   const toggleModal = s => {
-    setProvider(null);
-    setState({});
+    setState({
+      name: "",
+      description: ""
+    });
     return setIsModalOpen(!isModalOpen);
   };
 
   const CreateProvider = async p => {
-    if (!state.username) return;
+    if (!state.name) return;
     if (!state.description) return;
-    if (state.username.length < 3) return;
+    if (state.name.length < 3) return;
     if (state.description.length < 10) return;
     setLoading(true);
-    await actions
-      .createProvider(state)
-      .then(setProvider)
-      .catch(setError);
+    await onConfirm(state)
+      .then(toggleModal)
+      .catch(e => setError(e.message));
     setLoading(false);
   };
+
+  const ready = state.name && state.description;
 
   return (
     <>
       <WiredModal
+        width={1 / 2}
+        disabled={!ready}
         loading={loading}
-        title="Create New Provider"
+        title={"Create New Provider"}
+        subtitle={
+          "Please fill out the form below, the editor allows you to use markdown."
+        }
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
         onClose={toggleModal}
       >
-        <Flex m={4} width={2 / 3} flexDirection="column" alignItems="center">
-          {provider ? (
-            <>
-              <Text color="red" fontSize={3} p={3}>
-                Please ensure you save this information or risk losing your
-                account.
-              </Text>
-              <Utils.DownloadJson data={provider} />
-              <Utils.RenderObject label="Provider" data={provider.provider} />
-              <Utils.RenderObject label="Token" data={provider.token} />
-            </>
-          ) : (
-            <>
-              {error && <Text color="red">{error}</Text>}
-              <Input
-                label="Username:"
-                placeholder="Super Secret Signals #42069"
-                onChange={e => setProp("username", e.target.value)}
-                value={state.username}
-              />
-              <Box my={1} />
-              <Input
-                label="Description:"
-                placeholder="Uses top secret sauce to provide accurate signals!"
-                onChange={e => setProp("description", e.target.value)}
-                value={state.description}
-              />
-            </>
-          )}
-        </Flex>
+        <Flex.Column mx={4} width={1}>
+          <Box mx="auto" my={2}>
+            {error ? (
+              <Text color="red">{error}</Text>
+            ) : (
+              <Text color="primary"></Text>
+            )}
+          </Box>
+          <Input
+            disabled={loading}
+            label="Name:"
+            placeholder="Super Secret Signals #42069"
+            onChange={e => setProp("name", e.target.value)}
+            value={state.name}
+            error={state.name && state.name.length < 3}
+          />
+          <Box my={2} />
+          <Text.Heading m={2} fontSize={2}>
+            Description
+          </Text.Heading>
+          <Well p={2} bg="darkBacking">
+            <Editor
+              lang="markdown"
+              data={`# How To Use Our Alerts`}
+              onChange={e => setProp("description", e)}
+            />
+          </Well>
+        </Flex.Column>
       </WiredModal>
-      <Button m={2} type="primary" onClick={toggleModal}>
-        Create New Provider
+      <Button
+        as={Flex.Row}
+        disabled={isModalOpen}
+        m={2}
+        type="card"
+        onClick={toggleModal}
+      >
+        <Assets.Icons.Login mr={2} size={20} /> Create New Provider
       </Button>
     </>
   );
