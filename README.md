@@ -4,8 +4,6 @@ Fundingrate is a software as a service platform that allows vendors to collect e
 
 # What problems will this solve?
 
----
-
 ### Ease of use
 
 Currently the market has only a few larger participants in the space, most notably 3commas. This competition while reliable; does not provide an easy way to get started without having a  technical background or deep understanding of trading techniques.
