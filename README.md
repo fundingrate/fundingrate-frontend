@@ -2,6 +2,10 @@
 
 Fundingrate is a software as a service platform that allows vendors to collect empirical data on live market conditions. We Provide a platform for both consumers and producers to safely create & share trade strategies, indicator events, and statistical data.
 
+## Looking for the Latest Release?
+
+> https://beta.fundingrate.io
+
 ## Features
 
 Fundingrate.io provides a few compelling features and services.
