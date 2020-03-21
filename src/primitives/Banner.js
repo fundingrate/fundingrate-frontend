@@ -3,16 +3,11 @@ import { Box, Flex, Image, Container } from '.'
 
 import bg from '../assets/images/ticks.png'
 
-const Banner = ({
-  src=bg,
-  opacity = 0.1,
-  children,
-  ...props
-}) => {
+const Banner = ({ src = bg, opacity = 0.1, children, ...props }) => {
   return (
     <Flex
       // flex={1}
-      height={"100%"}
+      height={'100%'}
       bg="darkBacking"
       {...props}
       position="relative"
@@ -38,7 +33,7 @@ const Banner = ({
           height: '100%',
           width: '100%',
           backgroundRepeat: 'repeat',
-          backgroundSize: 'auto'
+          backgroundSize: 'auto',
         }}
       />
       <Flex

@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 import {
   color,
   fontSize,
   space,
   width,
   themeGet,
-  textAlign
-} from "styled-system";
+  textAlign,
+} from 'styled-system'
 
-import theme from "../styles/theme";
-import {Box,Flex} from ".";
+import theme from '../styles/theme'
+import { Box, Flex } from '.'
 
 const type = props => {
   switch (props.type) {
-    case "primary":
+    case 'primary':
       return `
         box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
         color: ${theme.colorStyles.textOnPrimary.color};
@@ -27,8 +27,8 @@ const type = props => {
         &:focus {
           filter: brightness(1.2);
         };
-      `;
-    case "warning":
+      `
+    case 'warning':
       return `
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
           color: ${theme.colorStyles.textOnPrimary.color};
@@ -40,8 +40,8 @@ const type = props => {
           &:focus {
               filter: brightness(1.2);
           };
-        `;
-    case "success":
+        `
+    case 'success':
       return `
         box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
         color: ${theme.colorStyles.textOnPrimary.color};
@@ -53,8 +53,8 @@ const type = props => {
           &:focus {
               filter: brightness(1.2);
           };
-      `;
-    case "secondary":
+      `
+    case 'secondary':
       return `
           box-shadow: 0 2px 0px rgba(0, 0, 0, .5);
           color: ${theme.colorStyles.textOnPrimary.color};
@@ -64,8 +64,8 @@ const type = props => {
           &:focus {
               filter: brightness(1.2);
           };
-        `;
-    case "simple":
+        `
+    case 'simple':
       return `
         background-color: rgba(0,0,0,0);
         color: ${props.color || theme.colors.lightGreyBlue};
@@ -75,8 +75,8 @@ const type = props => {
           filter: brightness(1.2);
           color: ${props.disabled ? null : theme.colors.primary};
         };   
-      `;
-    case "outline":
+      `
+    case 'outline':
       return `
         background-color: rgba(0,0,0,0);
         color: ${theme.colors.white};
@@ -87,8 +87,8 @@ const type = props => {
         &:focus {
           filter: brightness(1.2);
         };
-      `;
-    case "card":
+      `
+    case 'card':
       return `
         background-color: ${theme.colors.card};
         color: ${theme.colors.lightGray};
@@ -98,7 +98,7 @@ const type = props => {
         &:focus {
           filter: brightness(1.2);
         };
-    `;
+    `
     default:
       return `
           background-color: rgba(0,0,0,0);
@@ -111,20 +111,20 @@ const type = props => {
             filter: brightness(1.2);
             color: ${props.disabled ? null : theme.colors.primary};
           };       
-      `;
+      `
   }
-};
+}
 
 const disabled = () => {
   return `
     pointer: not-allowed;
-  `;
-};
+  `
+}
 
 const Button = styled(Box)`
   // text-transform: uppercase;
   // cursor: pointer;
-  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   border-radius: ${props => props.borderRadius || theme.radii.normal};
   border: none;
   outline: none;   
@@ -151,13 +151,13 @@ const Button = styled(Box)`
 	${width}
   ${type}
   ${textAlign}
-`;
+`
 
 Button.defaultProps = {
   py: 2,
-  px: 3
-};
+  px: 3,
+}
 
-Button.displayName = "Button";
+Button.displayName = 'Button'
 
-export default Button;
+export default Button

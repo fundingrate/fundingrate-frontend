@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button } from ".";
+import React, { useState, useEffect } from 'react'
+import { Button } from '.'
 
 import {
   useHistory,
@@ -7,8 +7,8 @@ import {
   Redirect,
   HashRouter,
   Route,
-  Switch
-} from "react-router-dom";
+  Switch,
+} from 'react-router-dom'
 
 // EXAMPLE
 //   const navLinks = [
@@ -33,31 +33,31 @@ import {
 export const NavigationLinks = ({
   links,
   pathIndex = 1, //pathindex is the sub path root you are intending to match for.
-  root = "",
+  root = '',
   onClick,
   ...p
 }) => {
-  const history = useHistory();
-  const location = useLocation();
+  const history = useHistory()
+  const location = useLocation()
 
   return links.map(({ label, path }) => {
-    const dest = `/${location.pathname.split("/")[pathIndex]}`;
-    const isActive = path === dest;
+    const dest = `/${location.pathname.split('/')[pathIndex]}`
+    const isActive = path === dest
     // console.log('PATH:', path, 'MATCH INDEX:', dest, 'IS_ACTIVE:', isActive)
     // merge root and path
-    path = root + path;
+    path = root + path
 
     return (
       <Button
         m={2}
         textAlign="left"
-        type={isActive ? "primary" : "simple"}
+        type={isActive ? 'primary' : 'simple'}
         {...p}
         key={`${label}_${path}`}
         onClick={e => {
-          history.push(path);
+          history.push(path)
           document.title = path + ' | Fundingrate.io'
-          if (onClick) onClick(path);
+          if (onClick) onClick(path)
         }}
         // active={true}
         // color={isActive ? "primary" : undefined}
@@ -65,25 +65,25 @@ export const NavigationLinks = ({
       >
         {label}
       </Button>
-    );
-  });
-};
+    )
+  })
+}
 
 export const NavigationRouter = ({
   // root = "/account",
   // defaultRoute = "/account/settings",
   root = '',
   defaultRoute,
-  pages = {}
+  pages = {},
 }) => {
   return (
     <Switch>
       <Redirect exact from={root} to={root + defaultRoute} />
       {Object.keys(pages).map(k => {
-        const Page = pages[k];
-        return <Route key={"page_" + k} path={root + k} component={Page} />;
+        const Page = pages[k]
+        return <Route key={'page_' + k} path={root + k} component={Page} />
       })}
       <Redirect to={defaultRoute} />
     </Switch>
-  );
-};
+  )
+}

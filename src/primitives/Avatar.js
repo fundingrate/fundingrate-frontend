@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-  border
-} from 'styled-system'
+import { border } from 'styled-system'
 
 import Image from './Image'
 import theme from '../styles/theme'
@@ -16,7 +14,7 @@ const Styled = styled(Image)`
   ${border}
 `
 
-const Avatar = props => <Styled src={props.image} {...props}/>
+const Avatar = props => <Styled src={props.image} {...props} />
 
 Avatar.displayName = 'Avatar'
 

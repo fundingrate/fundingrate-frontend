@@ -96,9 +96,8 @@ ReactDOM.render(
 init()
   .then(store.curry('init'))
   .then(libs => {
-
     // define local state
-    store.dispatch("updateProp", ["providerAlerts"], {})
+    store.dispatch('updateProp', ['providerAlerts'], {})
 
     console.log('libs', libs)
     return ReactDOM.render(

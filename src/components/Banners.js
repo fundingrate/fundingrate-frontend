@@ -5,10 +5,7 @@ import { Container, Flex, Box, Text, Banner } from '../primitives'
 
 const Welcome = props => {
   return (
-    <Banner
-      {...props}
-      height={['40%', '60%']}
-    >
+    <Banner {...props} height={['40%', '60%']}>
       <Flex
         as={Container}
         height={'100%'}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Flex,
   Box,
@@ -7,12 +7,12 @@ import {
   Modal,
   Divider,
   Input,
-  Well
-} from "../primitives";
+  Well,
+} from '../primitives'
 
-import Assets from "./Assets";
-import Utils from "./Utils";
-import Editor from "./Editor";
+import Assets from './Assets'
+import Utils from './Utils'
+import Editor from './Editor'
 
 const Amount = ({ amount = 0 }) => {
   return (
@@ -20,14 +20,14 @@ const Amount = ({ amount = 0 }) => {
       <Box mx={1}> | </Box>
       {Utils.parseValue(amount)}
     </>
-  );
-};
+  )
+}
 
 const WiredModal = ({
   children,
   isOpen,
-  title = "Ello Moto",
-  subtitle = "Call me maybe...",
+  title = 'Ello Moto',
+  subtitle = 'Call me maybe...',
   onSearch,
   onConfirm,
   onClose,
@@ -76,8 +76,8 @@ const WiredModal = ({
         width={1}
         justifyContent="center"
         style={{
-          overflow: "hidden",
-          overflowY: "auto"
+          overflow: 'hidden',
+          overflowY: 'auto',
         }}
       >
         {children}
@@ -100,28 +100,28 @@ const WiredModal = ({
             onClick={onConfirm}
             disabled={disabled || loading}
           >
-            {loading ? <Utils.Loading /> : "Confirm"}
+            {loading ? <Utils.Loading /> : 'Confirm'}
             {amount > 0 && <Amount amount={amount} />}
           </Button>
           <Button mx={1} type="warning" onClick={onClose}>
             Cancel
           </Button>
-        </Flex>
+        </Flex>,
       ]}
     </Modal>
-  );
-};
+  )
+}
 
 WiredModal.Button = ({
-  title = "Some Modal Dialog",
-  label = "Open Modal",
-  children
+  title = 'Some Modal Dialog',
+  label = 'Open Modal',
+  children,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const toggleModal = s => {
-    return setIsModalOpen(!isModalOpen);
-  };
+    return setIsModalOpen(!isModalOpen)
+  }
 
   return (
     <>
@@ -137,15 +137,15 @@ WiredModal.Button = ({
         {label}
       </Button>
     </>
-  );
-};
+  )
+}
 
 WiredModal.FAQ = p => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const toggleModal = s => {
-    return setIsModalOpen(!isModalOpen);
-  };
+    return setIsModalOpen(!isModalOpen)
+  }
 
   return (
     <>
@@ -169,44 +169,44 @@ WiredModal.FAQ = p => {
         <Assets.Icons.Help mr={2} size={20} bg="white" /> Help
       </Button>
     </>
-  );
-};
+  )
+}
 
 WiredModal.CreateProvider = ({ onConfirm }) => {
-  const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [state, setState] = useState({});
-  const [error, setError] = useState(null);
+  const [state, setState] = useState({})
+  const [error, setError] = useState(null)
 
   const setProp = (k, v) => {
     return setState({
       ...state,
-      [k]: v
-    });
-  };
+      [k]: v,
+    })
+  }
 
   const toggleModal = s => {
     setState({
-      name: "",
-      description: ""
-    });
-    return setIsModalOpen(!isModalOpen);
-  };
+      name: '',
+      description: '',
+    })
+    return setIsModalOpen(!isModalOpen)
+  }
 
   const CreateProvider = async p => {
-    if (!state.name) return;
-    if (!state.description) return;
-    if (state.name.length < 3) return;
-    if (state.description.length < 10) return;
-    setLoading(true);
+    if (!state.name) return
+    if (!state.description) return
+    if (state.name.length < 3) return
+    if (state.description.length < 10) return
+    setLoading(true)
     await onConfirm(state)
       .then(toggleModal)
-      .catch(e => setError(e.message));
-    setLoading(false);
-  };
+      .catch(e => setError(e.message))
+    setLoading(false)
+  }
 
-  const ready = state.name && state.description;
+  const ready = state.name && state.description
 
   return (
     <>
@@ -214,9 +214,9 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
         width={1 / 2}
         disabled={!ready}
         loading={loading}
-        title={"Create New Provider"}
+        title={'Create New Provider'}
         subtitle={
-          "Please fill out the form below, the editor allows you to use markdown."
+          'Please fill out the form below, the editor allows you to use markdown.'
         }
         isOpen={isModalOpen}
         onConfirm={CreateProvider}
@@ -234,7 +234,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             disabled={loading}
             label="Name:"
             placeholder="Super Secret Signals #42069"
-            onChange={e => setProp("name", e.target.value)}
+            onChange={e => setProp('name', e.target.value)}
             value={state.name}
             error={state.name && state.name.length < 3}
           />
@@ -246,7 +246,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
             <Editor
               lang="markdown"
               data={`# How To Use Our Alerts`}
-              onChange={e => setProp("description", e)}
+              onChange={e => setProp('description', e)}
             />
           </Well>
         </Flex.Column>
@@ -261,7 +261,7 @@ WiredModal.CreateProvider = ({ onConfirm }) => {
         <Assets.Icons.Login mr={2} size={20} /> Create New Provider
       </Button>
     </>
-  );
-};
+  )
+}
 
-export default WiredModal;
+export default WiredModal

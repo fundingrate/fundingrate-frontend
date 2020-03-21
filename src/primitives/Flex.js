@@ -12,15 +12,15 @@ const Flex = styled(Box)`
 Flex.displayName = 'Flex'
 
 Flex.Column = p => {
-  return <Flex {...p} flexDirection="column"/>
+  return <Flex {...p} flexDirection="column" />
 }
 
 Flex.Row = p => {
-  return <Flex {...p} flexDirection="row" alignItems="center"/>
+  return <Flex {...p} flexDirection="row" alignItems="center" />
 }
 
 Flex.RowMobile = p => {
-  return <Flex {...p} flexDirection={['column', 'row']}  alignItems="center"/>
+  return <Flex {...p} flexDirection={['column', 'row']} alignItems="center" />
 }
 
 Flex.Content = ({ children, ...p }) => {

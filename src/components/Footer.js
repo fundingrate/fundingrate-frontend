@@ -36,9 +36,9 @@ export default p => {
         as={Flex}
         alignItems="center"
         type="simple"
-        onClick={e => navigateTo("Support")}
+        onClick={e => navigateTo('Support')}
       >
-        <Assets.Icons.Help mx={2}  bg="consumer" /> Support
+        <Assets.Icons.Help mx={2} bg="consumer" /> Support
       </Button>
       <Box mx="auto" />
       <Button

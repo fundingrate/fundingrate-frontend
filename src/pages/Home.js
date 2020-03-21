@@ -7,13 +7,13 @@
 //   )
 // }
 
-import React from "react";
-import { Flex, Box, Text } from "../primitives";
-import { useWiring, store } from "../libs/wiring";
-import { Utils } from "../components";
+import React from 'react'
+import { Flex, Box, Text } from '../primitives'
+import { useWiring, store } from '../libs/wiring'
+import { Utils } from '../components'
 
 export default p => {
-  const [state, dispatch] = useWiring(["serverTime", "myAlerts"]);
+  const [state, dispatch] = useWiring(['serverTime', 'myAlerts'])
 
   return (
     <Flex p={4}>
@@ -23,10 +23,11 @@ export default p => {
       </Flex.Column>
       <Box mx={4} />
       <Flex.Column>
-        {state.myAlerts && Object.values(state.myAlerts).map(a => {
-          return <Utils.RenderObject heading="Alert" data={a} key={a.id} />;
-        })}
+        {state.myAlerts &&
+          Object.values(state.myAlerts).map(a => {
+            return <Utils.RenderObject heading="Alert" data={a} key={a.id} />
+          })}
       </Flex.Column>
     </Flex>
-  );
-};
+  )
+}

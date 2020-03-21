@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   Button,
@@ -7,10 +7,10 @@ import {
   Text,
   Heading,
   Input,
-  Divider
-} from "../primitives";
-import { Utils, Inputs, Buttons } from "../components";
-import { useWiring, store } from "../libs/wiring";
+  Divider,
+} from '../primitives'
+import { Utils, Inputs, Buttons } from '../components'
+import { useWiring, store } from '../libs/wiring'
 
 Card.ProfileData = ({ userid, token, children, ...p }) => {
   return (
@@ -29,30 +29,30 @@ Card.ProfileData = ({ userid, token, children, ...p }) => {
       <Box my={2} />
       <Flex alignItems="center">{children}</Flex>
     </Card>
-  );
-};
+  )
+}
 
 Card.InputAmount = ({ ticker, onSubmit = x => x, ...p }) => {
-  const [state, setState] = useWiring(["user"]);
+  const [state, setState] = useWiring(['user'])
 
-  const [amount, setAmount] = useState(0.01);
-  const [value, setValue] = useState(0);
-  const [loadingExchange, setLoadingExchange] = useState(false);
+  const [amount, setAmount] = useState(0.01)
+  const [value, setValue] = useState(0)
+  const [loadingExchange, setLoadingExchange] = useState(false)
 
   useEffect(() => {
-    setLoadingExchange(true);
-  }, [amount]);
+    setLoadingExchange(true)
+  }, [amount])
 
-  const debouncedAmount = Utils.useDebounce(amount, 500);
+  const debouncedAmount = Utils.useDebounce(amount, 500)
   useEffect(() => {
-    if(!ticker) return console.log("WARNING: ticker prop required.")
+    if (!ticker) return console.log('WARNING: ticker prop required.')
     state.actions
-      .private("getCryptapiTickerPrice", { ticker, amount })
+      .private('getCryptapiTickerPrice', { ticker, amount })
       .then(v => {
-        setValue(v || 0);
-        setLoadingExchange(false);
-      });
-  }, [debouncedAmount]);
+        setValue(v || 0)
+        setLoadingExchange(false)
+      })
+  }, [debouncedAmount])
 
   return (
     <Card flexDirection="column" alignItems="center" justifyContent="center">
@@ -74,8 +74,8 @@ Card.InputAmount = ({ ticker, onSubmit = x => x, ...p }) => {
         </Button>
       </Input>
     </Card>
-  );
-};
+  )
+}
 
 Card.QrDeposit = ({ data }) => {
   return (
@@ -84,7 +84,7 @@ Card.QrDeposit = ({ data }) => {
       <Box mx={2} />
       <Flex
         m={2}
-        height={"100%"}
+        height={'100%'}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
@@ -107,12 +107,12 @@ Card.QrDeposit = ({ data }) => {
           Current Transaction State: {data.state}.
         </Text>
         <Text fontSize={1} color="subtext" m={1}>
-          Last updated @ {Utils.renderProp(data.updated, "time")} with a total
+          Last updated @ {Utils.renderProp(data.updated, 'time')} with a total
           of {data.tries} attempt(s).
         </Text>
       </Flex>
     </Card>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card
