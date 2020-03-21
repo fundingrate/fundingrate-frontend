@@ -2,6 +2,19 @@
 
 Fundingrate is a software as a service platform that allows vendors to collect empirical data on live market conditions. We Provide a platform for both consumers and producers to safely create & share trade strategies, indicator events, and statistical data.
 
+## Features
+
+Fundingrate.io provides a few compelling features and services.
+
+* Alert/Event Tracking
+* Alert/Event Replay
+* Code Editior
+* Statistical Processing
+* Paralleled Testing
+* Trade Automation
+* Share Strategies
+* Marketplace
+
 ## What problems will this solve?
 
 ### Ease of use
@@ -15,19 +28,6 @@ When buying Into various Indicator discord groups, telegram chats, and “signal
 ### Discoverability
 
 To participate in any of the aforementioned services one first has to find a profitable service offering. This is bad for both consumers and the vendors. The risk is placed completely on the consumers shoulders increasing friction of the sale and vendors suffer due to lower volume of sales overall.
-
-## Features
-
-Fundingrate.io provides a few compelling features and services.
-
-* Alert/Event Tracking
-* Alert/Event Replay
-* Code Editior
-* Statistical Processing
-* Paralleled Testing
-* Trade Automation
-* Share Strategies
-* Marketplace
 
 ## Social Media
 
