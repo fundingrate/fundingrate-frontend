@@ -40,36 +40,36 @@ export default p => {
 
   return (
     <Box width={1} p={4}>
-      <Flex.Column px={4}>
+      <Flex.Column px={4} alignItems="center" width={1}>
         {list.length > 0
           ? [
-              <Flex.Row>
-                {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
-                <Box mx={"auto"} />
-                <Flex>
-                  <Modal.CreateProvider
-                    onConfirm={params =>
-                      state.actions.private("createProvider", params)
-                    }
-                  />
-                  <Modal.FAQ />
-                </Flex>
-              </Flex.Row>,
-              <Box my={2} />,
-              list.map(p => <ProviderCard providerid={p.id} />)
-            ]
+            <Flex.Row width={1}>
+              {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
+              <Box mx={"auto"} />
+              <Flex>
+                <Modal.CreateProvider
+                  onConfirm={params =>
+                    state.actions.private("createProvider", params)
+                  }
+                />
+                <Modal.FAQ />
+              </Flex>
+            </Flex.Row>,
+            <Box my={2} />,
+            list.map(p => <ProviderCard providerid={p.id} />)
+          ]
           : [
-              <Text.Heading fontSize={6}>
-                No providers, Why not create one?
-              </Text.Heading>,
-              <Box m={4} />,
-              <Modal.CreateProvider
-                type="simple"
-                onConfirm={params =>
-                  state.actions.private("createProvider", params)
-                }
-              />
-            ]}
+            <Text.Heading fontSize={6}>
+              No providers, Why not create one?
+            </Text.Heading>,
+            <Box m={4} />,
+            <Modal.CreateProvider
+              type="simple"
+              onConfirm={params =>
+                state.actions.private("createProvider", params)
+              }
+            />
+          ]}
       </Flex.Column>
     </Box>
   );
@@ -90,7 +90,7 @@ const ProviderCard = React.memo(({ providerid }) => {
   const PAGE = pages[page];
 
   return (
-    <Card as={Flex.Column} key={p.id} my={3} p={0}>
+    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3, 1 / 2]}>
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
       <Flex.Row m={3}>
         {Object.keys(pages).map(k => {
@@ -158,11 +158,11 @@ const Description = React.memo(({ providerid }) => {
         isLoading ? (
           <Utils.LoadingPage message="Saving Description..." />
         ) : (
-          <Editor data={p.description} lang="markdown" onChange={setData} />
-        )
+            <Editor data={p.description} lang="markdown" onChange={setData} />
+          )
       ) : (
-        <Utils.RenderMarkdown source={p.description} />
-      )}
+          <Utils.RenderMarkdown source={p.description} />
+        )}
     </Well>,
     <Flex.Row m={3}>
       <Box mx="auto" />
@@ -171,21 +171,21 @@ const Description = React.memo(({ providerid }) => {
           Edit Description
         </Button>
       ) : (
-        <Button
-          type="success"
-          onClick={async e => {
-            setLoading(true);
-            await state.actions.provider("setDescription", {
-              providerid: p.id,
-              description: data
-            });
-            setLoading(false);
-            toggle();
-          }}
-        >
-          {isLoading ? <Utils.Loading /> : "SaveDescription"}
-        </Button>
-      )}
+          <Button
+            type="success"
+            onClick={async e => {
+              setLoading(true);
+              await state.actions.provider("setDescription", {
+                providerid: p.id,
+                description: data
+              });
+              setLoading(false);
+              toggle();
+            }}
+          >
+            {isLoading ? <Utils.Loading /> : "SaveDescription"}
+          </Button>
+        )}
     </Flex.Row>
   ];
 });
@@ -194,8 +194,8 @@ const ButtonSetPublic = ({ isPublic, id }) => {
   return isPublic ? (
     <Buttons.setProviderPrivate providerid={id} />
   ) : (
-    <Buttons.setProviderPublic providerid={id} />
-  );
+      <Buttons.setProviderPublic providerid={id} />
+    );
 };
 
 const ProviderHeading = ({ title, subtitle, created }) => {
@@ -242,14 +242,14 @@ const AlertLog = ({ providerid }) => {
       {loading ? (
         <Utils.LoadingPage message="Refreshing Alert Log..." />
       ) : (
-        <Editor
-          data={alerts}
-          readOnly
-          lang="json"
-          height="300px"
-          placeholder="No alerts found."
-        />
-      )}
+          <Editor
+            data={alerts}
+            readOnly
+            lang="json"
+            height="300px"
+            placeholder="No alerts found."
+          />
+        )}
     </Well>,
 
     <Flex.Row m={3}>
