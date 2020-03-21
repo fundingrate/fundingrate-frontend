@@ -2,7 +2,7 @@
 
 Fundingrate is a software as a service platform that allows vendors to collect empirical data on live market conditions. We Provide a platform for both consumers and producers to safely create & share trade strategies, indicator events, and statistical data.
 
-# What problems will this solve?
+## What problems will this solve?
 
 ### Ease of use
 
