@@ -35,6 +35,8 @@ export default p => {
         {list.length > 0
           ? [
               <Flex.Row width={1}>
+                <Text.Heading>My Providers</Text.Heading>
+
                 {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
                 <Box mx={"auto"} />
                 <Flex>
@@ -46,7 +48,7 @@ export default p => {
                   <Modal.FAQ />
                 </Flex>
               </Flex.Row>,
-              <Box my={2} />,
+              <Divider m={2} bg="card" />,
               list.map(p => <ProviderCard providerid={p.id} />)
             ]
           : [
@@ -147,7 +149,7 @@ const Stats = React.memo(({ providerid }) => {
   return [
     <Well as={Flex.Row} height="300px" p={4}>
       <RenderStats stats={p.stats} />
-      <Box mx={'auto'} />
+      <Box mx={"auto"} />
       {p.stats.currentPosition && (
         <Utils.RenderObject
           heading="Current Position"
@@ -163,13 +165,13 @@ const Settings = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   return [
-    <Well height="300px">
+    <Box height="300px">
       <Inputs.SetProviderName providerid={p.id} name={p.name} />
       <Box m={1} />
       <Input disabled value={p.public} label="Listed Publicly: ">
         <ButtonSetPublic isPublic={p.public} id={p.id} />
       </Input>
-    </Well>
+    </Box>
   ];
 });
 

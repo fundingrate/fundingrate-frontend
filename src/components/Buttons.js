@@ -59,13 +59,13 @@ Button.SetProviderName = ({ providerid, name, ...p }) => {
   );
 };
 
-Button.SetMyUsername = ({ providerid, name, ...p }) => {
+Button.SetMyUsername = ({ username, ...p }) => {
   const [state, dispatch] = useWiring(["me"]);
   const [loading, setLoading] = useState(false);
 
   const onClick = async s => {
     setLoading(true);
-    await state.actions.provider("setName", {
+    await state.actions.private("setMyUsername", {
       username
     });
     setLoading(false);
@@ -73,7 +73,7 @@ Button.SetMyUsername = ({ providerid, name, ...p }) => {
 
   return (
     <Button {...p} onClick={onClick} type="success" disabled={loading}>
-      {loading ? <Utils.Loading message="Saving..." /> : "Save"}
+      {loading ? <Utils.Loading message="Saving..." /> : "Change Username"}
     </Button>
   );
 };

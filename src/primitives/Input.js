@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {} from 'styled-system'
 
-import { Box, Text, Flex, Image } from '.'
+import { Box, Text, Flex, Well, Image } from '.'
 import theme from '../styles/theme'
 
 const Styled = styled.input`
@@ -31,7 +31,7 @@ const StyledInput = ({
   ...props
 }) =>
   withWrapper ? (
-    <StyledInput.Wrapper flex={1} error={error} {...props}>
+    <Well as={Flex.Row} flex={1} p={2} error={error} {...props}>
       {icon && <Image src={icon} size={20} mr={2} />}
       {label && (
         <>
@@ -41,7 +41,7 @@ const StyledInput = ({
       )}
       <Styled width={1} type="text" {...props} />
       {children}
-    </StyledInput.Wrapper>
+    </Well>
   ) : (
     <>
       <Flex

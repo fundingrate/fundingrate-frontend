@@ -43,18 +43,30 @@ Input.SetProviderName = ({ name = "", providerid, onChange, ...p }) => {
   const [state, setState] = useState(name);
 
   return (
-    <Input {...p} value={state} label="Name:" placeholder="Please enter a name." onChange={e => setState(e.target.value)}>
+    <Input
+      {...p}
+      value={state}
+      label="Name:"
+      placeholder="Please enter a name."
+      onChange={e => setState(e.target.value)}
+    >
       <Buttons.SetProviderName name={state} providerid={providerid} />
     </Input>
   );
 };
 
-Input.SetMyUsername = ({ name = "", providerid, onChange, ...p }) => {
-  const [state, setState] = useState(name);
+Input.SetMyUsername = ({ value = "", onChange, ...p }) => {
+  const [state, setState] = useState(value);
 
   return (
-    <Input {...p} value={state} label="Username:" placeholder="Please enter a username." onChange={e => setState(e.target.value)}>
-      <Buttons.SetMyUsername name={state} />
+    <Input
+      {...p}
+      value={state}
+      label="Username:"
+      placeholder="Please enter a username."
+      onChange={e => setState(e.target.value)}
+    >
+      <Buttons.SetMyUsername username={state} />
     </Input>
   );
 };

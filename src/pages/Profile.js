@@ -17,41 +17,35 @@ export default ({ actions, location, token, history }) => {
   const cPage = location.pathname;
 
   const [gState, dispatch] = useWiring(["me", "myTokens"]);
-  const user = gState.me;
+  const user = { ...gState.me, token: gState.token };
 
-  if (!user) {
+  if (!gState.me) {
     history.push("/authenticate");
     return <Text>Redirecting...</Text>;
   }
-
-  const [state, setState] = useState({
-    user,
-    token: gState.token
-  });
 
   const availableTokens = Object.values(gState.myTokens).filter(
     x => x.id !== gState.token
   );
 
   return (
-    <Box width={1} p={4} width={2 / 3}>
+    <Box width={1} p={4} width={[1,'60%', 2/3]}>
       <Avatar
         mx="auto"
-        src={state.user.avatar}
-        size={[64, 128]}
-        mb={2}
+        src={user.avatar}
+        size={128}
+        my={4}
         border="4px solid"
         borderColor="offwhite"
       />
-      <Box m={2} />
-      <ProfileHeading username={state.user.username} />
+      <ProfileHeading username={user.username} />
       <Box my={4} />
-      <Card.ProfileData userid={state.user.id} token={state.token}>
-        {state.token && <Utils.DownloadJson data={state} />}
+      <Card.ProfileData user={user}>
+        {user.token && <Utils.DownloadJson data={user} />}
         <Box mx="auto" />
-        <Button.Logout disabled={!state} mx={2} />
+        <Button.Logout disabled={!user} mx={2} />
       </Card.ProfileData>
-      <Card as={Flex.Column} width={[1, 2 / 3]} my={4} mx="auto">
+      <Card as={Flex.Column}  my={4} mx="auto">
         <Flex my={2} flexDirection="column">
           <Flex.Row>
             <Text.Heading fontSize={5}>Available Tokens</Text.Heading>
@@ -92,7 +86,7 @@ export default ({ actions, location, token, history }) => {
 const ProfileHeading = ({ username }) => {
   return (
     <Flex.Column alignItems="center">
-      <Text.Heading fontSize={[4, 7]} m={2}>
+      <Text.Heading fontSize={7} m={2}>
         Welcome, {username}
       </Text.Heading>
       <Divider />

@@ -63,7 +63,7 @@ const Login = ({ onSubmit = x => x }) => {
           label="Login: "
           value={state.login}
           onChange={handleInput('login')}
-          placeholder="kyle@fr.io"
+          placeholder="bobhope001"
         />
         <Box my={2} />
         <Input

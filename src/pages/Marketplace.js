@@ -20,6 +20,10 @@ export default p => {
 
   return (
     <Box width={1} p={4}>
+      <Flex.Column px={4}>
+        <Text.Heading>Provider Marketplace</Text.Heading>
+        <Divider m={2} bg="card" />
+      </Flex.Column>
       <Flex.Column px={4} alignItems="center" width={1}>
         {list.length > 0 ? (
           list
@@ -45,11 +49,13 @@ export default p => {
                   <Flex.Row mx={3}>
                     <RenderStats stats={p.stats} m={2} mt={0} />
                     <Box mx="auto" />
-                    <Text fontSize={3} color="subtext" my={1}>
-                      Running Since:
-                    </Text>
-                    <Box mx={1} />
-                    <Text>{Utils.renderProp(p.created, "time")}</Text>
+                    <Flex.Row mx={3} flexWrap="wrap">
+                      <Text fontSize={3} color="subtext" my={1}>
+                        Running Since:
+                      </Text>
+                      <Box mx={1} />
+                      <Text>{Utils.renderProp(p.created, "time")}</Text>
+                    </Flex.Row>
                   </Flex.Row>
                 </Card>
               );
