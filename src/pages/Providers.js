@@ -10,7 +10,15 @@ import {
   Divider
 } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
-import { Utils, Modal, Buttons, Banners, Inputs, Editor } from "../components";
+import {
+  Graphs,
+  Utils,
+  Modal,
+  Buttons,
+  Banners,
+  Inputs,
+  Editor
+} from "../components";
 import { useHistory, useLocation } from "react-router-dom";
 
 export default p => {
@@ -75,12 +83,13 @@ const ProviderCard = React.memo(({ providerid }) => {
 
   const pages = {
     Stats: () => <Stats providerid={p.id} />,
+    'Trade History': () => <TradeHistory providerid={p.id} />,
     Description: () => <Description providerid={p.id} />,
     Settings: () => <Settings providerid={p.id} />,
     "Alert Log": () => <AlertLog providerid={p.id} />
   };
 
-  const [page, setPage] = useState("Stats");
+  const [page, setPage] = useState("Trade History");
   const PAGE = pages[page];
 
   return (
@@ -141,6 +150,23 @@ const RenderStats = ({ stats }) => {
     </Flex.Column>
   );
 };
+
+const TradeHistory = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const p = state.myProviders[providerid];
+
+  return [
+    <Well as={Flex.Row} minHeight="300px" p={4}>
+      <Graphs.LineGraph
+        listTrades={e =>
+          state.actions.provider('listTrades', {
+            providerid: p.id
+          })
+        }
+      />
+    </Well>
+  ];
+});
 
 const Stats = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);

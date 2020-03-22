@@ -63,7 +63,7 @@ export default ({ actions, location, token, history }) => {
             return (
               <Flex.Row
                 key={t.id}
-                flexWrap="wrap"
+                // flexWrap="wrap"
                 my={2}
                 justifyContent="center"
               >
