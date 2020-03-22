@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input } from '../primitives'
-import copy from 'clipboard-copy'
-import Utils from './Utils'
+import React, { useEffect, useState } from "react";
+import { Button, Input } from "../primitives";
+import copy from "clipboard-copy";
+import Utils from "./Utils";
+import Buttons from "./Buttons.js";
 
 Input.Copy = ({ value, ...p }) => {
-  const [state, setState] = useState(false)
+  const [state, setState] = useState(false);
 
   const CopyValue = p => {
-    setState(true)
-    copy(value)
-    setTimeout(() => setState(false), 1000)
-  }
+    setState(true);
+    copy(value);
+    setTimeout(() => setState(false), 1000);
+  };
 
   return (
     <Input {...p} disabled value={value}>
       <Button onClick={e => CopyValue(value)} type="simple">
-        {state ? 'Copied!' : 'Copy'}
+        {state ? "Copied!" : "Copy"}
       </Button>
     </Input>
-  )
-}
+  );
+};
 
 Input.Search = ({ onSearch = x => x, ...p }) => {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
 
-  const debouncedSearchTerm = Utils.useDebounce(search, 500)
+  const debouncedSearchTerm = Utils.useDebounce(search, 500);
   useEffect(() => {
-    onSearch(search)
-  }, [debouncedSearchTerm])
+    onSearch(search);
+  }, [debouncedSearchTerm]);
 
   return (
     <Input
@@ -35,7 +36,17 @@ Input.Search = ({ onSearch = x => x, ...p }) => {
       value={search}
       onChange={e => setSearch(e.target.value)}
     />
-  )
-}
+  );
+};
 
-export default Input
+Input.SetProviderName = ({ name = "", providerid, onChange, ...p }) => {
+  const [state, setState] = useState(name);
+
+  return (
+    <Input {...p} value={state} label="Name:" placeholder="Please enter a name." onChange={e => setState(e.target.value)}>
+      <Buttons.SetProviderName name={state} providerid={providerid} />
+    </Input>
+  );
+};
+
+export default Input;

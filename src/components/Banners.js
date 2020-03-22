@@ -1,24 +1,24 @@
-import React from 'react'
-import { Container, Flex, Box, Text, Banner } from '../primitives'
-
+import React from "react";
+import { Container, Flex, Box, Text, Banner } from "../primitives";
 // import banner01 from "../assets/images/banner01.png";
+import Utils from "./Utils";
 
 const Welcome = props => {
   return (
-    <Banner {...props} height={['40%', '60%']}>
+    <Banner {...props} height={["40%", "60%"]}>
       <Flex
         as={Container}
-        height={'100%'}
+        height={"100%"}
         flexDirection="column"
         justifyContent="center"
-        pl={[2, '20%']}
+        pl={[2, "20%"]}
       >
         <Welcome.Text />
         <Welcome.Summary />
       </Flex>
     </Banner>
-  )
-}
+  );
+};
 
 Welcome.Text = () => {
   return (
@@ -29,8 +29,8 @@ Welcome.Text = () => {
         P2P.GG
       </Text.Heading>
     </Flex>
-  )
-}
+  );
+};
 
 Welcome.Summary = () => {
   return (
@@ -41,8 +41,8 @@ Welcome.Summary = () => {
       </Text>
       <Text>Create your account, top up, and start trading!</Text>
     </Text>
-  )
-}
+  );
+};
 
 const ColorBar = ({ children, ...p }) => {
   return (
@@ -56,17 +56,19 @@ const ColorBar = ({ children, ...p }) => {
     >
       {children}
     </Flex>
-  )
-}
+  );
+};
 
 const Notice = ({ children }) => (
-  <ColorBar width={'auto'} m={2} p={2} bg="restricted" borderRadius={2}>
+  <ColorBar width={"auto"} m={2} p={2} bg="restricted" borderRadius={2}>
     {children}
   </ColorBar>
-)
+);
+
+
 
 export default {
   Welcome,
   ColorBar,
-  Notice,
-}
+  Notice
+};
