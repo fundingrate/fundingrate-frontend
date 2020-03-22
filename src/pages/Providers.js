@@ -89,7 +89,7 @@ const ProviderCard = React.memo(({ providerid }) => {
     "Alert Log": () => <AlertLog providerid={p.id} />
   };
 
-  const [page, setPage] = useState("Trade History");
+  const [page, setPage] = useState("Stats");
   const PAGE = pages[page];
 
   return (
