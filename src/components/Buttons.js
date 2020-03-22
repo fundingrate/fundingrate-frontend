@@ -176,6 +176,40 @@ Button.setProviderPrivate = ({ providerid, ...p }) => {
   );
 };
 
+Button.GenerateToken = ({ ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.private("generateToken", {});
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Generate Token"}
+    </Button>
+  );
+};
+
+Button.DeleteToken = ({ tokenid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.private("removeToken", { tokenid });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Delete"}
+    </Button>
+  );
+};
+
 Button.Gateway = ({ children, ...p }) => {
   return (
     <Button {...p} type="offwhite" m={2} width={128} height={64}>

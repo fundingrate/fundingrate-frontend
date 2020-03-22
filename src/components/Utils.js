@@ -100,6 +100,7 @@ RenderObject.Prop = React.memo(
         // alignItems={['center', 'end']}
         alignItems="center"
         m={1}
+        {...p}
       >
         <Text bold>{label}</Text>
         <Box mx={1} />

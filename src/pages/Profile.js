@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Button,
@@ -8,30 +8,35 @@ import {
   Heading,
   Input,
   Divider,
-  Avatar,
-} from '../primitives'
-import { Utils, Inputs, Buttons } from '../components'
-import { useWiring, store } from '../libs/wiring'
+  Avatar
+} from "../primitives";
+import { Utils, Inputs, Buttons } from "../components";
+import { useWiring, store } from "../libs/wiring";
 
 export default ({ actions, location, token, history }) => {
-  const cPage = location.pathname
+  const cPage = location.pathname;
 
-  const [gState, dispatch] = useWiring(['me'])
-  const user = gState.me
+  const [gState, dispatch] = useWiring(["me", "myTokens"]);
+  const user = gState.me;
 
   if (!user) {
-    history.push('/authenticate')
-    return <Text>Redirecting...</Text>
+    history.push("/authenticate");
+    return <Text>Redirecting...</Text>;
   }
 
   const [state, setState] = useState({
     user,
-    token: gState.token,
-  })
+    token: gState.token
+  });
+
+  const availableTokens = Object.values(gState.myTokens).filter(
+    x => x.id !== gState.token
+  );
 
   return (
-    <Flex.Content height={'100%'}>
+    <Box width={1} p={4} width={2 / 3}>
       <Avatar
+        mx="auto"
         src={state.user.avatar}
         size={[64, 128]}
         mb={2}
@@ -46,9 +51,43 @@ export default ({ actions, location, token, history }) => {
         <Box mx="auto" />
         <Button.Logout disabled={!state} mx={2} />
       </Card.ProfileData>
-    </Flex.Content>
-  )
-}
+      <Card as={Flex.Column} width={[1, 2 / 3]} my={4} mx="auto">
+        <Flex my={2} flexDirection="column">
+          <Flex.Row>
+            <Text.Heading fontSize={5}>Available Tokens</Text.Heading>
+            <Box mx="auto" />
+            <Button.GenerateToken />
+          </Flex.Row>
+
+          <Box my={2} />
+          <Divider bg="primary" />
+        </Flex>
+        {!Object.values(gState.myTokens).length ? (
+          <Utils.Loading m={2} />
+        ) : availableTokens.length ? (
+          availableTokens.map(t => {
+            return (
+              <Flex.Row
+                key={t.id}
+                flexWrap="wrap"
+                my={2}
+                justifyContent="center"
+              >
+                <Button.DeleteToken tokenid={t.id} />
+                <Box m={2} />
+                <Inputs.Copy label="ID: " value={t.id} width={1} />
+              </Flex.Row>
+            );
+          })
+        ) : (
+          <Text m={4} color="subtext">
+            You have no additional tokens.
+          </Text>
+        )}
+      </Card>
+    </Box>
+  );
+};
 
 const ProfileHeading = ({ username }) => {
   return (
@@ -62,5 +101,5 @@ const ProfileHeading = ({ username }) => {
         account.
       </Text>
     </Flex.Column>
-  )
-}
+  );
+};
