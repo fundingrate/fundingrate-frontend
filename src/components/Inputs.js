@@ -32,6 +32,7 @@ Input.Search = ({ onSearch = x => x, ...p }) => {
 
   return (
     <Input
+      {...p}
       placeholder="Search..."
       value={search}
       onChange={e => setSearch(e.target.value)}

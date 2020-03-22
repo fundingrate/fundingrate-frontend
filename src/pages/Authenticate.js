@@ -63,7 +63,7 @@ const Login = ({ onSubmit = x => x }) => {
           label="Login: "
           value={state.login}
           onChange={handleInput('login')}
-          placeholder="bobhope001"
+          placeholder="tacyarg@fundingrate.io"
         />
         <Box my={2} />
         <Input
@@ -154,7 +154,7 @@ const Register = ({ onSubmit = x => x }) => {
           label="Login: "
           value={state.login}
           onChange={handleInput('login')}
-          placeholder="kyle@fr.io"
+          placeholder="tacyarg@fundingrate.io"
         />
         <Box my={2} />
         <Input

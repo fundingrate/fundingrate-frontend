@@ -20,10 +20,13 @@ export default p => {
 
   return (
     <Box width={1} p={4}>
-      <Flex.Column px={4}>
+      <Flex.Row px={4} width={1}>
         <Text.Heading>Provider Marketplace</Text.Heading>
-        <Divider m={2} bg="card" />
-      </Flex.Column>
+        <Box mx={(2, "auto")} />
+        <Inputs.Search  onSearch={console.log} />
+      </Flex.Row>
+      <Divider m={2} bg="card" />
+
       <Flex.Column px={4} alignItems="center" width={1}>
         {list.length > 0 ? (
           list
