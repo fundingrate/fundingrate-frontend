@@ -4,15 +4,15 @@ import Profile from './Profile'
 import Wallet from './Wallet'
 import NotFound from './NotFound'
 import Providers from './Providers'
-// import Marketplace from './Marketplace'
+import Marketplace from './Marketplace'
 
 export default {
   Home,
+  Marketplace,
   Authenticate,
   Profile,
   // Wallet,
   'My Providers': Providers,
-  // Marketplace,
 
   // NOTE: default if no match above.
   NotFound,

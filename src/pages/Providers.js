@@ -145,9 +145,9 @@ const Stats = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   return [
-    <Well as={Flex.Row} height="300px">
+    <Well as={Flex.Row} height="300px" p={4}>
       <RenderStats stats={p.stats} />
-      <Box mx={4} />
+      <Box mx={'auto'} />
       {p.stats.currentPosition && (
         <Utils.RenderObject
           heading="Current Position"
