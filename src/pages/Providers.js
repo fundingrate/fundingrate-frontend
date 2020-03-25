@@ -123,7 +123,7 @@ const RenderStats = ({ stats }) => {
   const valueProps = [
     "longs",
     "shorts",
-    "totalTrades",
+    // "totalTrades",
     "longProfit",
     "shortProfit",
     "profit"

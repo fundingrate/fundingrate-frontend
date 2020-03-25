@@ -12,8 +12,9 @@ import {
   Divider,
   Well
 } from "../primitives";
-
+import Editor from "./Editor";
 import Assets from "./Assets";
+
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import assert from "assert";
@@ -40,7 +41,7 @@ const RenderObject = ({ heading, data, children, ...p }) => {
     <Card flexDirection="column" {...p}>
       {heading && (
         <Flex my={2} flexDirection="column">
-          <Text.Heading fontSize={[2,4]}>{heading}</Text.Heading>
+          <Text.Heading fontSize={[2, 4]}>{heading}</Text.Heading>
           <Box my={1} />
           <Divider bg="primary" />
         </Flex>
@@ -138,9 +139,7 @@ const Loading = ({ message = "Loading...", ...p }) => {
   );
 };
 
-// const toc = require('remark-toc')
 
-import PropTypes from "prop-types";
 import Highlight from "react-highlight.js";
 
 const MarkdownLink = ({ link }) => {
@@ -161,8 +160,9 @@ const MarkdownLink = ({ link }) => {
         source={state}
         renderers={{
           // image: p => <Image {...p} height={300} width={1} />,
-          code: ({ value, ...p }) => {
-            return <Highlight {...p}>{value}</Highlight>;
+          code: ({ value, ...p }) => {    
+            // return <Editor {...p} height='100px' data={value} readOnly={true} />
+            return<Highlight {...p}>{value}</Highlight>;
           }
         }}
       />

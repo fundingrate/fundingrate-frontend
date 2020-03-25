@@ -146,6 +146,8 @@ const Button = styled(Box)`
   justify-content: center;
   align-items: center;
 
+  // font-weight: bold;
+
 	${color}
 	${fontSize}
 	${space}
@@ -157,6 +159,7 @@ const Button = styled(Box)`
 Button.defaultProps = {
   py: 2,
   px: 3,
+  fontSize: [1,2]
 }
 
 Button.displayName = 'Button'

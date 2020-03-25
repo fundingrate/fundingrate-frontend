@@ -27,7 +27,7 @@ export default p => {
           type="simple"
           onClick={e => navigateTo("https://twitter.com/fundingrateio")}
         >
-          <Assets.Social.Twitter mx={2} />
+          <Assets.Social.Twitter mx={1} />
         </Button>
         <Button
           width={[1, "auto"]}
@@ -36,7 +36,7 @@ export default p => {
           type="simple"
           onClick={e => navigateTo("https://t.co/tLGaSbxy4b?amp=1")}
         >
-          <Assets.Social.Discord mx={2} />
+          <Assets.Social.Discord mx={1} />
         </Button>
         <Button
           width={[1, "auto"]}
@@ -45,7 +45,7 @@ export default p => {
           type="simple"
           onClick={e => navigateTo("Support")}
         >
-          <Assets.Icons.Help mx={2} bg="consumer" />
+          <Assets.Icons.Help mx={1} bg="consumer" />
         </Button>
       </Flex.Row>
       <Box mx="auto" />

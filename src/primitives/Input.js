@@ -10,6 +10,8 @@ const Styled = styled.input`
   font-size: ${[theme.fontSizes[1], theme.fontSizes[2]]};
   border: none;
   flex: 1;
+  // width: 100%;
+  min-width: 10%;
   color: ${theme.colors.subtext};
   &:focus {
     border: none;
@@ -31,7 +33,7 @@ const StyledInput = ({
   ...props
 }) =>
   withWrapper ? (
-    <Well as={Flex.Row} p={2} error={error} {...props}>
+    <Well as={Flex.Row} p={[1,2]} error={error} {...props}>
       <Flex.Row m={2}>
         {icon && <Image src={icon} size={20} mr={2} />}
         {label && (
@@ -67,8 +69,8 @@ StyledInput.Wrapper = styled(Flex)`
 `;
 
 StyledInput.Wrapper.defaultProps = {
-  p: 2,
-  alignItems: "center"
+  p: 0,
+  // alignItems: "center"
 };
 
 export default StyledInput;

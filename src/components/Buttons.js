@@ -73,7 +73,7 @@ Button.SetMyUsername = ({ username, ...p }) => {
 
   return (
     <Button {...p} onClick={onClick} type="success" disabled={loading}>
-      {loading ? <Utils.Loading message="Saving..." /> : "Change Username"}
+      {loading ? <Utils.Loading message="Saving..." /> : "Change"}
     </Button>
   );
 };
@@ -207,7 +207,7 @@ Button.GenerateToken = ({ ...p }) => {
 
   return (
     <Button {...p} disabled={loading} onClick={onClick} type="success">
-      {loading ? <Utils.Loading /> : "Generate Token"}
+      {loading ? <Utils.Loading /> : "Create"}
     </Button>
   );
 };

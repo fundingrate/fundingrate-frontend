@@ -80,7 +80,7 @@ const RenderStats = ({ stats, ...p }) => {
   const valueProps = [
     "longs",
     "shorts",
-    "totalTrades",
+    // "totalTrades",
     "longProfit",
     "shortProfit",
     "profit"
@@ -124,13 +124,13 @@ const ProviderHeading = ({ title, subtitle, user }) => {
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
       <Text.Heading mx={2} fontSize={[2, 6]}>{title}</Text.Heading>
-      <Box mx={[2, "auto"]} />
+      <Box mx={'auto'} />
       <Flex.Row>
-        <Text fontSize={[2, 4]}>{user.username}</Text>
+        <Text fontSize={[2, 3]}>{user.username}</Text>
         <Box mx={1} />
         <Avatar
           src={user.avatar}
-          size={[24, 48]}
+          size={[24, 32]}
           border="2px solid"
           borderColor="offwhite"
         />

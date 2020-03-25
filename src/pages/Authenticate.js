@@ -43,10 +43,11 @@ const Login = ({ onSubmit = x => x }) => {
 
   return (
     <Flex.Column
-      width={[1, 2 / 3]}
+      width={1}
       p={4}
       height="100%"
       alignItems="center"
+      // justifyContent="center"
       onKeyPress={e => {
         if (e.key !== 'Enter') return
         if (error) return
@@ -134,7 +135,7 @@ const Register = ({ onSubmit = x => x }) => {
   return (
     <Flex.Column
       flexDirection="column"
-      width={[1, 2 / 3]}
+      width={1}
       p={4}
       height="100%"
       alignItems="center"
@@ -169,7 +170,7 @@ const Register = ({ onSubmit = x => x }) => {
         <Input
           type="password"
           disabled={loading}
-          label="Verify Password: "
+          label="Verify: "
           value={state.verifyPassword}
           onChange={handleInput('verifyPassword')}
           placeholder="********************"

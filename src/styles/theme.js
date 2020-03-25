@@ -1,16 +1,16 @@
 import { opacify, darken, lighten, linearGradient } from 'polished'
 
 // const breakpoints = ['64em', '80em']
-const breakpoints = ['40em', '52em', '64em', '80em']
-// const breakpoints = [
-//   "20em",
-//   "30em",
-//   "37.5em",
-//   "48em",
-//   "56.25em",
-//   "68.75em",
-//   "81.25em"
-// ];
+// const breakpoints = ['40em', '52em', '64em', '80em']
+const breakpoints = [
+  // "20em",
+  "30em",
+  "37.5em",
+  "48em",
+  "56.25em",
+  "68.75em",
+  "81.25em"
+];
 
 const space = [0, 4, 8, 16, 32, 64, 128, 160, 256, 512]
 
