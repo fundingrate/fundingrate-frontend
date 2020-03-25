@@ -22,12 +22,12 @@ export default p => {
     <Box width={1} p={4}>
       <Flex.Row px={4} width={1} flexWrap="wrap">
         <Text.Heading>Provider Marketplace</Text.Heading>
-        <Box mx={(2, "auto")} my={[2, 0]} />
+        <Box mx={(2, "auto")} my={2} />
         <Inputs.Search onSearch={console.log} />
       </Flex.Row>
       <Divider m={2} bg="card" />
 
-      <Flex.Column px={4} alignItems="center" width={1}>
+      <Flex.Column alignItems="center" width={1}>
         {list.length > 0 ? (
           list
             .sort((a, b) => a.stats.profit - b.stats.profit)
@@ -38,7 +38,7 @@ export default p => {
                   key={p.id}
                   my={3}
                   p={0}
-                  width={[1, 1, 2 / 3]}
+                  width={[1, 2 / 3]}
                 >
                   <ProviderHeading
                     title={p.name}
@@ -118,24 +118,19 @@ const RenderStats = ({ stats, ...p }) => {
 const ProviderHeading = ({ title, subtitle, user }) => {
   return (
     <Flex.Row
-      flexWrap="wrap"
-      p={3}
+      p={2}
       bg="backing"
       borderBottom="1px solid rgba(0, 0, 0, 0.5)"
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
-      <Flex.Column mb={[2, 0]}>
-        <Text.Heading fontSize={6}>{title}</Text.Heading>
-        <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
-      </Flex.Column>
-
-      <Box mx={[0, "auto"]} />
+      <Text.Heading mx={2} fontSize={[2, 6]}>{title}</Text.Heading>
+      <Box mx={[2, "auto"]} />
       <Flex.Row>
-        <Text fontSize={3}>{user.username}</Text>
-        <Box mx={2} />
+        <Text fontSize={[2, 4]}>{user.username}</Text>
+        <Box mx={1} />
         <Avatar
           src={user.avatar}
-          size={40}
+          size={[24, 48]}
           border="2px solid"
           borderColor="offwhite"
         />

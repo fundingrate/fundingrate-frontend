@@ -124,6 +124,7 @@ const disabled = () => {
 const Button = styled(Box)`
   // text-transform: uppercase;
   // cursor: pointer;
+  white-space: ${p => (p.wrap ? "wrap" : "nowrap")};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   border-radius: ${props => props.borderRadius || theme.radii.normal};
   border: none;

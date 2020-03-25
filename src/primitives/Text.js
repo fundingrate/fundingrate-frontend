@@ -21,10 +21,11 @@ const Text = styled(Box)`
   text-overflow: ellipsis;
   white-space: ${p => (p.wrap ? "wrap" : "nowrap")};
   color: white;
-
   letter-spacing: ${theme.letterSpacings.slight};
   // text-shadow: ${props => (props.color ? "0 0 0.05em" : "none")};
-
+  // vertical-align: middle;
+  // line-height: normal;
+  // text-align: center;
 	${color}
 	${fontSize}
 	${fontWeight}
@@ -44,7 +45,8 @@ Text.defaultProps = {
 Text.Heading = ({ children, bold, ...props }) => {
   return (
     <Text
-    fontSize={[6, 7, 9]}      fontWeight="bold"
+      fontSize={[6, 7, 9]}
+      fontWeight="bold"
       letterSpacing="slight"
       fontFamily={bold ? "TTMussels-Bold" : "TTMussels"}
       {...props}
@@ -70,10 +72,11 @@ Text.Number = ({ bold, money, value, ...props }) => {
 import CountUp from "react-countup";
 Text.StatText = ({ label = "", value = 0, ...p }) => {
   return (
-    <Flex.Row
-      {...p}
-    >
-      {label.toUpperCase()}: <Box mx={1} />
+    <Flex.Row {...p}>
+      <Text>
+        {label.toUpperCase()}: 
+      </Text>
+      <Box mx={1} />
       <Text color={value > 0 ? "lime" : "red"}>
         <CountUp separator="," end={value} />
       </Text>

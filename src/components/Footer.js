@@ -16,41 +16,50 @@ export default p => {
       borderTop="1px solid rgba(0, 0, 0, 0.2)"
       zIndex={9001}
       alignItems="center"
+      justifyContent={["center", "start"]}
       flexWrap="wrap"
     >
-      <Button
-        as={Flex}
-        alignItems="center"
-        type="simple"
-        onClick={e => navigateTo("https://twitter.com/fundingrateio")}
-      >
-        <Assets.Social.Twitter mx={2} /> Twitter
-      </Button>
-      <Button
-        as={Flex}
-        alignItems="center"
-        type="simple"
-        onClick={e => navigateTo("https://t.co/tLGaSbxy4b?amp=1")}
-      >
-        <Assets.Social.Discord mx={2} /> Discord
-      </Button>
-      <Button
-        as={Flex}
-        alignItems="center"
-        type="simple"
-        onClick={e => navigateTo("Support")}
-      >
-        <Assets.Icons.Help mx={2} bg="consumer" /> Support
-      </Button>
+      <Flex.Row width={[1, "auto"]}>
+        <Button
+          width={[1, "auto"]}
+          as={Flex}
+          alignItems="center"
+          type="simple"
+          onClick={e => navigateTo("https://twitter.com/fundingrateio")}
+        >
+          <Assets.Social.Twitter mx={2} />
+        </Button>
+        <Button
+          width={[1, "auto"]}
+          as={Flex}
+          alignItems="center"
+          type="simple"
+          onClick={e => navigateTo("https://t.co/tLGaSbxy4b?amp=1")}
+        >
+          <Assets.Social.Discord mx={2} />
+        </Button>
+        <Button
+          width={[1, "auto"]}
+          as={Flex}
+          alignItems="center"
+          type="simple"
+          onClick={e => navigateTo("Support")}
+        >
+          <Assets.Icons.Help mx={2} bg="consumer" />
+        </Button>
+      </Flex.Row>
       <Box mx="auto" />
-      <Button
+      <Text>© 2019-2020 Fundingrate.io - All Rights Reserved</Text>
+
+      {/* <Button
+        width={[1, "auto"]}
         as={Flex}
         alignItems="center"
         type="simple"
         onClick={e => navigateTo("https://chips.gg")}
       >
         <Assets.Logos.Chips />
-      </Button>
+      </Button> */}
     </Flex>
   );
 };

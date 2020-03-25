@@ -39,14 +39,14 @@ export default p => {
 
   return (
     <Box width={1} p={4}>
-      <Flex.Column px={4} alignItems="center" width={1}>
+      <Flex.Column alignItems="center" width={1}>
         {list.length > 0
           ? [
               <Flex.Row width={1} flexWrap="wrap">
                 <Text.Heading>My Providers</Text.Heading>
 
                 {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
-                <Box mx='auto' />
+                <Box mx="auto" />
                 <Flex>
                   <Modal.CreateProvider
                     onConfirm={params =>
@@ -146,8 +146,12 @@ const RenderStats = ({ stats }) => {
             value: stats[v]
           };
         })
-        .map(s => (
-          <Text.StatText key={s.label} {...s} m={2} />
+        .map((s, idx) => (
+          <Text.StatText
+            key={s.label}
+            {...s}
+            m={[1,2]}
+          />
         ))}
     </Flex.Column>
   );
@@ -180,11 +184,11 @@ const Stats = React.memo(({ providerid }) => {
       flexWrap={"wrap"}
       justifyContent="center"
       height="300px"
-      p={4}
     >
       <RenderStats stats={p.stats} />
       <Box m={4} />
       <Utils.RenderObject
+        m={2}
         heading="Current Position"
         data={p.stats.currentPosition}
       />
@@ -273,8 +277,8 @@ const ProviderHeading = ({ title, subtitle, created }) => {
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
       <Flex.Column mb={[2, 0]}>
-        <Text.Heading fontSize={6}>{title}</Text.Heading>
-        <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
+        <Text.Heading fontSize={[2, 4, 6]}>{title}</Text.Heading>
+        <Utils.clickProp fontSize={[1, 2]} color="subtext" value={subtitle} />
       </Flex.Column>
 
       <Box mx="auto" />

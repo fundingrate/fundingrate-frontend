@@ -16,6 +16,12 @@ Card.ProfileData = ({ user, children, ...p }) => {
   const { username, id, token } = user;
   return (
     <Card flexDirection="column" width={1} {...p}>
+      <Flex my={2} flexDirection="column">
+        <Text.Heading fontSize={[3, 4]}>Profile Settings</Text.Heading>
+        <Box my={2} />
+        <Divider bg="primary" />
+      </Flex>
+      <Box my={1} />
       <Inputs.SetMyUsername value={username} />
       <Box my={2} />
       <Inputs.Copy
@@ -29,7 +35,7 @@ Card.ProfileData = ({ user, children, ...p }) => {
         placeholder="No value provided..."
         value={token}
       />
-      <Box my={3} />
+      <Box my={2} />
       <Flex alignItems="center">{children}</Flex>
     </Card>
   );

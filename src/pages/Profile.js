@@ -33,8 +33,8 @@ export default ({ actions, location, token, history }) => {
       <Avatar
         mx="auto"
         src={user.avatar}
-        size={128}
-        my={4}
+        size={[64, 128]}
+        my={[2,4]}
         border="4px solid"
         borderColor="offwhite"
       />
@@ -47,8 +47,8 @@ export default ({ actions, location, token, history }) => {
       </Card.ProfileData>
       <Card as={Flex.Column}  my={4} mx="auto">
         <Flex my={2} flexDirection="column">
-          <Flex.Row>
-            <Text.Heading fontSize={5}>Available Tokens</Text.Heading>
+          <Flex.Row flexWrap="wrap">
+            <Text.Heading fontSize={[3,4]}>Available Tokens</Text.Heading>
             <Box mx="auto" />
             <Button.GenerateToken />
           </Flex.Row>
@@ -86,11 +86,11 @@ export default ({ actions, location, token, history }) => {
 const ProfileHeading = ({ username }) => {
   return (
     <Flex.Column alignItems="center">
-      <Text.Heading fontSize={7} m={2}>
+      <Text.Heading fontSize={[4, 7]} m={2}>
         Welcome, {username}
       </Text.Heading>
       <Divider />
-      <Text color="red" fontSize={[1, 3]} p={3}>
+      <Text wrap color="red" fontSize={[1, 3]} p={3}>
         Please ensure you save this information or risk losing access to your
         account.
       </Text>

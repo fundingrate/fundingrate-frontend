@@ -7,10 +7,10 @@ import theme from "../styles/theme";
 
 const Styled = styled.input`
   background-color: rgba(0, 0, 0, 0);
-  font-size: ${theme.fontSizes[3]};
+  font-size: ${[theme.fontSizes[1], theme.fontSizes[2]]};
   border: none;
   flex: 1;
-  color: white;
+  color: ${theme.colors.subtext};
   &:focus {
     border: none;
     outline: none;
@@ -32,28 +32,27 @@ const StyledInput = ({
 }) =>
   withWrapper ? (
     <Well as={Flex.Row} p={2} error={error} {...props}>
-      {icon && <Image src={icon} size={20} mr={2} />}
-      {label && (
-        <>
-          <Text>{label}</Text>
-          <Box mx={1} />
-        </>
-      )}
-      <Styled width={1} type="text" {...props} />
+      <Flex.Row m={2}>
+        {icon && <Image src={icon} size={20} mr={2} />}
+        {label && (
+          <Text fontWeight="bold" fontSize={[1, 2]}>
+            {label}
+          </Text>
+        )}
+      </Flex.Row>
+      <Styled type="text" {...props} />
       {children}
     </Well>
   ) : (
-    <>
-      <Flex
-        // bg="lightCard"
-        flex={1}
-        p={2}
-        borderRadius="rounded"
-      >
-        <Styled type="text" {...props} />
-        {children}
-      </Flex>
-    </>
+    <Flex
+      // bg="lightCard"
+      flex={1}
+      p={2}
+      borderRadius="rounded"
+    >
+      <Styled type="text" {...props} />
+      {children}
+    </Flex>
   );
 
 StyledInput.displayName = "Input";

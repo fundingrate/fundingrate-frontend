@@ -37,10 +37,10 @@ const RenderObject = ({ heading, data, children, ...p }) => {
 
   // console.log('RenderObject', data)
   return (
-    <Card flexDirection="column" m={2} {...p}>
+    <Card flexDirection="column" {...p}>
       {heading && (
         <Flex my={2} flexDirection="column">
-          <Text.Heading fontSize={5}>{heading}</Text.Heading>
+          <Text.Heading fontSize={[2,4]}>{heading}</Text.Heading>
           <Box my={1} />
           <Divider bg="primary" />
         </Flex>
@@ -160,7 +160,7 @@ const MarkdownLink = ({ link }) => {
       <ReactMarkdown
         source={state}
         renderers={{
-          image: p => <Image {...p} height={300} width={1} />,
+          // image: p => <Image {...p} height={300} width={1} />,
           code: ({ value, ...p }) => {
             return <Highlight {...p}>{value}</Highlight>;
           }
