@@ -57,7 +57,9 @@ export default p => {
                 </Flex>
               </Flex.Row>,
               <Divider m={2} bg="card" />,
-              list.map(p => <ProviderCard providerid={p.id} />)
+              list
+                .sort((a, b) => (a.stats.profit < b.stats.profit ? 1 : -1))
+                .map(p => <ProviderCard key={p.id} providerid={p.id} />)
             ]
           : [
               <Text.Heading fontSize={6}>
@@ -147,11 +149,7 @@ const RenderStats = ({ stats }) => {
           };
         })
         .map((s, idx) => (
-          <Text.StatText
-            key={s.label}
-            {...s}
-            m={[1,2]}
-          />
+          <Text.StatText key={s.label} {...s} m={[1, 2]} />
         ))}
     </Flex.Column>
   );
@@ -161,17 +159,15 @@ const TradeHistory = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
   const p = state.myProviders[providerid];
 
-  return [
-    <Well as={Flex.Row} minHeight="300px" p={4}>
-      <Graphs.LineGraph
-        listTrades={e =>
-          state.actions.provider("listTrades", {
-            providerid: p.id
-          })
-        }
-      />
-    </Well>
-  ];
+  return (
+    <Graphs.LineGraph
+      listTrades={e =>
+        state.actions.provider("listTrades", {
+          providerid: p.id
+        })
+      }
+    />
+  );
 });
 
 const Stats = React.memo(({ providerid }) => {
@@ -179,12 +175,7 @@ const Stats = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   return [
-    <Well
-      as={Flex.Row}
-      flexWrap={"wrap"}
-      justifyContent="center"
-      height="300px"
-    >
+    <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
       <RenderStats stats={p.stats} />
       <Box m={4} />
       <Utils.RenderObject
@@ -192,7 +183,7 @@ const Stats = React.memo(({ providerid }) => {
         heading="Current Position"
         data={p.stats.currentPosition}
       />
-    </Well>
+    </Flex.Row>
   ];
 });
 
@@ -316,7 +307,7 @@ const AlertLog = ({ providerid }) => {
           data={alerts}
           readOnly
           lang="json"
-          height="300px"
+          // height="300px"
           placeholder="No alerts found."
         />
       )}

@@ -26,7 +26,7 @@ const Card = styled(Flex)`
 
 Card.displayName = 'Card'
 Card.defaultProps = {
-  p: 3,
+  p: [2,3],
   bg: 'card',
 }
 

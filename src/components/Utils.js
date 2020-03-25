@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 import {
   Card,
@@ -38,7 +38,7 @@ const RenderObject = ({ heading, data, children, ...p }) => {
 
   // console.log('RenderObject', data)
   return (
-    <Card flexDirection="column" {...p}>
+    <Flex.Column {...p}>
       {heading && (
         <Flex my={2} flexDirection="column">
           <Text.Heading fontSize={[2, 4]}>{heading}</Text.Heading>
@@ -65,7 +65,7 @@ const RenderObject = ({ heading, data, children, ...p }) => {
       ) : (
         <Text p={2}>Nothing to show yet, check back later.</Text>
       )}
-    </Card>
+    </Flex.Column>
   );
 };
 
@@ -139,7 +139,6 @@ const Loading = ({ message = "Loading...", ...p }) => {
   );
 };
 
-
 import Highlight from "react-highlight.js";
 
 const MarkdownLink = ({ link }) => {
@@ -150,7 +149,7 @@ const MarkdownLink = ({ link }) => {
     return setState(data);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getMarkdown(link);
   }, []);
 
@@ -160,9 +159,9 @@ const MarkdownLink = ({ link }) => {
         source={state}
         renderers={{
           // image: p => <Image {...p} height={300} width={1} />,
-          code: ({ value, ...p }) => {    
-            // return <Editor {...p} height='100px' data={value} readOnly={true} />
-            return<Highlight {...p}>{value}</Highlight>;
+          code: ({ value, ...p }) => {
+            return <Editor {...p} height='120px' data={value} readOnly={true} />
+            // return <Highlight {...p}>{value}</Highlight>;
           }
         }}
       />

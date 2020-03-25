@@ -77,9 +77,10 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
       width: ref.current.parentElement.offsetWidth,
       height: ref.current.parentElement.offsetHeight
     });
+    console.log("RenderLineGraph.updateSize", state, ref);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const l = window.addEventListener("resize", updateSize);
     updateSize();
     return () => window.removeEventListener("resize", l);
@@ -95,7 +96,14 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
         <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
         <Legend />
         {props.map(p => {
-          return <Line name="Profit" dataKey="profit" fill="#82ca9d" />;
+          return (
+            <Line
+              key={"line_" + p}
+              name="Profit"
+              dataKey="profit"
+              fill="#82ca9d"
+            />
+          );
         })}
       </LineChart>
     </div>
@@ -126,7 +134,7 @@ const LineGraph = ({ listTrades = async x => x }) => {
   return loading ? (
     <Utils.LoadingPage />
   ) : (
-    <Box height="100%" width={1}>
+    <Box height="300px" width={1}>
       <RenderLineGraph data={state} />
     </Box>
   );

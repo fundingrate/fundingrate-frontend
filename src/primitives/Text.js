@@ -115,6 +115,7 @@ Text.Link = styled(Text)`
 Text.Link.defaultProps = {
   color: "lightGray",
   fontSize: 1,
+  // fontSize: theme.fontSizes,
   opacity: 1
 };
 

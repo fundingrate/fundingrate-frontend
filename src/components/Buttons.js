@@ -330,7 +330,7 @@ Button.PresetValues = ({ values = [], onClick = x => x }) => {
   return (
     <Flex bg="darkBacking" p={2} borderRadius="normal">
       {values.map(v => (
-        <Button onClick={e => onClick(v)} type="simple" mx={2} flex={0}>
+        <Button key={v} onClick={e => onClick(v)} type="simple" mx={2} flex={0}>
           {v}
         </Button>
       ))}

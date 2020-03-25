@@ -30,7 +30,7 @@ export default p => {
       <Flex.Column alignItems="center" width={1}>
         {list.length > 0 ? (
           list
-            .sort((a, b) => a.stats.profit - b.stats.profit)
+            .sort((a, b) => a.stats.profit < b.stats.profit ? 1 : -1)
             .map(p => {
               return (
                 <Card
@@ -108,6 +108,7 @@ const RenderStats = ({ stats, ...p }) => {
           <Text.StatText
             key={s.label}
             {...s}
+            width={[1, 'auto']}
             mr={idx + 1 !== valueProps.length ? 2 : 0}
           />
         ))}
