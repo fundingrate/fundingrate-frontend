@@ -5,6 +5,7 @@ import Wallet from './Wallet'
 import NotFound from './NotFound'
 import Providers from './Providers'
 import Marketplace from './Marketplace'
+import Documentation from './Documentation'
 
 export default {
   Home,
@@ -13,7 +14,7 @@ export default {
   Profile,
   // Wallet,
   'My Providers': Providers,
-
+  'API Documentation' : Documentation,
   // NOTE: default if no match above.
   NotFound,
 }

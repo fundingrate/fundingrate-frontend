@@ -9,7 +9,8 @@ import {
   Image,
   Sidebar,
   Spinner,
-  Divider
+  Divider,
+  Well
 } from "../primitives";
 
 import Assets from "./Assets";
@@ -96,7 +97,8 @@ RenderObject.Prop = React.memo(
   ({ label, value, type, color = "subtext", ...p }) => {
     return (
       <Flex
-        flexDirection={["column", "row"]}
+        flexWrap="wrap"
+        // flexDirection={["column", "row"]}
         // alignItems={['center', 'end']}
         alignItems="center"
         m={1}
@@ -154,17 +156,15 @@ const MarkdownLink = ({ link }) => {
   }, []);
 
   return state ? (
-    <Box p={4} width={[1, 2 / 3]}>
+    <Box p={4} width={1}>
       <ReactMarkdown
         source={state}
         renderers={{
-          image: p => <Image {...p} height={300} width={1} />
+          image: p => <Image {...p} height={300} width={1} />,
+          code: ({ value, ...p }) => {
+            return <Highlight {...p}>{value}</Highlight>;
+          }
         }}
-        // renderers={{
-        //   code: ({ value, ...p }) => {
-        //     return <Highlight {...p} >{value}</Highlight>
-        //   }
-        // }}
       />
     </Box>
   ) : (

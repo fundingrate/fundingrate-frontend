@@ -6,6 +6,7 @@ import Box from './Box'
 
 const Flex = styled(Box)`
   display: flex;
+  flexWrap: ${p => p.wrap ? 'wrap' : 'nowrap'}
   ${flexbox}
 `
 

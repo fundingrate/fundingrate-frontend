@@ -44,7 +44,7 @@ Text.defaultProps = {
 Text.Heading = ({ children, bold, ...props }) => {
   return (
     <Text
-    fontSize={[5, 7, 9]}      fontWeight="bold"
+    fontSize={[6, 7, 9]}      fontWeight="bold"
       letterSpacing="slight"
       fontFamily={bold ? "TTMussels-Bold" : "TTMussels"}
       {...props}

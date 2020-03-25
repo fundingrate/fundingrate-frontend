@@ -42,11 +42,11 @@ export default p => {
       <Flex.Column px={4} alignItems="center" width={1}>
         {list.length > 0
           ? [
-              <Flex.Row width={1}>
+              <Flex.Row width={1} flexWrap="wrap">
                 <Text.Heading>My Providers</Text.Heading>
 
                 {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
-                <Box mx={"auto"} />
+                <Box mx='auto' />
                 <Flex>
                   <Modal.CreateProvider
                     onConfirm={params =>
@@ -83,7 +83,7 @@ const ProviderCard = React.memo(({ providerid }) => {
 
   const pages = {
     Stats: () => <Stats providerid={p.id} />,
-    'Trade History': () => <TradeHistory providerid={p.id} />,
+    "Trade History": () => <TradeHistory providerid={p.id} />,
     Description: () => <Description providerid={p.id} />,
     Settings: () => <Settings providerid={p.id} />,
     "Alert Log": () => <AlertLog providerid={p.id} />
@@ -95,10 +95,12 @@ const ProviderCard = React.memo(({ providerid }) => {
   return (
     <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3]}>
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
-      <Flex.Row m={3}>
+      <Flex.Row m={3} flexWrap="wrap">
         {Object.keys(pages).map(k => {
           return (
             <Button
+              textAlign="left"
+              width={[1, "auto"]}
               key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
@@ -159,7 +161,7 @@ const TradeHistory = React.memo(({ providerid }) => {
     <Well as={Flex.Row} minHeight="300px" p={4}>
       <Graphs.LineGraph
         listTrades={e =>
-          state.actions.provider('listTrades', {
+          state.actions.provider("listTrades", {
             providerid: p.id
           })
         }
@@ -173,15 +175,19 @@ const Stats = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   return [
-    <Well as={Flex.Row} height="300px" p={4}>
+    <Well
+      as={Flex.Row}
+      flexWrap={"wrap"}
+      justifyContent="center"
+      height="300px"
+      p={4}
+    >
       <RenderStats stats={p.stats} />
-      <Box mx={"auto"} />
-      {p.stats.currentPosition && (
-        <Utils.RenderObject
-          heading="Current Position"
-          data={p.stats.currentPosition}
-        />
-      )}
+      <Box m={4} />
+      <Utils.RenderObject
+        heading="Current Position"
+        data={p.stats.currentPosition}
+      />
     </Well>
   ];
 });
@@ -260,12 +266,13 @@ const ButtonSetPublic = ({ isPublic, id }) => {
 const ProviderHeading = ({ title, subtitle, created }) => {
   return (
     <Flex.Row
+      flexWrap="wrap"
       p={3}
       bg="backing"
       borderBottom="1px solid rgba(0, 0, 0, 0.5)"
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
-      <Flex.Column>
+      <Flex.Column mb={[2, 0]}>
         <Text.Heading fontSize={6}>{title}</Text.Heading>
         <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
       </Flex.Column>

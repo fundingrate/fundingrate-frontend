@@ -16,6 +16,7 @@ export default p => {
       borderTop="1px solid rgba(0, 0, 0, 0.2)"
       zIndex={9001}
       alignItems="center"
+      flexWrap="wrap"
     >
       <Button
         as={Flex}

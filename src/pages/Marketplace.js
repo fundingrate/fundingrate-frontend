@@ -20,10 +20,10 @@ export default p => {
 
   return (
     <Box width={1} p={4}>
-      <Flex.Row px={4} width={1}>
+      <Flex.Row px={4} width={1} flexWrap="wrap">
         <Text.Heading>Provider Marketplace</Text.Heading>
-        <Box mx={(2, "auto")} />
-        <Inputs.Search  onSearch={console.log} />
+        <Box mx={(2, "auto")} my={[2, 0]} />
+        <Inputs.Search onSearch={console.log} />
       </Flex.Row>
       <Divider m={2} bg="card" />
 
@@ -38,7 +38,7 @@ export default p => {
                   key={p.id}
                   my={3}
                   p={0}
-                  width={[1, 2 / 3]}
+                  width={[1, 1, 2 / 3]}
                 >
                   <ProviderHeading
                     title={p.name}
@@ -49,17 +49,19 @@ export default p => {
                   <Well height="300px" m={2}>
                     <Utils.RenderMarkdown source={p.description} />
                   </Well>
-                  <Flex.Row mx={3}>
-                    <RenderStats stats={p.stats} m={2} mt={0} />
-                    <Box mx="auto" />
-                    <Flex.Row mx={3} flexWrap="wrap">
-                      <Text fontSize={3} color="subtext" my={1}>
+                  <Flex.Column m={3}>
+                    <RenderStats stats={p.stats} mt={0} />
+                    <Box m={1} />
+                    <Flex.Row flexWrap="wrap">
+                      <Text fontSize={3} my={1}>
                         Running Since:
                       </Text>
                       <Box mx={1} />
-                      <Text>{Utils.renderProp(p.created, "time")}</Text>
+                      <Text color="subtext">
+                        {Utils.renderProp(p.created, "time")}
+                      </Text>
                     </Flex.Row>
-                  </Flex.Row>
+                  </Flex.Column>
                 </Card>
               );
             })
@@ -86,14 +88,14 @@ const RenderStats = ({ stats, ...p }) => {
 
   return (
     <Flex.Row
-      mt={3}
-      mb={0}
+      // mt={3}
+      // mb={0}
       {...p}
       style={{
         overflow: "hidden",
         overflowX: "auto"
       }}
-      flexWrap="wrap"
+      flexWrap={"wrap"}
     >
       {valueProps
         .map(v => {
@@ -102,8 +104,12 @@ const RenderStats = ({ stats, ...p }) => {
             value: stats[v]
           };
         })
-        .map(s => (
-          <Text.StatText key={s.label} {...s} m={2} />
+        .map((s, idx) => (
+          <Text.StatText
+            key={s.label}
+            {...s}
+            mr={idx + 1 !== valueProps.length ? 2 : 0}
+          />
         ))}
     </Flex.Row>
   );
@@ -112,31 +118,27 @@ const RenderStats = ({ stats, ...p }) => {
 const ProviderHeading = ({ title, subtitle, user }) => {
   return (
     <Flex.Row
+      flexWrap="wrap"
       p={3}
       bg="backing"
       borderBottom="1px solid rgba(0, 0, 0, 0.5)"
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
-      <Flex.Column>
+      <Flex.Column mb={[2, 0]}>
         <Text.Heading fontSize={6}>{title}</Text.Heading>
         <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
       </Flex.Column>
 
-      <Box mx="auto" />
+      <Box mx={[0, "auto"]} />
       <Flex.Row>
+        <Text fontSize={3}>{user.username}</Text>
+        <Box mx={2} />
         <Avatar
           src={user.avatar}
           size={40}
           border="2px solid"
           borderColor="offwhite"
         />
-        <Box m={2} />
-        <Flex.Column>
-          <Text fontSize={3} color="subtext" my={1}>
-            Created By:
-          </Text>
-          <Text>{user.username}</Text>
-        </Flex.Column>
       </Flex.Row>
     </Flex.Row>
   );

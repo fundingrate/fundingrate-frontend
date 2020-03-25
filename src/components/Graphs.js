@@ -18,10 +18,10 @@ import VizSensor from "react-visibility-sensor";
 import CountUp from "react-countup";
 
 //group by day, total trades, total profit
-function reduceDataset(dataset = []) {
+function reduceDataset(dataset = [], format = "l") {
   let data = dataset.reduce((memo, t) => {
     if (!t.done) return memo;
-    const date = moment(t.updated).format("l");
+    const date = moment(t.updated).format(format);
 
     if (!memo[date]) {
       memo[date] = {
@@ -38,8 +38,6 @@ function reduceDataset(dataset = []) {
 
     return memo;
   }, {});
-
-  console.log("GRAPH_DATA", data);
 
   return Object.values(data).sort((x, y) => {
     return x.updated > y.updated ? 1 : -1;
@@ -113,7 +111,12 @@ const LineGraph = ({ listTrades = async x => x }) => {
     // if (state.length > 0) return
     setLoading(true);
     listTrades()
-      // .then(reduceDataset)
+      .then(data => {
+        if (data.length > 100) {
+          data = reduceDataset(data);
+        }
+        return data;
+      })
       .then(setState)
       .then(e => setLoading(false));
   };

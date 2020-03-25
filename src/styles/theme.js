@@ -1,7 +1,7 @@
 import { opacify, darken, lighten, linearGradient } from 'polished'
 
-const breakpoints = ['64em', '80em']
-// const breakpoints = ['40em', '52em', '64em', '80em']
+// const breakpoints = ['64em', '80em']
+const breakpoints = ['40em', '52em', '64em', '80em']
 // const breakpoints = [
 //   "20em",
 //   "30em",
