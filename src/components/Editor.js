@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import AceEditor from "react-ace";
 // import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/mode-markdown";
-import "ace-builds/src-noconflict/mode-json";
+// import "ace-builds/src-noconflict/mode-markdown";
+// import "ace-builds/src-noconflict/mode-json";
 // import "ace-builds/src-noconflict/theme-vibrant_ink";
 
 const Editor = ({
