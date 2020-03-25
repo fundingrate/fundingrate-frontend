@@ -160,7 +160,8 @@ const MarkdownLink = ({ link }) => {
         renderers={{
           // image: p => <Image {...p} height={300} width={1} />,
           code: ({ value, ...p }) => {
-            return <Editor {...p} height='120px' data={value} readOnly={true} />
+            return <Well {...p} p={4}>{value}</Well>
+            // return <Editor {...p} height='120px' data={value} readOnly={true} />
             // return <Highlight {...p}>{value}</Highlight>;
           }
         }}
