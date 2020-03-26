@@ -1,9 +1,9 @@
-import React, { forwardRef } from 'react'
-import styled from 'styled-components'
-import {} from 'styled-system'
-import { Box, Flex } from '.'
-import theme from '../styles/theme'
-import posed from 'react-pose'
+import React, { forwardRef } from "react";
+import styled from "styled-components";
+import {} from "styled-system";
+import { Box, Flex } from ".";
+import theme from "../styles/theme";
+import posed from "react-pose";
 
 const Container = styled.div`
   // display: flex;
@@ -21,22 +21,22 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   /* pointer-events: none; */
-`
+`;
 
 const Shade = posed(Container)({
   enter: {
-    applyAtStart: { display: 'flex' },
+    applyAtStart: { display: "flex" },
     opacity: 1,
     // beforeChildren: true,
-    transition: { duration: 200, ease: 'linear' },
+    transition: { duration: 200, ease: "linear" }
   },
   exit: {
-    applyAtEnd: { display: 'none' },
+    applyAtEnd: { display: "none" },
     opacity: 0,
     // afterChildren: true,
-    transition: { duration: 200, ease: 'linear' },
-  },
-})
+    transition: { duration: 200, ease: "linear" }
+  }
+});
 
 const Modal = styled(Flex)`
   max-height: 75%;
@@ -52,22 +52,24 @@ const Modal = styled(Flex)`
   background: ${theme.colors.card};
   border-radius: ${theme.radii.normal};
   /* pointer-events: none; */
-`
+`;
 Modal.defaultProps = {
   // p: 2
-}
+  maxHeight: ["90%", "75%"],
+  maxWidth: ["90%", "75%"]
+};
 
 const PosedModal = posed(Modal)({
   enter: { opacity: 1, z: 0 },
-  exit: { opacity: 0, z: -150 },
-})
+  exit: { opacity: 0, z: -150 }
+});
 
 export default ({ isOpen = true, children, ...p }) => {
   return (
-    <Shade pose={isOpen ? 'enter' : 'exit'}>
-      <PosedModal pose={isOpen ? 'enter' : 'exit'} {...p}>
+    <Shade pose={isOpen ? "enter" : "exit"}>
+      <PosedModal pose={isOpen ? "enter" : "exit"} {...p}>
         {children}
       </PosedModal>
     </Shade>
-  )
-}
+  );
+};

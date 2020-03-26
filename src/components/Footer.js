@@ -46,7 +46,7 @@ export default p => {
           as={Flex}
           alignItems="center"
           type="simple"
-          onClick={e => navigateTo("Support")}
+          onClick={e => navigateTo("https://t.me/joinchat/CMPVCleYZAgtL0RWrZsqNg")}
           fontSize={1}
 
         >
