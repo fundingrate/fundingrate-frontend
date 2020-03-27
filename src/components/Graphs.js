@@ -21,7 +21,7 @@ import CountUp from "react-countup";
 function reduceDataset(dataset = [], format = "l") {
   let data = dataset.reduce((memo, t) => {
     if (!t.done) return memo;
-    const date = moment(t.updated).format(format);
+    const date = moment(t.created).format(format);
 
     if (!memo[date]) {
       memo[date] = {
