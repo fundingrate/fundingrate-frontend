@@ -17,7 +17,8 @@ import {
   Buttons,
   Banners,
   Inputs,
-  Editor
+  Editor,
+  Providers
 } from "../components";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -120,15 +121,31 @@ const ProviderCard = React.memo(({ providerid }) => {
   );
 });
 
-const RenderStats = ({ stats }) => {
-  // useEffect(() => {
+
+const TradeHistory = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  const p = state.myProviders[providerid];
+
+  return (
+    <Graphs.LineGraph
+      listTrades={e =>
+        state.actions.provider("listTrades", {
+          providerid: p.id
+        })
+      }
+    />
+  );
+});
+
+const TradeStats = ({ stats }) => {
   const valueProps = [
     "longs",
     "shorts",
-    // "totalTrades",
+    "totalTrades",
     "longProfit",
     "shortProfit",
-    "profit"
+    "profit",
+    "realizedProfit"
   ];
 
   return (
@@ -155,20 +172,6 @@ const RenderStats = ({ stats }) => {
   );
 };
 
-const TradeHistory = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid];
-
-  return (
-    <Graphs.LineGraph
-      listTrades={e =>
-        state.actions.provider("listTrades", {
-          providerid: p.id
-        })
-      }
-    />
-  );
-});
 
 const Stats = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
@@ -176,7 +179,7 @@ const Stats = React.memo(({ providerid }) => {
 
   return [
     <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
-      <RenderStats stats={p.stats} />
+      <TradeStats stats={p.stats} />
       <Box m={4} />
       <Utils.RenderObject
         m={2}
