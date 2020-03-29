@@ -59,6 +59,27 @@ Button.SetProviderName = ({ providerid, name, ...p }) => {
   );
 };
 
+Button.SetMakerFee = ({ providerid, fee=0, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.provider("setMakerFee", {
+      providerid,
+      fee: parseFloat(fee)
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} onClick={onClick} type="success" disabled={loading}>
+      {loading ? <Utils.Loading message="Saving..." /> : "Save"}
+    </Button>
+  );
+};
+
+
 Button.SetMyUsername = ({ username, ...p }) => {
   const [state, dispatch] = useWiring(["me"]);
   const [loading, setLoading] = useState(false);
@@ -194,6 +215,62 @@ Button.setProviderPrivate = ({ providerid, ...p }) => {
     </Button>
   );
 };
+
+Button.setAutoCloseEnabled = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("enableAutoClose", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Enable"}
+    </Button>
+  );
+};
+
+Button.setAutoCloseDisabled = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("disableAutoClose", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Disable"}
+    </Button>
+  );
+};
+
+Button.SetPublic = ({ isPublic, id }) => {
+  return isPublic ? (
+    <Button.setProviderPrivate providerid={id} />
+  ) : (
+    <Button.setProviderPublic providerid={id} />
+  );
+};
+Button.SetDisableAutoClose = ({ state, id }) => {
+  return state ? (
+    <Button.setAutoCloseEnabled providerid={id} />
+  ) : (
+    <Button.setAutoCloseDisabled providerid={id} />
+  );
+};
+
 
 Button.GenerateToken = ({ ...p }) => {
   const [state, dispatch] = useWiring(["me"]);

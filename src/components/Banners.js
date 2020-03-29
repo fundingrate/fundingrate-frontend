@@ -5,7 +5,7 @@ import Utils from "./Utils";
 
 const Welcome = props => {
   return (
-    <Banner {...props} height={["40%", "60%"]}>
+    <Banner src={'https://cdn.chips.gg/images/phone_stocks01.jpeg'} {...props} minHeight="300px" height={["40%", "60%"]}>
       <Flex
         as={Container}
         height={"100%"}
@@ -15,6 +15,7 @@ const Welcome = props => {
       >
         <Welcome.Text />
         <Welcome.Summary />
+        {props.children}
       </Flex>
     </Banner>
   );
@@ -22,11 +23,11 @@ const Welcome = props => {
 
 Welcome.Text = () => {
   return (
-    <Flex>
+    <Flex mb={2}>
       <Text.Heading>Welcome to</Text.Heading>
       <Box mx={1} />
       <Text.Heading bold color="primary">
-        P2P.GG
+        Fundingrate
       </Text.Heading>
     </Flex>
   );
@@ -34,12 +35,10 @@ Welcome.Text = () => {
 
 Welcome.Summary = () => {
   return (
-    <Text opacity={0.5} lineHeight={1.5}>
-      <Text>Welcome to our all in one CS:GO peer to peer marketplace.</Text>
-      <Text>
-        You finally are able to instantly buy and sell items for CS:GO!
-      </Text>
-      <Text>Create your account, top up, and start trading!</Text>
+    <Text color="subtext">
+      <Box>Get all your alerts from TradingView, sent to Telegram, Discord, or Slack.</Box>      
+      <Box>Automate trading from your alerts on multiple exchanges 24/7.</Box>
+      <Box>Create a provider, and start trading today!</Box>
     </Text>
   );
 };

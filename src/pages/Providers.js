@@ -198,8 +198,14 @@ const Settings = React.memo(({ providerid }) => {
     <Box height="300px">
       <Inputs.SetProviderName providerid={p.id} name={p.name} />
       <Box m={1} />
+      <Inputs.SetMakerFee providerid={p.id} fee={p.makerFee}/>
+      <Box m={1} />
+      <Input disabled value={p.disableAutoClose} label="Disable Auto Close:">
+        <Buttons.SetDisableAutoClose state={p.disableAutoClose} id={p.id} />
+      </Input>
+      <Box m={1} />
       <Input disabled value={p.public} label="Listed Publicly: ">
-        <ButtonSetPublic isPublic={p.public} id={p.id} />
+        <Buttons.SetPublic isPublic={p.public} id={p.id} />
       </Input>
     </Box>
   ];
@@ -253,13 +259,6 @@ const Description = React.memo(({ providerid }) => {
   ];
 });
 
-const ButtonSetPublic = ({ isPublic, id }) => {
-  return isPublic ? (
-    <Buttons.setProviderPrivate providerid={id} />
-  ) : (
-    <Buttons.setProviderPublic providerid={id} />
-  );
-};
 
 const ProviderHeading = ({ title, subtitle, created }) => {
   return (

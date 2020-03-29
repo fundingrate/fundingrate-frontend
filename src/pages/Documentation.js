@@ -4,7 +4,7 @@ import { Flex, Box, Text, Well, Divider } from "../primitives";
 
 export default p => {
   return (
-    <Flex.Column width={1} p={[0, 4]}>
+    <Flex.Column width={[1, 2/3]} p={[0, 4]}>
       <Flex.Row p={4} width={1}>
         <Text.Heading>API Documentation</Text.Heading>
       </Flex.Row>

@@ -20,6 +20,7 @@ import CountUp from "react-countup";
 //group by day, total trades, total profit
 function reduceDataset(dataset = [], format = "l") {
   let data = dataset.reduce((memo, t) => {
+    if (!t) return memo;
     if (!t.done) return memo;
     const date = moment(t.created).format(format);
 
@@ -28,7 +29,8 @@ function reduceDataset(dataset = [], format = "l") {
         count: 0,
         date,
         profit: t.profit,
-        updated: t.updated
+        //updated: t.updated,
+        //created: t.created
       };
     } else {
       memo[date].count += 1;
@@ -62,18 +64,20 @@ function reduceDataset(dataset = [], format = "l") {
 //   );
 // };
 
+import { createChart, LineStyle } from 'lightweight-charts';
+
 const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
   const ref = useRef(null);
 
+  const [chart, setChart] = useState(null)
   const [state, setState] = useState({
     width: 0,
-    height: 0
+    height: 0,
+    autoScale: true,
   });
-
   const updateSize = p => {
-    if (!ref.current) return;
-    if (!ref.current.parentElement) return;
     setState({
+      ...state,
       width: ref.current.parentElement.offsetWidth,
       height: ref.current.parentElement.offsetHeight
     });
@@ -81,14 +85,50 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
   };
 
   useEffect(() => {
+    const { width, height } = state
+    if(chart) chart.resize(width, height)
+  }, [state])
+
+  useEffect(() => {
     const l = window.addEventListener("resize", updateSize);
-    updateSize();
+
+    // hacky fix to ensure the node is in the dom tree.
+    if (!ref.current) return;
+    if (!ref.current.parentElement) return;
+
+    // setup lightweight chart
+    if(!chart) initChart()
+    updateSize()
+
+    // destory listener when graph is hidden.
     return () => window.removeEventListener("resize", l);
   }, [ref.current]);
 
+  const initChart = () => {
+    const chart = createChart(ref.current, {
+      ...state,
+      //timescale: { visable: true }
+    });
+    const lineSeries = chart.addLineSeries({
+      title: 'Profit'
+    });
+    lineSeries.setData([
+      ...data.map(x => { return { time: x.date, value: x.profit } })
+      //{ time: '2019-04-12', value: 96.63 },
+    ]);
+    const avg = data.reduce((memo, v) => memo+=v, 0) / data.length
+    lineSeries.createPriceLine({ price: 0, lineStyle: LineStyle.Dashed, color: 'red' })
+    chart.timeScale().fitContent()
+    setChart(chart)
+  }
+
   return (
-    <div ref={ref}>
-      <LineChart {...state} data={data}>
+    <div ref={ref}/>
+  );
+};
+
+
+const OLD_CHART = p => <LineChart {...state} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis name="Date" dataKey="date" />
         <YAxis />
@@ -106,9 +146,7 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
           );
         })}
       </LineChart>
-    </div>
-  );
-};
+
 
 const LineGraph = ({ listTrades = async x => x }) => {
   const [isVisable, setIsVisable] = useState(false);
@@ -119,12 +157,7 @@ const LineGraph = ({ listTrades = async x => x }) => {
     // if (state.length > 0) return
     setLoading(true);
     listTrades()
-      .then(data => {
-        if (data.length > 100) {
-          data = reduceDataset(data);
-        }
-        return data;
-      })
+      .then(reduceDataset)
       .then(setState)
       .then(e => setLoading(false));
   };

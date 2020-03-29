@@ -26,7 +26,8 @@ const Text = styled(Box)`
   // vertical-align: middle;
   // line-height: normal;
   // text-align: center;
-	${color}
+  line-height: 1.5;
+  ${color}
 	${fontSize}
 	${fontWeight}
 	${lineHeight}

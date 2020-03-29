@@ -99,15 +99,15 @@ RenderObject.Prop = React.memo(
     return (
       <Flex
         flexWrap="wrap"
-        // flexDirection={["column", "row"]}
-        // alignItems={['center', 'end']}
+        flexDirection={["column", "row"]}
+        //alignItems={['center', 'end']}
         alignItems="center"
         m={1}
         {...p}
       >
-        <Text bold>{label}</Text>
+        <Text bold fontSize={p.fontSize}>{label}</Text>
         <Box mx={1} />
-        <Text.Link onClick={e => copy(value)} color={color}>
+        <Text.Link fontSize={p.fontSize} onClick={e => copy(value)} color={color}>
           {renderProp(value, type)}
         </Text.Link>
       </Flex>
@@ -158,7 +158,7 @@ const MarkdownLink = ({ link }) => {
       <ReactMarkdown
         source={state}
         renderers={{
-          // image: p => <Image {...p} height={300} width={1} />,
+        image: p => <Image {...p} height={300} width={1} />,
           code: ({ value, ...p }) => {
             return <Well {...p} p={4}>{value}</Well>
             // return <Editor {...p} height='120px' data={value} readOnly={true} />

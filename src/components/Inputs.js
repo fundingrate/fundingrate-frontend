@@ -56,6 +56,22 @@ Input.SetProviderName = ({ name = "", providerid, onChange, ...p }) => {
   );
 };
 
+Input.SetMakerFee = ({ fee='0.04', providerid, onChange, ...p }) => {
+  const [state, setState] = useState(fee);
+
+  return (
+    <Input
+      {...p}
+      value={state}
+      label="Maker Fee:"
+      placeholder="Percentage fee taken by the maker."
+      onChange={e => setState(e.target.value)}
+    >
+      <Buttons.SetMakerFee fee={state} providerid={providerid} />
+    </Input>
+  );
+};
+
 Input.SetMyUsername = ({ value = "", onChange, ...p }) => {
   const [state, setState] = useState(value);
 
