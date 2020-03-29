@@ -63,7 +63,7 @@ export default p => {
         </Button> */}
       </Flex.Row>
       <Box mx="auto" />
-      <Text mt={[2, 0]}>© 2019-2020 Fundingrate.io - All Rights Reserved</Text>
+      <Text mt={[2, 0]}>&#169; 2019-2020 Fundingrate.io - All Rights Reserved</Text>
 
       {/* <Button
         width={[1, "auto"]}
