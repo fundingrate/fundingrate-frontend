@@ -36,7 +36,7 @@ export default p => {
         <Utils.RenderObject.Prop as={Card} width={[1, 'auto']} fontSize={[2,4]} label="Public Providers:" value={332244} type="number" />
       </Flex.Row>
       
-      <Flex.Column mx={[4,6,8]} my={[2, 4,6]} height="100%">
+      <Box mx={[4,6,8]} my={[2, 4,6]}>
         <Text.Heading color="primary" fontSize={[6,8]}>Automated Trading</Text.Heading>
         <Text color="subtext" wrap fontSize={[3,5]}>Automate trading at FTX, BitMEX, Deribit, Bybit, Bitfinex & Coinbase Pro from your alerts.</Text>
         <Divider my={2}/>
@@ -68,9 +68,9 @@ export default p => {
             </Text>
           </Box>
         </Box>
-        <Banner mx={4} height="80%" src="https://cdn.chips.gg/images/ml_chart01.png" opacity={0.5} width={1/4} borderRadius="rounded"/>
+        <Banner mx={4} height="512px" src="https://cdn.chips.gg/images/ml_chart01.png" opacity={0.5} width={1/4} borderRadius="rounded"/>
         </Flex.Row>
-      </Flex.Column>
+      </Box>
     </Flex.Column>
   );
 };
