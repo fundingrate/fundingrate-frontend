@@ -29,7 +29,7 @@ export default ({ actions, location, token, history }) => {
   );
 
   return (
-    <Box width={1} p={4} width={[1,1,1, 2/3]}>
+    <Box width={1} p={4} width={[1,'60%', 2/3]}>
       <Avatar
         mx="auto"
         src={user.avatar}

@@ -145,7 +145,7 @@ const TradeHistory = React.memo(({ providerid }) => {
   return (
     <Graphs.LineGraph
       listTrades={e =>
-        state.actions.provider("listTrades", {
+          state.actions.provider("listTrades", {
           providerid
         })
       }

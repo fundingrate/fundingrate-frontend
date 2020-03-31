@@ -215,20 +215,42 @@ const LineGraph = ({ listTrades = async x => x }) => {
     // if (state.length > 0) return
     setLoading(true);
     listTrades()
+      .then(e => {
+        console.log('GRAPH_DATA', e)
+        return e
+      })
       .then(reduceDataset)
       .then(setState)
-      .then(e => setLoading(false));
+      .then(e => setLoading(false))
+      .catch(console.log)
   };
 
-  useEffect(PopulateState, []);
+  //useEffect(PopulateState, []);
 
-  return loading ? (
-    <Utils.LoadingPage />
-  ) : (
-    <Box height="300px" width={1}>
-      <RenderLineGraph data={state} />
-    </Box>
-  );
+  //return loading ? (
+  //  <Utils.LoadingPage />
+  //) : (
+  //  <Box height="300px" width={1}>
+  //    <RenderLineGraph data={state} />
+  //  </Box>
+  //);
+
+  return <VizSensor
+    scrollCheck
+    partialVisibility
+    onChange={vis => {
+      if(vis) PopulateState()
+      setIsVisable(vis)
+    }}
+  >
+    {props => {
+      if(loading) return <Utils.LoadingPage />
+      return <Box height="300px" width={1}>
+        <RenderLineGraph data={state} />
+      </Box>
+    }}
+  </VizSensor>
+
 
   // return (
   //   <VizSensor
