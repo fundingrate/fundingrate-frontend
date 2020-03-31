@@ -5,13 +5,13 @@ import Utils from "./Utils";
 
 const Welcome = props => {
   return (
-    <Banner src={'https://cdn.chips.gg/images/phone_stocks01.jpeg'} {...props} minHeight="300px" height={["40%", "60%"]}>
+    <Banner src={'https://cdn.chips.gg/images/phone_stocks01.jpeg'} {...props} minHeight={['300px', '400px', '500px']}>
       <Flex
         as={Container}
         height={"100%"}
         flexDirection="column"
         justifyContent="center"
-        pl={[2, "20%"]}
+        ml={[2, "20%"]}
       >
         <Welcome.Text />
         <Welcome.Summary />

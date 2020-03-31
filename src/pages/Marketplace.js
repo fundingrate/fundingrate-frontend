@@ -38,7 +38,7 @@ export default p => {
                   key={p.id}
                   my={4}
                   p={0}
-                  width={[1, 2 / 3]}
+                  width={[1,1,1, 2 / 3]}
                 >
                   <ProviderHeading
                     title={p.name}

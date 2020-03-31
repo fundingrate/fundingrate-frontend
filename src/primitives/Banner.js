@@ -13,6 +13,7 @@ const Banner = ({ src = bg, opacity = 0.2, children, ...props }) => {
       {...props}
       position="relative"
       boxShadow="inset 0px 0px 4px rgba(0, 0, 0, 0.3)"
+      alignItems="center"
       //style={{
       //  boxShadow: "0 2px 0px rgba(0, 0, 0, .25)"
       //}}

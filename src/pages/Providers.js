@@ -96,7 +96,7 @@ const ProviderCard = React.memo(({ providerid }) => {
   const PAGE = pages[page];
 
   return (
-    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3]}>
+    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1,1,1, 2 / 3]}>
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
       <Flex.Row m={3} flexWrap="wrap">
         {Object.keys(pages).map(k => {
