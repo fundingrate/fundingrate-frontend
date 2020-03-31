@@ -65,7 +65,9 @@
     "delzip": "find . -type f -name *.zip -delete",
     "zipdist": "yarn delzip && zip uploadme.zip dist/*",
     "build-staging": "yarn cleanup && yarn && yarn predeploy && yarn zipdist",
-    "build-prod": "yarn cleanup && yarn && yarn build && yarn zipdist"
+    "build-prod": "yarn cleanup && yarn && yarn build && yarn zipdist",
+    "deploy-staging": "gsutil -m cp -R ./dist/* gs://beta.fundingrate.io/",
+    "deploy-prod": "gsutil -m cp -R ./dist/* gs://fundingrate.io/"
   },
   "targets": {
     "chrome": "58",

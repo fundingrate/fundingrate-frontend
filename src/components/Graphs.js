@@ -24,11 +24,14 @@ function reduceDataset(dataset = [], format = "l") {
     if (!t.done) return memo;
     const date = moment(t.created).format(format);
 
+    //console.log(t)
+
     if (!memo[date]) {
       memo[date] = {
         count: 0,
         date,
         profit: t.profit,
+        realized: t.profit - t.fee,
         //updated: t.updated,
         //created: t.created
       };
@@ -36,6 +39,7 @@ function reduceDataset(dataset = [], format = "l") {
       memo[date].count += 1;
       memo[date].updated = t.updated;
       memo[date].profit += t.profit;
+      memo[date].realized += t.profit - t.fee;
     }
 
     return memo;
@@ -86,7 +90,10 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
 
   useEffect(() => {
     const { width, height } = state
-    if(chart) chart.resize(width, height)
+    if(chart) {
+      chart.resize(width, height)
+      chart.timeScale().fitContent()
+    }
   }, [state])
 
   useEffect(() => {
@@ -107,17 +114,67 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
   const initChart = () => {
     const chart = createChart(ref.current, {
       ...state,
+      layout: {
+        textColor: '#d1d4dc',
+        backgroundColor: '#171C20'
+      },
+      priceScale: {
+        scaleMargins: {
+          top: 0.3,
+          bottom: 0.25
+        }
+      },
+      crosshair: {
+        vertLine: {
+          width:  5,
+          color: 'rgba(224,227,235,0.1)',
+          style: 0
+        },
+        horzLine: {
+          visible: false,
+          //labelVisible: false
+        }
+      },
+      grid: {
+        vertLines: {
+          color: 'rgba(42,46,57,0)'
+        },
+        horzLines: {
+          color: 'rgba(42,46,57,0)'
+        }
+      }
       //timescale: { visable: true }
     });
-    const lineSeries = chart.addLineSeries({
-      title: 'Profit'
+
+    const lineSeries = chart.addAreaSeries({
+      title: 'Realized',
+      //topColor: 'rgba(33, 150, 243, 0.56)',
+      //bottomColor: 'rgba(33, 150, 243, 0.04)',
+      //lineColor: 'rgba(33, 150, 243, 1)',
+      color: 'rgba(33, 150, 243, 1)',
+      lineWidth: 2,
     });
-    lineSeries.setData([
+
+    const areaSeries = chart.addAreaSeries({
+      title: 'Profit',
+      topColor:'rgba(38,198,218,0.56)',
+      bottomColor: 'rgba(38,198,218,0.04)',
+      lineColor: 'rgba(38,198,218,1)',
+      lineWidth: 2,
+      crossHairMarkerVisable: false
+    });
+
+    areaSeries.setData([
       ...data.map(x => { return { time: x.date, value: x.profit } })
       //{ time: '2019-04-12', value: 96.63 },
     ]);
-    const avg = data.reduce((memo, v) => memo+=v, 0) / data.length
-    lineSeries.createPriceLine({ price: 0, lineStyle: LineStyle.Dashed, color: 'red' })
+    
+    lineSeries.setData([
+      ...data.map(x => { return { time: x.date, value: x.realized } })
+    ])
+    
+    //const avg = data.reduce((memo, v) => memo+=v, 0) / data.length
+    areaSeries.createPriceLine({ price: 0, lineStyle: LineStyle.Dashed, color: 'red' })
     chart.timeScale().fitContent()
     setChart(chart)
   }
@@ -128,7 +185,8 @@ const RenderLineGraph = ({ data = [], props = ["Profit"] }) => {
 };
 
 
-const OLD_CHART = p => <LineChart {...state} data={data}>
+const OLD_CHART = p => {
+      return <LineChart {...state} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis name="Date" dataKey="date" />
         <YAxis />
@@ -146,7 +204,7 @@ const OLD_CHART = p => <LineChart {...state} data={data}>
           );
         })}
       </LineChart>
-
+}
 
 const LineGraph = ({ listTrades = async x => x }) => {
   const [isVisable, setIsVisable] = useState(false);

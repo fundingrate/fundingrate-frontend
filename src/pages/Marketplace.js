@@ -11,7 +11,7 @@ import {
   Avatar
 } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
-import { Utils, Modal, Buttons, Banners, Inputs, Editor } from "../components";
+import { Graphs, Utils, Modal, Buttons, Banners, Inputs, Editor } from "../components";
 import { useHistory, useLocation } from "react-router-dom";
 
 export default p => {
@@ -36,7 +36,7 @@ export default p => {
                 <Card
                   as={Flex.Column}
                   key={p.id}
-                  my={3}
+                  my={4}
                   p={0}
                   width={[1, 2 / 3]}
                 >
@@ -46,9 +46,7 @@ export default p => {
                     created={p.created}
                     user={p.user}
                   />
-                  <Well height="300px" m={2}>
-                    <Utils.RenderMarkdown source={p.description} />
-                  </Well>
+                  <TradeHistory providerid={p.id}/>
                   <Flex.Column m={3}>
                     <RenderStats stats={p.stats} mt={0} />
                     <Box m={1} />
@@ -78,12 +76,13 @@ export default p => {
 const RenderStats = ({ stats, ...p }) => {
   // useEffect(() => {
   const valueProps = [
-    "longs",
-    "shorts",
-    // "totalTrades",
-    "longProfit",
-    "shortProfit",
-    "profit"
+    //"longs",
+    //"shorts",
+    "totalTrades",
+    //"longProfit",
+    //"shortProfit",
+    "profit",
+    "realizedProfit"
   ];
 
   return (
@@ -139,3 +138,17 @@ const ProviderHeading = ({ title, subtitle, user }) => {
     </Flex.Row>
   );
 };
+
+const TradeHistory = React.memo(({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+
+  return (
+    <Graphs.LineGraph
+      listTrades={e =>
+        state.actions.provider("listTrades", {
+          providerid
+        })
+      }
+    />
+  );
+});
