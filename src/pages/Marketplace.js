@@ -41,7 +41,8 @@ export default p => {
                   m={'1%'}
                   //p={0}
                   //flex={1}
-                  width={[1,1,1,1/3]}
+                  //width={[1,1,1,1/3]}
+                  width={'45%'}
                   maxWidth={'640px'}
                   minWidth={'400px'}
                 >
