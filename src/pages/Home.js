@@ -30,7 +30,7 @@ export default p => {
       <Banners.Welcome/>
       
       <Box>
-      <Flex.Row justifyContent="space-between" mx={[4, 6]} my={5} flexWrap={['wrap', 'nowrap']}>
+        <Flex.Row justifyContent="space-between" m={'8%'} flexWrap={['wrap', 'nowrap']}>
         <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Alerts Processed:" value={123456789} type="number" />
         <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Trades Executed:" value={123456789} type="number" />
         <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Realized Profit:" value={123456789} type="money" color={'lime'} />
@@ -39,14 +39,13 @@ export default p => {
     
 
       <Box 
-        mx={[4,6,8]} 
-        my={[4,8]}
+        m={'12%'}
       >
         <Text.Heading color="primary" fontSize={[6,8]}>Automated Trading</Text.Heading>
         <Text color="subtext" wrap fontSize={[3,5]}>Automate trading at FTX, BitMEX, Deribit, Bybit, Bitfinex & Coinbase Pro from your alerts.</Text>
         <Divider my={2}/>
 
-        <Flex.Row flexWrap="wrap" my={4}>
+        <Flex.Row flexWrap="wrap" my='5%'>
           <Box width={[1,1,1, 1/2]}>
             <Box p={[3, 4]}>
               <Text.Heading fontSize={[3,4]}>Historical Timeseries Data</Text.Heading>

@@ -244,9 +244,8 @@ const LineGraph = ({ listTrades = async x => x }) => {
     }}
   >
     {props => {
-      if(loading) return <Utils.LoadingPage />
       return <Box height="300px" width={1}>
-        <RenderLineGraph data={state} />
+        { loading ? <Utils.LoadingPage /> : <RenderLineGraph data={state} /> }
       </Box>
     }}
   </VizSensor>

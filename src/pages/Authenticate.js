@@ -215,6 +215,7 @@ export default p => {
 const r = p => {
   const [state, dispatch] = useWiring(['userid'])
 
+
   return (
     <Register
       {...p}
@@ -242,23 +243,25 @@ const Home = p => {
   return (
     <Flex.Row justifyContent="center" height="100%" width={1}>
       <Button
-        as={Flex}
+        fontSize={4}
+        as={Flex.Row}
         alignItems="center"
         type="card"
         onClick={e => setPage('/authenticate/login')}
       >
-        <Assets.Icons.Login mr={3} /> Login
+        <Assets.Icons.Login mr={3} size={32} /> Login
       </Button>
-      <Text mx={2} color="subtext" fontSize={1}>
+      <Text mx={4} color="subtext" fontSize={1}>
         OR
       </Text>
       <Button
-        as={Flex}
+        fontSize={4}
+        as={Flex.Row}
         alignItems="center"
         type="card"
         onClick={e => setPage('/authenticate/signup')}
       >
-        <Assets.Icons.Signup mr={3} /> Signup
+        <Assets.Icons.Signup mr={3} size={32} /> Signup
       </Button>
     </Flex.Row>
   )

@@ -39,7 +39,7 @@ export default p => {
   }
 
   return (
-    <Box width={1} p={4}>
+    <Box width={1} p={'1%'}>
       <Flex.Column alignItems="center" width={1}>
         {list.length > 0
           ? [
@@ -58,9 +58,14 @@ export default p => {
                 </Flex>
               </Flex.Row>,
               <Divider m={2} bg="card" />,
-              list
-                .sort((a, b) => (a.stats.profit < b.stats.profit ? 1 : -1))
-                .map(p => <ProviderCard key={p.id} providerid={p.id} />)
+              <Flex justifyContent="center" flexWrap="wrap">
+                {
+                  list
+                    .sort((a, b) => ((a.stats.profit < b.stats.profit) ? 1 : -1))
+                    //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
+                    .map(p => <ProviderCard key={p.id} providerid={p.id} />)
+                }
+              </Flex>
             ]
           : [
               <Text.Heading fontSize={6}>
@@ -83,40 +88,52 @@ const ProviderCard = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders"]);
 
   const p = state.myProviders[providerid];
+  const [page, setPage] = useState("Stats");
+  if(!p) return <Text> Provider not available. </Text>
 
   const pages = {
     Stats: () => <Stats providerid={p.id} />,
     "Trade History": () => <TradeHistory providerid={p.id} />,
-    Description: () => <Description providerid={p.id} />,
+    //Description: () => <Description providerid={p.id} />,
     Settings: () => <Settings providerid={p.id} />,
     "Alert Log": () => <AlertLog providerid={p.id} />
   };
 
-  const [page, setPage] = useState("Stats");
   const PAGE = pages[page];
 
   return (
-    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1,1,1, 2 / 3]}>
+    <Card 
+      as={Flex.Column} 
+      key={p.id} 
+      m={'1%'} 
+      p={0} 
+      //width={[1,1,1, 2 / 3]}
+      //width={[1,1,1,1/3]}
+      width="45%"
+      maxWidth={'640px'}
+      minWidth={'350px'}
+    >
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
-      <Flex.Row m={3} flexWrap="wrap">
+      <Flex.Row p={2} flexWrap="wrap" justifyContent="center" width={1}>
         {Object.keys(pages).map(k => {
           return (
             <Button
-              textAlign="left"
-              width={[1, "auto"]}
+              textAlign={['left', 'center']}
+              //flex={1}
+              m={2}
+              width={[1, '20%']}
               key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
-              mx={2}
             >
               {k}
             </Button>
           );
         })}
       </Flex.Row>
-      <Flex.Column mx={2} mb={2}>
+      <Box mx={2} mb={2}>
         {<PAGE />}
-      </Flex.Column>
+      </Box>
     </Card>
   );
 });
@@ -127,6 +144,7 @@ const TradeHistory = React.memo(({ providerid }) => {
   const p = state.myProviders[providerid];
 
   return (
+    <Well>
     <Graphs.LineGraph
       listTrades={e =>
         state.actions.provider("listTrades", {
@@ -134,6 +152,7 @@ const TradeHistory = React.memo(({ providerid }) => {
         })
       }
     />
+    </Well>
   );
 });
 
@@ -175,7 +194,7 @@ const TradeStats = ({ stats }) => {
 
 const Stats = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid];
+  const p = state.myProviders[providerid] || {}
 
   return [
     <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
@@ -207,7 +226,8 @@ const Settings = React.memo(({ providerid }) => {
       <Input disabled value={p.public} label="Listed Publicly: ">
         <Buttons.SetPublic isPublic={p.public} id={p.id} />
       </Input>
-    </Box>
+    </Box>,
+    <Description providerid={p.id} />
   ];
 });
 
@@ -222,6 +242,9 @@ const Description = React.memo(({ providerid }) => {
   const [data, setData] = useState(p.description);
 
   return [
+    <Text.Heading m={2} fontSize={2}>
+      Description
+    </Text.Heading>,
     <Well height="300px">
       {isEditing ? (
         isLoading ? (
@@ -261,8 +284,13 @@ const Description = React.memo(({ providerid }) => {
 
 
 const ProviderHeading = ({ title, subtitle, created }) => {
+  
+  const [isHover, setHover] = useState(false)
+  const toggleHover = h => setHover(!isHover)
+  
   return (
     <Flex.Row
+      overflow="none"
       flexWrap="wrap"
       p={3}
       bg="backing"
@@ -275,7 +303,9 @@ const ProviderHeading = ({ title, subtitle, created }) => {
       </Flex.Column>
 
       <Box mx="auto" />
-      <Text>{Utils.renderProp(created, "time")}</Text>
+      <Box onMouseEnter={e => setHover(true)} onMouseLeave={e => setHover(false)}>
+        { isHover ? <Buttons.Archive providerid={subtitle} /> : <Text>{Utils.renderProp(created, "time")}</Text> }
+      </ Box>
     </Flex.Row>
   );
 };

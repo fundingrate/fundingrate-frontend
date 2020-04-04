@@ -131,14 +131,14 @@ const Button = styled(Box)`
   outline: none;   
   letter-spacing: ${theme.letterSpacings.slight};
   text-align: center;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-out;
   min-width: min-content;
 
 
   :active {
-    transform: scale(0.98);
+    transform: scale(0.99) translateY(2px);
     box-shadow: none;
-    opacity: ${0.5};
+    opacity: ${0.7};
   };
   
   opacity: ${p => (p.disabled ? 0.5 : 1)}
@@ -146,7 +146,7 @@ const Button = styled(Box)`
   justify-content: center;
   align-items: center;
 
-  // font-weight: bold;
+  font-weight: bold;
 
 	${color}
 	${fontSize}

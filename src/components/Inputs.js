@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "../primitives";
+import { Button, Input, Box } from "../primitives";
 import copy from "clipboard-copy";
 import Utils from "./Utils";
 import Buttons from "./Buttons.js";
 
-Input.Copy = ({ value, ...p }) => {
+Input.Copy = ({ children, value, ...p }) => {
   const [state, setState] = useState(false);
 
   const CopyValue = p => {
@@ -15,7 +15,8 @@ Input.Copy = ({ value, ...p }) => {
 
   return (
     <Input {...p} disabled value={value}>
-      <Button onClick={e => CopyValue(value)} type="simple">
+      {children && <Box mr={2}>{children}</Box> }
+      <Button onClick={e => CopyValue(value)} type="success">
         {state ? "Copied!" : "Copy"}
       </Button>
     </Input>

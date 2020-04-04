@@ -256,6 +256,46 @@ Button.setAutoCloseDisabled = ({ providerid, ...p }) => {
   );
 };
 
+Button.Archive = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("archive", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Archive"}
+    </Button>
+  );
+};
+
+Button.Restore = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("restore", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Restore"}
+    </Button>
+  );
+};
+
 Button.SetPublic = ({ isPublic, id }) => {
   return isPublic ? (
     <Button.setProviderPrivate providerid={id} />

@@ -3,7 +3,7 @@ import { Container, Flex, Box, Text, Banner } from "../primitives";
 // import banner01 from "../assets/images/banner01.png";
 import Utils from "./Utils";
 
-const Welcome = props => {
+const Template = props => {
   return (
     <Banner src={'https://cdn.chips.gg/images/phone_stocks01.jpeg'} {...props} minHeight={['300px', '400px', '500px']}>
       <Flex
@@ -13,11 +13,19 @@ const Welcome = props => {
         justifyContent="center"
         ml={[2, "20%"]}
       >
-        <Welcome.Text />
-        <Welcome.Summary />
         {props.children}
       </Flex>
     </Banner>
+  );
+};
+
+const Welcome = props => {
+  return (
+    <Template>
+      <Welcome.Text />
+      <Welcome.Summary />
+      {props.children}
+    </Template>
   );
 };
 

@@ -27,18 +27,23 @@ export default p => {
       </Flex.Row>
       <Divider m={2} bg="card" />
 
-      <Flex.Column alignItems="center" width={1}>
+      <Flex.Row justifyContent="center" flexWrap="wrap" alignItems="center" width={1}>
         {list.length > 0 ? (
           list
+            .filter(p => p.stats.totalTrades > 5)
             .sort((a, b) => a.stats.profit < b.stats.profit ? 1 : -1)
+            //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
             .map(p => {
               return (
                 <Card
                   as={Flex.Column}
                   key={p.id}
-                  my={4}
-                  p={0}
-                  width={[1,1,1, 2 / 3]}
+                  m={'1%'}
+                  //p={0}
+                  //flex={1}
+                  width={[1,1,1,1/3]}
+                  maxWidth={'640px'}
+                  minWidth={'400px'}
                 >
                   <ProviderHeading
                     title={p.name}
@@ -46,15 +51,15 @@ export default p => {
                     created={p.created}
                     user={p.user}
                   />
+                  <Box m={2} />
                   <TradeHistory providerid={p.id}/>
-                  <Flex.Column m={3}>
-                    <RenderStats stats={p.stats} mt={0} />
-                    <Box m={1} />
-                    <Flex.Row flexWrap="wrap">
+                  <Box my={'2%'} />
+                  <Flex.Column>
+                    <RenderStats stats={p.stats} />
+                    <Flex.Row>
                       <Text fontSize={3} my={1}>
                         Running Since:
                       </Text>
-                      <Box mx={1} />
                       <Text color="subtext">
                         {Utils.renderProp(p.created, "time")}
                       </Text>
@@ -68,7 +73,7 @@ export default p => {
             No providers, Why not create one?
           </Text.Heading>
         )}
-      </Flex.Column>
+      </Flex.Row>
     </Box>
   );
 };
@@ -118,10 +123,10 @@ const RenderStats = ({ stats, ...p }) => {
 const ProviderHeading = ({ title, subtitle, user }) => {
   return (
     <Flex.Row
-      p={2}
-      bg="backing"
-      borderBottom="1px solid rgba(0, 0, 0, 0.5)"
-      boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
+      //p={2}
+      //bg="backing"
+      //borderBottom="1px solid rgba(0, 0, 0, 0.5)"
+      //boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
       <Text.Heading mx={2} fontSize={[2, 6]}>{title}</Text.Heading>
       <Box mx={'auto'} />
@@ -141,8 +146,10 @@ const ProviderHeading = ({ title, subtitle, user }) => {
 
 const TradeHistory = React.memo(({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+  // TODO: should be using realtime state here...
 
   return (
+    <Well>
     <Graphs.LineGraph
       listTrades={e =>
           state.actions.provider("listTrades", {
@@ -150,5 +157,6 @@ const TradeHistory = React.memo(({ providerid }) => {
         })
       }
     />
+    </Well>
   );
 });

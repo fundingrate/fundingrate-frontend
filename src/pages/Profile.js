@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Well,
   Card,
   Button,
   Flex,
@@ -48,12 +49,12 @@ export default ({ actions, location, token, history }) => {
       <Card as={Flex.Column}  my={4} mx="auto">
         <Flex my={2} flexDirection="column">
           <Flex.Row flexWrap="wrap">
-            <Text.Heading fontSize={[3,4]}>Available Tokens</Text.Heading>
+            <Text.Heading fontSize={[3,4]}>Available Tokens ({availableTokens.length})</Text.Heading>
             <Box mx="auto" />
             <Button.GenerateToken />
           </Flex.Row>
 
-          <Box my={2} />
+          <Box my={'1%'} />
           <Divider bg="primary" />
         </Flex>
         {!Object.values(gState.myTokens).length ? (
@@ -61,16 +62,9 @@ export default ({ actions, location, token, history }) => {
         ) : availableTokens.length ? (
           availableTokens.map(t => {
             return (
-              <Flex.Row
-                key={t.id}
-                // flexWrap="wrap"
-                my={2}
-                justifyContent="center"
-              >
-                <Button.DeleteToken tokenid={t.id} />
-                <Box m={2} />
-                <Inputs.Copy label="ID: " value={t.id} width={1} />
-              </Flex.Row>
+                <Inputs.Copy label="ID: " value={t.id} width={1} my={'1%'}>
+                  <Button.DeleteToken tokenid={t.id} ml={2} />
+                </Inputs.Copy>
             );
           })
         ) : (
