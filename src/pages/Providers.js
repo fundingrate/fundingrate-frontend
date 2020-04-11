@@ -96,7 +96,8 @@ const ProviderCard = React.memo(({ providerid }) => {
     "Trade History": () => <TradeHistory providerid={p.id} />,
     //Description: () => <Description providerid={p.id} />,
     Settings: () => <Settings providerid={p.id} />,
-    "Alert Log": () => <AlertLog providerid={p.id} />
+    "Alert Log": () => <AlertLog providerid={p.id} />,
+    "Message Creator": () => <MessageCreator providerid={p.id} />
   };
 
   const PAGE = pages[page];
@@ -120,7 +121,7 @@ const ProviderCard = React.memo(({ providerid }) => {
             <Button
               textAlign={['left', 'center']}
               //flex={1}
-              m={2}
+              my={2}
               width={[1, '20%']}
               key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
@@ -331,36 +332,37 @@ const AlertLog = ({ providerid }) => {
   }, []);
 
   return [
-    <Well height="300px">
-      {loading ? (
-        <Utils.LoadingPage message="Refreshing Alert Log..." />
-      ) : (
-        <Editor
-          data={alerts}
-          readOnly
-          lang="json"
-          // height="300px"
-          placeholder="No alerts found."
-        />
-      )}
-    </Well>,
-    // <Well as={Flex.Row}>
-    //   {loading ? (
-    //     <Utils.LoadingPage message="Refreshing Alert Log..." />
-    //   ) : !alerts ? (
-    //     <Text m={4}>No alerts found.</Text>
-    //   ) : (
-    //     alerts.map(a => {
-    //       return (
-    //         <Utils.RenderObject
-    //           heading="Current Position"
-    //           key={a.id}
-    //           data={a}
-    //         />
-    //       );
-    //     })
-    //   )}
-    // </Well>,
+    //<Well height="300px">
+    //  {loading ? (
+    //    <Utils.LoadingPage message="Refreshing Alert Log..." />
+    //  ) : (
+    //    <Editor
+    //      data={alerts}
+    //      readOnly
+    //      lang="json"
+    //      // height="300px"
+    //      placeholder="No alerts found."
+    //    />
+    //  )}
+    //</Well>,
+    <Well height="300px" as={Flex.Column} >
+       {loading ? (
+         <Utils.LoadingPage message="Refreshing Alert Log..." />
+       ) : !alerts ? (
+         <Text m={4}>No alerts found.</Text>
+       ) : (
+         alerts.map(a => {
+           return (
+             <Utils.RenderObject
+               p={2}
+               heading={`[${a.type}] ${a.ticker} @ ${a.price}`}
+               key={a.id}
+               data={a}
+             />
+           );
+         })
+       )}
+     </Well>,
 
     <Flex.Row m={3}>
       <Box mx="auto" />
@@ -370,3 +372,30 @@ const AlertLog = ({ providerid }) => {
     </Flex.Row>
   ];
 };
+
+const MessageCreator = ({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts", "myTokens"]);
+  const t = Object.keys(state.myTokens).find(x => !x.expired);
+  const p = state.myProviders[providerid] || {} 
+ 
+  const [type, setType] = useState('LONG')
+  const [ticker, setTicker] = useState('BTC')
+
+  const schema = {
+    providerid: p.id,
+    token: t,
+    type,
+    ticker
+  }
+
+  return <Well>
+    <Text.Heading color="red" fontSize={2} p={2}>If no price is provided, we will attempt to obtain one for you.</Text.Heading>
+    <Editor
+      data={schema}
+      //readOnly
+      lang="json"
+      // height="300px"
+      placeholder="No alerts found."
+    />
+  </Well>
+}
