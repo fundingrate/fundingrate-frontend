@@ -21,9 +21,11 @@ import { Flex, Box, Card, Text, Divider, Button, Well, Banner } from "../primiti
 import { useWiring, store } from "../libs/wiring";
 import { Utils, Banners } from "../components";
 
-export default p => {
-  //const [state, dispatch] = useWiring(["serverTime", "myAlerts"]);
 
+const Stat = p => <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} type="number" {...p}/>
+
+export default p => {
+  const [state, dispatch] = useWiring(["providerStats"]);
 
   return (
     <Flex.Column width={1}>
@@ -31,13 +33,12 @@ export default p => {
       
       <Box>
         <Flex.Row justifyContent="space-between" m={'8%'} flexWrap={['wrap', 'nowrap']}>
-        <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Alerts Processed:" value={123456789} type="number" />
-        <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Trades Executed:" value={123456789} type="number" />
-        <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Realized Profit:" value={123456789} type="money" color={'lime'} />
-        <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} label="Public Providers:" value={332244} type="number" />
-      </Flex.Row>
-    
-
+          <Stat label="Active Providers:" value={state.providerStats.count} />
+          <Stat label="Longs:" value={state.providerStats.longs} />
+          <Stat label="Shorts:" value={state.providerStats.shorts} />
+          <Stat label="Profit:" value={state.providerStats.profit} type="money" color={state.providerStats.profit > 0 ? 'green' : 'red'} />
+        </Flex.Row>
+  
       <Box 
         m={'12%'}
       >

@@ -296,6 +296,26 @@ Button.Restore = ({ providerid, ...p }) => {
   );
 };
 
+Button.ResetState = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("resetState", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Reset Stats"}
+    </Button>
+  );
+};
+
 Button.SetPublic = ({ isPublic, id }) => {
   return isPublic ? (
     <Button.setProviderPrivate providerid={id} />

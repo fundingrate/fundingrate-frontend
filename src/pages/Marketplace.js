@@ -30,7 +30,7 @@ export default p => {
       <Flex.Row justifyContent="center" flexWrap="wrap" alignItems="center" width={1}>
         {list.length > 0 ? (
           list
-            .filter(p => p.stats.totalTrades > 5)
+          .filter(p => p.stats.totalTrades > 2)
             .sort((a, b) => a.stats.profit < b.stats.profit ? 1 : -1)
             //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
             .map(p => {
@@ -42,6 +42,7 @@ export default p => {
                   //p={0}
                   //flex={1}
                   //width={[1,1,1,1/3]}
+
                   width={'45%'}
                   maxWidth={'640px'}
                   minWidth={'400px'}

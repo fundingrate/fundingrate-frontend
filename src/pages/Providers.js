@@ -84,7 +84,7 @@ export default p => {
   );
 };
 
-const ProviderCard = React.memo(({ providerid }) => {
+const ProviderCard = ({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders"]);
 
   const p = state.myProviders[providerid];
@@ -92,10 +92,10 @@ const ProviderCard = React.memo(({ providerid }) => {
   if(!p) return <Text> Provider not available. </Text>
 
   const pages = {
-    Stats: () => <Stats providerid={p.id} />,
+    Stats: () => <Stats provider={p} />,
     "Trade History": () => <TradeHistory providerid={p.id} />,
-    //Description: () => <Description providerid={p.id} />,
-    Settings: () => <Settings providerid={p.id} />,
+    //Description: () => <Description provider={p} />,
+    Settings: () => <Settings provider={p} />,
     "Alert Log": () => <AlertLog providerid={p.id} />,
     "Message Creator": () => <MessageCreator providerid={p.id} />
   };
@@ -110,19 +110,19 @@ const ProviderCard = React.memo(({ providerid }) => {
       p={0} 
       //width={[1,1,1, 2 / 3]}
       //width={[1,1,1,1/3]}
-      width="45%"
-      maxWidth={'640px'}
+      width={'45%'}
       minWidth={'350px'}
     >
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
-      <Flex.Row p={2} flexWrap="wrap" justifyContent="center" width={1}>
+      <Flex.Row p={2} flexWrap='wrap' justifyContent="center" width={1}>
         {Object.keys(pages).map(k => {
           return (
             <Button
               textAlign={['left', 'center']}
               //flex={1}
               my={2}
-              width={[1, '20%']}
+              mx="auto"
+              width={[1, '10%']}
               key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
@@ -137,25 +137,22 @@ const ProviderCard = React.memo(({ providerid }) => {
       </Box>
     </Card>
   );
-});
+};
 
 
-const TradeHistory = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid];
+const TradeHistory = ({ providerid }) => {
+  const [state] = useWiring()
 
   return (
     <Well>
     <Graphs.LineGraph
-      listTrades={e =>
-        state.actions.provider("listTrades", {
-          providerid: p.id
-        })
-      }
+      listTrades={e => {
+        return state.actions.provider("listTrades", { providerid })
+      }}
     />
     </Well>
   );
-});
+};
 
 const TradeStats = ({ stats }) => {
   const valueProps = [
@@ -193,53 +190,54 @@ const TradeStats = ({ stats }) => {
 };
 
 
-const Stats = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid] || {}
-
+const Stats = ({ provider }) => {
   return [
     <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
-      <TradeStats stats={p.stats} />
+      <TradeStats stats={provider.stats} />
       <Box m={4} />
       <Utils.RenderObject
         m={2}
         heading="Current Position"
-        data={p.stats.currentPosition}
+        data={provider.stats.currentPosition}
       />
     </Flex.Row>
   ];
-});
+};
 
-const Settings = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid];
-
+const Settings = ({ provider }) => {
   return [
     <Box height="300px">
-      <Inputs.SetProviderName providerid={p.id} name={p.name} />
+      <Inputs.SetProviderName providerid={provider.id} name={provider.name} />
       <Box m={1} />
-      <Inputs.SetMakerFee providerid={p.id} fee={p.makerFee}/>
+      <Inputs.SetMakerFee providerid={provider.id} fee={provider.makerFee}/>
       <Box m={1} />
-      <Input disabled value={p.disableAutoClose} label="Disable Auto Close:">
-        <Buttons.SetDisableAutoClose state={p.disableAutoClose} id={p.id} />
+      <Input disabled value={provider.disableAutoClose} label="Disable Auto Close:">
+        <Buttons.SetDisableAutoClose state={provider.disableAutoClose} id={provider.id} />
       </Input>
       <Box m={1} />
-      <Input disabled value={p.public} label="Listed Publicly: ">
-        <Buttons.SetPublic isPublic={p.public} id={p.id} />
+      <Input disabled value={provider.public} label="Listed Publicly: ">
+        <Buttons.SetPublic isPublic={provider.public} id={provider.id} />
       </Input>
+      <Box m={4} />
+      <Flex.Row>
+        <Box mx="auto" />
+        <Buttons.Archive providerid={provider.id} />
+        <Box mx={2} />
+        <Buttons.ResetState providerid={provider.id}/>
+      </Flex.Row>
     </Box>,
-    <Description providerid={p.id} />
+    //<Description provider={provider} />
   ];
-});
+};
 
-const Description = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+const Description = ({ provider }) => {
+  
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const toggle = p => setEditing(!isEditing);
-  const p = state.myProviders[providerid];
 
+  const p = provider
   const [data, setData] = useState(p.description);
 
   return [
@@ -281,7 +279,7 @@ const Description = React.memo(({ providerid }) => {
       )}
     </Flex.Row>
   ];
-});
+};
 
 
 const ProviderHeading = ({ title, subtitle, created }) => {
@@ -305,7 +303,7 @@ const ProviderHeading = ({ title, subtitle, created }) => {
 
       <Box mx="auto" />
       <Box onMouseEnter={e => setHover(true)} onMouseLeave={e => setHover(false)}>
-        { isHover ? <Buttons.Archive providerid={subtitle} /> : <Text>{Utils.renderProp(created, "time")}</Text> }
+      <Text>{Utils.renderProp(created, "time")}</Text>
       </ Box>
     </Flex.Row>
   );
