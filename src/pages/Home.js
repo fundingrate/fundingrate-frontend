@@ -22,7 +22,7 @@ import { useWiring, store } from "../libs/wiring";
 import { Utils, Banners } from "../components";
 
 
-const Stat = p => <Utils.RenderObject.Prop as={Card} width={[1,1,1, 'auto']} fontSize={[2,4]} type="number" {...p}/>
+const Stat = p => <Utils.RenderObject.Prop as={Card} mx='auto' my={[1, 4]} width={["45%", "14%"]} justifyContent="center" fontSize={[2,4]} type="number" {...p}/>
 
 export default p => {
   const [state, dispatch] = useWiring(["providerStats"]);
@@ -32,15 +32,16 @@ export default p => {
       <Banners.Welcome/>
       
       <Box>
-        <Flex.Row justifyContent="space-between" m={'8%'} flexWrap={['wrap', 'nowrap']}>
+        <Flex.Row p={2} flexWrap={['wrap', 'nowrap']}>
           <Stat label="Active Providers:" value={state.providerStats.count} />
           <Stat label="Longs:" value={state.providerStats.longs} />
           <Stat label="Shorts:" value={state.providerStats.shorts} />
           <Stat label="Profit:" value={state.providerStats.profit} type="money" color={state.providerStats.profit > 0 ? 'green' : 'red'} />
         </Flex.Row>
   
-      <Box 
-        m={'12%'}
+      <Box
+        my={'8%'}
+        mx={'12%'}
       >
         <Text.Heading color="primary" fontSize={[6,8]}>Automated Trading</Text.Heading>
         <Text color="subtext" wrap fontSize={[3,5]}>Automate trading at FTX, BitMEX, Deribit, Bybit, Bitfinex & Coinbase Pro from your alerts.</Text>

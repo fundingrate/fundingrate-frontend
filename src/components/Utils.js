@@ -98,8 +98,8 @@ RenderObject.Prop = React.memo(
   ({ label, value, type, color = "subtext", ...p }) => {
     return (
       <Flex
-        flexWrap="wrap"
-        flexDirection={["column", "row"]}
+        //flexWrap="wrap"
+        //flexDirection={["column", "row"]}
         //alignItems={['center', 'end']}
         alignItems="center"
         m={1}
