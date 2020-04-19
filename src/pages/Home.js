@@ -22,7 +22,16 @@ import { useWiring, store } from "../libs/wiring";
 import { Utils, Banners } from "../components";
 
 
-const Stat = p => <Utils.RenderObject.Prop as={Card} mx='auto' my={[1, 4]} width={["45%", "14%"]} justifyContent="center" fontSize={[2,4]} type="number" {...p}/>
+const Stat = p => <Utils.RenderObject.Prop 
+                    as={Card} 
+                    mx='auto' 
+                    my={[1, 4]}
+                    width={[1,"auto"]} 
+                    justifyContent="center" 
+                    fontSize={[2,4]} 
+                    type="number" 
+                    {...p}
+                  />
 
 export default p => {
   const [state, dispatch] = useWiring(["providerStats"]);
@@ -33,10 +42,10 @@ export default p => {
       
       <Box>
         <Flex.Row p={2} flexWrap={['wrap', 'nowrap']}>
-          <Stat label="Active Providers:" value={state.providerStats.count} />
-          <Stat label="Longs:" value={state.providerStats.longs} />
-          <Stat label="Shorts:" value={state.providerStats.shorts} />
-          <Stat label="Profit:" value={state.providerStats.profit} type="money" color={state.providerStats.profit > 0 ? 'green' : 'red'} />
+          <Stat label="💻 Active Providers:" value={state.providerStats.count} />
+          <Stat label="📈 Longs:" value={state.providerStats.longs} />
+          <Stat label="📉 Shorts:" value={state.providerStats.shorts} />
+          <Stat label="💰 Profit:" value={state.providerStats.profit} type="money" color={state.providerStats.profit > 0 ? 'green' : 'red'} />
         </Flex.Row>
   
       <Box

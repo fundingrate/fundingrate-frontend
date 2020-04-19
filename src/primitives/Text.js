@@ -17,8 +17,8 @@ import Box from "./Box";
 import Flex from "./Flex";
 
 const Text = styled(Box)`
-  overflow: hidden;
-  text-overflow: ellipsis;
+  //overflow: hidden;
+  //text-overflow: ellipsis;
   white-space: ${p => (p.wrap ? "wrap" : "nowrap")};
   color: white;
   letter-spacing: ${theme.letterSpacings.slight};
