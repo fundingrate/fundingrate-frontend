@@ -29,7 +29,7 @@ jobs:
         # Artifact name
         name: dist
         # Directory containing files to upload
-        path: ./dist/**
+        path: ./dist
   deploy:
     runs-on: ubuntu-latest
     steps:
