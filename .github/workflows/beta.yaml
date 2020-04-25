@@ -31,6 +31,7 @@ jobs:
         # Directory containing files to upload
         path: $GITHUB_WORKSPACE/dist/**
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download artifact
