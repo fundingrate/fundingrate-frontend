@@ -23,14 +23,6 @@ jobs:
         cd $GITHUB_WORKSPACE
         yarn
         yarn build
-    - name: Upload dist to cache
-      uses: actions/upload-artifact@v1
-      with:
-        name: dist
-        path: './dist/**'
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
     - name: Deploy to CDN
       uses: abinmn/gcp-storage-bucket-action@v1.0
       with:
