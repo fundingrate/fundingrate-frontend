@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
-        name: dist-$GITHUB_REF-$GITHUB_SHA
+        name: uploadme
         # Directory containing files to upload
         path: ./dist
   deploy:
@@ -37,7 +37,7 @@ jobs:
       uses: actions/download-artifact@v1.0.0
       with:
         # Artifact name
-        name: dist-$GITHUB_REF-$GITHUB_SHA
+        name: uploadme
         # Destination path
         path: ./dist
     - name: Deploy to CDN
