@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ beta ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone repo
+      uses: actions/checkout@v2
+    - name: Build dist
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE
+        yarn
+        yarn build
+    - name: Deploy to CDN
+      uses: abinmn/gcp-storage-bucket-action@v1.0
+      with:
+        # GCP service key encoded as base64. The account associated with the key should have permissions to make changes in storage bucket.
+        service_key: ${{ secrets.GCP_KEY }}
+        # The folder you want to deploy. Default is the repository. You can change this value if you have a build step and point this to that build folder.
+        build_folder: './dist/**'
+        # Bucket name
+        bucket_name: 'beta.fundingrate.io'
+        # Name of the project that contains the storage bucket.
+        project: 'chipsgg'
+        # Path of your homepage in cloud storage bucket.
+        home_page_path: index.html
+        # Path of the 404 page to be shown
+        error_page_path: index.html
