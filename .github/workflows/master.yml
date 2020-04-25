@@ -23,6 +23,23 @@ jobs:
         cd $GITHUB_WORKSPACE
         yarn
         yarn build
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: dist-$GITHUB_REF-$GITHUB_SHA
+        # Directory containing files to upload
+        path: ./dist
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: dist-$GITHUB_REF-$GITHUB_SHA
+        # Destination path
+        path: ./dist
     - name: Deploy to CDN
       uses: abinmn/gcp-storage-bucket-action@v1.0
       with:
