@@ -29,7 +29,7 @@ jobs:
         # Artifact name
         name: dist
         # Directory containing files to upload
-        path: $GITHUB_WORKSPACE/dist/**
+        path: dist/**
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -40,14 +40,14 @@ jobs:
         # Artifact name
         name: dist
         # Destination path
-        path: ./dist
+        path: dist
     - name: Deploy to CDN
       uses: abinmn/gcp-storage-bucket-action@v1.0
       with:
         # GCP service key encoded as base64. The account associated with the key should have permissions to make changes in storage bucket.
         service_key: ${{ secrets.GCP_KEY }}
         # The folder you want to deploy. Default is the repository. You can change this value if you have a build step and point this to that build folder.
-        build_folder: './dist/**'
+        build_folder: dist/**
         # Bucket name
         bucket_name: 'beta.fundingrate.io'
         # Name of the project that contains the storage bucket.
