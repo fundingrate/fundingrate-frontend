@@ -16,11 +16,11 @@ jobs:
     steps:
     - name: clone repo
       uses: actions/checkout@v2
-    - run: cd $GITHUB_WORKSPACE
     - name: Build dist
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       shell: bash
       run: |
+        cd $GITHUB_WORKSPACE
         yarn
         yarn build
     - name: Upload artifact
@@ -29,9 +29,8 @@ jobs:
         # Artifact name
         name: dist
         # Directory containing files to upload
-        path: ./dist/**
+        path: ./dist
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download artifact
@@ -47,7 +46,7 @@ jobs:
         # GCP service key encoded as base64. The account associated with the key should have permissions to make changes in storage bucket.
         service_key: ${{ secrets.GCP_KEY }}
         # The folder you want to deploy. Default is the repository. You can change this value if you have a build step and point this to that build folder.
-        build_folder: ./dist/**
+        build_folder: './dist/**'
         # Bucket name
         bucket_name: 'beta.fundingrate.io'
         # Name of the project that contains the storage bucket.
