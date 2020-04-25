@@ -11,7 +11,6 @@ const Header = ({ children, heading }) => {
       borderBottom="1px solid rgba(0, 0, 0, 0.2)"
       zIndex={9001}
       alignItems="center"
-      // justifyContent="center"
     >
       <Text.Heading fontSize={[2, 4]}>{heading}</Text.Heading>
       <Box mx="auto" />

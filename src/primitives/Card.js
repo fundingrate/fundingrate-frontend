@@ -18,7 +18,7 @@ const selected = ({ selected }) => {
 const Card = styled(Flex)`
   position: relative;
   border-radius: ${theme.radii.normal};
-  box-shadow: ${p => (!p.flat ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none')};
+  box-shadow: ${p => (!p.flat ? '2px 2px 4px rgba(0, 0, 0, 0.2)' : 'none')};
   border: ${p =>
     p.border ? `${theme.colors.lightCard} ${theme.borders.normal}` : 'none'};
   ${selected}
@@ -26,7 +26,7 @@ const Card = styled(Flex)`
 
 Card.displayName = 'Card'
 Card.defaultProps = {
-  p: 3,
+  p: "1.1%",
   bg: 'card',
 }
 

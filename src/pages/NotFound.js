@@ -1,13 +1,24 @@
 import React from 'react'
-import { Button, Text, Box, Flex, Divider } from '../primitives'
+import { Text, Flex } from '../primitives'
+import { useHistory, useLocation } from 'react-router-dom'
 
-export default ({ history }) => {
-  setTimeout(history.goBack, 1000)
+export default p => {
+  // setTimeout(history.goBack, 1000)
   // window.location.reload()
+  const history = useHistory()
+
   return (
-    <Box m={4}>
+    <Flex.Column
+      m={4}
+      alignItems="center"
+      justifyContent="center"
+      height={'100%'}
+    >
       <Text.Heading>404</Text.Heading>
-      <Text>Redirecting...</Text>
-    </Box>
+      <Text>What were you looking for?</Text>
+      <Text.Link m={4} onClick={e => history.push('/home')}>
+        Go Home
+      </Text.Link>
+    </Flex.Column>
   )
 }

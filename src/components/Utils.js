@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 import {
   Card,
@@ -9,10 +9,12 @@ import {
   Image,
   Sidebar,
   Spinner,
-  Divider
+  Divider,
+  Well
 } from "../primitives";
-
+import Editor from "./Editor";
 import Assets from "./Assets";
+
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import assert from "assert";
@@ -36,10 +38,10 @@ const RenderObject = ({ heading, data, children, ...p }) => {
 
   // console.log('RenderObject', data)
   return (
-    <Card flexDirection="column" m={2} {...p}>
+    <Flex.Column {...p}>
       {heading && (
         <Flex my={2} flexDirection="column">
-          <Text.Heading fontSize={5}>{heading}</Text.Heading>
+          <Text.Heading fontSize={[2, 4]}>{heading}</Text.Heading>
           <Box my={1} />
           <Divider bg="primary" />
         </Flex>
@@ -63,7 +65,7 @@ const RenderObject = ({ heading, data, children, ...p }) => {
       ) : (
         <Text p={2}>Nothing to show yet, check back later.</Text>
       )}
-    </Card>
+    </Flex.Column>
   );
 };
 
@@ -96,14 +98,16 @@ RenderObject.Prop = React.memo(
   ({ label, value, type, color = "subtext", ...p }) => {
     return (
       <Flex
-        flexDirection={["column", "row"]}
-        // alignItems={['center', 'end']}
+        //flexWrap="wrap"
+        //flexDirection={["column", "row"]}
+        //alignItems={['center', 'end']}
         alignItems="center"
         m={1}
+        {...p}
       >
-        <Text bold>{label}</Text>
+        <Text bold fontSize={p.fontSize}>{label}</Text>
         <Box mx={1} />
-        <Text.Link onClick={e => copy(value)} color={color}>
+        <Text.Link fontSize={p.fontSize} onClick={e => copy(value)} color={color}>
           {renderProp(value, type)}
         </Text.Link>
       </Flex>
@@ -135,9 +139,6 @@ const Loading = ({ message = "Loading...", ...p }) => {
   );
 };
 
-// const toc = require('remark-toc')
-
-import PropTypes from "prop-types";
 import Highlight from "react-highlight.js";
 
 const MarkdownLink = ({ link }) => {
@@ -148,22 +149,22 @@ const MarkdownLink = ({ link }) => {
     return setState(data);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getMarkdown(link);
   }, []);
 
   return state ? (
-    <Box p={4} width={[1, 2 / 3]}>
+    <Box p={4} width={1}>
       <ReactMarkdown
         source={state}
         renderers={{
-          image: p => <Image {...p} height={300} width={1} />
+        image: p => <Image {...p} height={300} width={1} />,
+          code: ({ value, ...p }) => {
+            return <Well {...p} p={4}>{value}</Well>
+            // return <Editor {...p} height='120px' data={value} readOnly={true} />
+            // return <Highlight {...p}>{value}</Highlight>;
+          }
         }}
-        // renderers={{
-        //   code: ({ value, ...p }) => {
-        //     return <Highlight {...p} >{value}</Highlight>
-        //   }
-        // }}
       />
     </Box>
   ) : (

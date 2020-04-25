@@ -1,6 +1,15 @@
+![CI](https://github.com/tacyarg/fundingrate.io/workflows/CI/badge.svg)
+
 # Introduction
 
 Fundingrate is a software as a service platform that allows vendors to collect empirical data on live market conditions. We Provide a platform for both consumers and producers to safely create & share trade strategies, indicator events, and statistical data.
+
+![dash](https://i.imgur.com/y9T7nsB.png)
+![market](https://i.imgur.com/2yvU4NY.png)
+
+## Looking for the Latest Release?
+
+> https://beta.fundingrate.io
 
 ## Features
 

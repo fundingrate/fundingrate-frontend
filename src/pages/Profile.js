@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Well,
   Card,
   Button,
   Flex,
@@ -16,41 +17,77 @@ import { useWiring, store } from "../libs/wiring";
 export default ({ actions, location, token, history }) => {
   const cPage = location.pathname;
 
-  const [gState, dispatch] = useWiring(["me"]);
-  const user = gState.me;
+  const [gState, dispatch] = useWiring(["me", "myTokens"]);
+  const user = { ...gState.me, token: gState.token };
 
-  if (!user) {
+  if (!gState.me) {
     history.push("/authenticate");
     return <Text>Redirecting...</Text>;
   }
 
-  const [state, setState] = useState({
-    user,
-    token: gState.token
-  });
+  const availableTokens = Object.values(gState.myTokens).filter(
+    x => x.id !== gState.token
+  );
 
   return (
-    <Flex.Content height={'100%'}>
-      <Avatar src={state.user.avatar} size={[64, 128]} mb={2} border="4px solid" borderColor="offwhite" />
-      <Box m={2} />
-      <Flex.Column alignItems="center">
-        <Text.Heading fontSize={[4,7]} m={2}>
-          Welcome, {state.user.username}
-        </Text.Heading>
-        <Divider />
-        <Text color="red" fontSize={[1, 3]} p={3}>
-          Please ensure you save this information or risk losing access to your
-          account.
-        </Text>
-      </Flex.Column>
+    <Box width={1} p={4} width={[1,'60%', 2/3]}>
+      <Avatar
+        mx="auto"
+        src={user.avatar}
+        size={[64, 128]}
+        my={[2,4]}
+        border="4px solid"
+        borderColor="offwhite"
+      />
+      <ProfileHeading username={user.username} />
       <Box my={4} />
-      <Card.ProfileData userid={state.user.id} token={state.token}>
-        {state.token && <Utils.DownloadJson data={state} />}
+      <Card.ProfileData user={user}>
+        {user.token && <Utils.DownloadJson data={user} />}
         <Box mx="auto" />
-        <Button.Logout disabled={!state} mx={2}>
-          LOGOUT
-        </Button.Logout>
+        <Button.Logout disabled={!user} mx={2} />
       </Card.ProfileData>
-    </Flex.Content>
+      <Card as={Flex.Column}  my={4} mx="auto">
+        <Flex my={2} flexDirection="column">
+          <Flex.Row flexWrap="wrap">
+            <Text.Heading fontSize={[3,4]}>Available Tokens ({availableTokens.length})</Text.Heading>
+            <Box mx="auto" />
+            <Button.GenerateToken />
+          </Flex.Row>
+
+          <Box my={'1%'} />
+          <Divider bg="primary" />
+        </Flex>
+        {!Object.values(gState.myTokens).length ? (
+          <Utils.Loading m={2} />
+        ) : availableTokens.length ? (
+          availableTokens.map(t => {
+            return (
+                <Inputs.Copy label="ID: " value={t.id} width={1} my={'1%'}>
+                  <Button.DeleteToken tokenid={t.id} ml={2} />
+                </Inputs.Copy>
+            );
+          })
+        ) : (
+          <Text m={4} color="subtext">
+            You have no additional tokens.
+          </Text>
+        )}
+      </Card>
+    </Box>
+  );
+};
+
+const ProfileHeading = ({ username }) => {
+  return (
+    <Flex.Column alignItems="center">
+      <Text.Heading fontSize={[4, 7]} m={2}>
+        Welcome, {username}
+      </Text.Heading>
+      <Divider />
+      <Text wrap color="red" fontSize={[1, 3]} p={3}>
+        Please ensure you save this information or risk losing access to your
+        account.
+      </Text>
+    </Flex.Column>
   );
 };

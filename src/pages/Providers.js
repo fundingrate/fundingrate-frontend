@@ -1,12 +1,3 @@
-// import React from 'react'
-// import Utils from '../components/Utils'
-
-// export default p => {
-//   return (
-//     <Utils.MarkdownLink link="https://gist.githubusercontent.com/tacyarg/c7f2cc5574218a008bd59e9a088c1a51/raw/fundingrateio_howto.md" />
-//   )
-// }
-
 import React, { useEffect, useState } from "react";
 import {
   Input,
@@ -19,7 +10,16 @@ import {
   Divider
 } from "../primitives";
 import { useWiring, store } from "../libs/wiring";
-import { Utils, Modal, Buttons, Inputs, Editor } from "../components";
+import {
+  Graphs,
+  Utils,
+  Modal,
+  Buttons,
+  Banners,
+  Inputs,
+  Editor,
+  Providers
+} from "../components";
 import { useHistory, useLocation } from "react-router-dom";
 
 export default p => {
@@ -39,130 +39,221 @@ export default p => {
   }
 
   return (
-    <Box width={1} p={4}>
-      <Flex.Column px={4} alignItems="center" width={1}>
+    <Box width={1} p={'1%'}>
+      <Flex.Column alignItems="center" width={1}>
         {list.length > 0
           ? [
-            <Flex.Row width={1}>
-              {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
-              <Box mx={"auto"} />
-              <Flex>
-                <Modal.CreateProvider
-                  onConfirm={params =>
-                    state.actions.private("createProvider", params)
-                  }
-                />
-                <Modal.FAQ />
+              <Flex.Row width={1} flexWrap="wrap">
+                <Text.Heading>My Providers</Text.Heading>
+
+                {/* <Inputs.Search onSearch={handleSearch} flexGrow={0} /> */}
+                <Box mx="auto" />
+                <Flex>
+                  <Modal.CreateProvider
+                    onConfirm={params =>
+                      state.actions.private("createProvider", params)
+                    }
+                  />
+                  <Modal.FAQ />
+                </Flex>
+              </Flex.Row>,
+              <Divider m={2} bg="card" />,
+              <Flex justifyContent="center" flexWrap="wrap">
+                {
+                  list
+                    .sort((a, b) => ((a.stats.profit < b.stats.profit) ? 1 : -1))
+                    //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
+                    .map(p => <ProviderCard key={p.id} providerid={p.id} />)
+                }
               </Flex>
-            </Flex.Row>,
-            <Box my={2} />,
-            list.map(p => <ProviderCard providerid={p.id} />)
-          ]
+            ]
           : [
-            <Text.Heading fontSize={6}>
-              No providers, Why not create one?
-            </Text.Heading>,
-            <Box m={4} />,
-            <Modal.CreateProvider
-              type="simple"
-              onConfirm={params =>
-                state.actions.private("createProvider", params)
-              }
-            />
-          ]}
+              <Text.Heading fontSize={6}>
+                No providers, Why not create one?
+              </Text.Heading>,
+              <Box m={4} />,
+              <Modal.CreateProvider
+                type="simple"
+                onConfirm={params =>
+                  state.actions.private("createProvider", params)
+                }
+              />
+            ]}
       </Flex.Column>
     </Box>
   );
 };
 
-const ProviderCard = React.memo(({ providerid }) => {
+const ProviderCard = ({ providerid }) => {
   const [state, dispatch] = useWiring(["myProviders"]);
 
   const p = state.myProviders[providerid];
+  const [page, setPage] = useState("Stats");
+  if(!p) return <Text> Provider not available. </Text>
 
   const pages = {
-    Settings: () => <Settings providerid={p.id} />,
-    Description: () => <Description providerid={p.id} />,
-    "Alert Log": () => <AlertLog providerid={p.id} />
+    Stats: () => <Stats provider={p} />,
+    "Trade History": () => <TradeHistory providerid={p.id} />,
+    //Description: () => <Description provider={p} />,
+    Settings: () => <Settings provider={p} />,
+    "Alert Log": () => <AlertLog providerid={p.id} />,
+    "Message Creator": () => <MessageCreator providerid={p.id} />
   };
 
-  const [page, setPage] = useState("Settings");
   const PAGE = pages[page];
 
   return (
-    <Card as={Flex.Column} key={p.id} my={3} p={0} width={[1, 2 / 3, 1 / 2]}>
+    <Card 
+      as={Flex.Column} 
+      key={p.id} 
+      m={'1%'} 
+      p={0} 
+      //width={[1,1,1, 2 / 3]}
+      //width={[1,1,1,1/3]}
+      width={'45%'}
+      minWidth={'350px'}
+    >
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
-      <Flex.Row m={3}>
+      <Flex.Row p={2} flexWrap='wrap' justifyContent="center" width={1}>
         {Object.keys(pages).map(k => {
           return (
             <Button
+              textAlign={['left', 'center']}
+              //flex={1}
+              my={2}
+              mx="auto"
+              width={[1, '10%']}
+              key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
-              mx={2}
             >
               {k}
             </Button>
           );
         })}
-        {/* <Box mx="auto" /> */}
-        {/* <ButtonSetPublic isPublic={p.public} id={p.id} /> */}
       </Flex.Row>
-      <Flex.Column mx={2} mb={2}>
+      <Box mx={2} mb={2}>
         {<PAGE />}
-      </Flex.Column>
+      </Box>
     </Card>
   );
-});
+};
 
-const Settings = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
-  const p = state.myProviders[providerid];
 
-  const [data, setData] = useState(p.description);
+const TradeHistory = ({ providerid }) => {
+  const [state] = useWiring()
 
-  return [
-    <Well height="300px">
-      {/* <Input disabled value={p.public} label="Process Trades: ">
-        <Buttons.Process />
-      </Input>
-      <Box m={1}/> */}
-      <Input disabled value={p.public} label="Listed Publicly: ">
-        <ButtonSetPublic isPublic={p.public} id={p.id} />
-      </Input>
-      {/* <Inputs.Copy
-        label="ID: "
-        placeholder={p.id}
-        value={p.id}
-      /> */}
+  return (
+    <Well>
+    <Graphs.LineGraph
+      listTrades={e => {
+        return state.actions.provider("listTrades", { providerid })
+      }}
+    />
     </Well>
-    // <Flex.Row m={3}>
-    //   <Box mx="auto" />
-    //   <Button type="primary">Do Something</Button>
-    // </Flex.Row>
-  ];
-});
+  );
+};
 
-const Description = React.memo(({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts"]);
+const TradeStats = ({ stats }) => {
+  const valueProps = [
+    "longs",
+    "shorts",
+    "totalTrades",
+    "longProfit",
+    "shortProfit",
+    "profit",
+    "realizedProfit"
+  ];
+
+  return (
+    <Flex.Column
+      mt={3}
+      mb={0}
+      style={{
+        overflow: "hidden",
+        overflowX: "auto"
+      }}
+      flexWrap="wrap"
+    >
+      {valueProps
+        .map(v => {
+          return {
+            label: v,
+            value: stats[v]
+          };
+        })
+        .map((s, idx) => (
+          <Text.StatText key={s.label} {...s} m={[1, 2]} />
+        ))}
+    </Flex.Column>
+  );
+};
+
+
+const Stats = ({ provider }) => {
+  return [
+    <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
+      <TradeStats stats={provider.stats} />
+      <Box m={4} />
+      <Utils.RenderObject
+        m={2}
+        heading="Current Position"
+        data={provider.stats.currentPosition}
+      />
+    </Flex.Row>
+  ];
+};
+
+const Settings = ({ provider }) => {
+  return [
+    <Box height="300px">
+      <Inputs.SetProviderName providerid={provider.id} name={provider.name} />
+      <Box m={1} />
+      <Inputs.SetMakerFee providerid={provider.id} fee={provider.makerFee}/>
+      <Box m={1} />
+      <Input disabled value={provider.disableAutoClose} label="Disable Auto Close:">
+        <Buttons.SetDisableAutoClose state={provider.disableAutoClose} id={provider.id} />
+      </Input>
+      <Box m={1} />
+      <Input disabled value={provider.public} label="Listed Publicly: ">
+        <Buttons.SetPublic isPublic={provider.public} id={provider.id} />
+      </Input>
+      <Box m={4} />
+      <Flex.Row>
+        <Box mx="auto" />
+        <Buttons.Archive providerid={provider.id} />
+        <Box mx={2} />
+        <Buttons.ResetState providerid={provider.id}/>
+      </Flex.Row>
+    </Box>,
+    //<Description provider={provider} />
+  ];
+};
+
+const Description = ({ provider }) => {
+  
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const toggle = p => setEditing(!isEditing);
-  const p = state.myProviders[providerid];
 
+  const p = provider
   const [data, setData] = useState(p.description);
 
   return [
+    <Text.Heading m={2} fontSize={2}>
+      Description
+    </Text.Heading>,
     <Well height="300px">
       {isEditing ? (
         isLoading ? (
           <Utils.LoadingPage message="Saving Description..." />
         ) : (
-            <Editor data={p.description} lang="markdown" onChange={setData} />
-          )
+          <Editor data={p.description} lang="markdown" onChange={setData} />
+        )
       ) : (
-          <Utils.RenderMarkdown source={p.description} />
-        )}
+        <Utils.RenderMarkdown source={p.description} />
+      )}
     </Well>,
     <Flex.Row m={3}>
       <Box mx="auto" />
@@ -171,48 +262,49 @@ const Description = React.memo(({ providerid }) => {
           Edit Description
         </Button>
       ) : (
-          <Button
-            type="success"
-            onClick={async e => {
-              setLoading(true);
-              await state.actions.provider("setDescription", {
-                providerid: p.id,
-                description: data
-              });
-              setLoading(false);
-              toggle();
-            }}
-          >
-            {isLoading ? <Utils.Loading /> : "SaveDescription"}
-          </Button>
-        )}
+        <Button
+          type="success"
+          onClick={async e => {
+            setLoading(true);
+            await state.actions.provider("setDescription", {
+              providerid: p.id,
+              description: data
+            });
+            setLoading(false);
+            toggle();
+          }}
+        >
+          {isLoading ? <Utils.Loading /> : "SaveDescription"}
+        </Button>
+      )}
     </Flex.Row>
   ];
-});
-
-const ButtonSetPublic = ({ isPublic, id }) => {
-  return isPublic ? (
-    <Buttons.setProviderPrivate providerid={id} />
-  ) : (
-      <Buttons.setProviderPublic providerid={id} />
-    );
 };
 
+
 const ProviderHeading = ({ title, subtitle, created }) => {
+  
+  const [isHover, setHover] = useState(false)
+  const toggleHover = h => setHover(!isHover)
+  
   return (
     <Flex.Row
+      overflow="none"
+      flexWrap="wrap"
       p={3}
       bg="backing"
       borderBottom="1px solid rgba(0, 0, 0, 0.5)"
       boxShadow="0px 0px 4px 0px rgba(0, 0, 0, 0.2)"
     >
-      <Flex.Column>
-        <Text.Heading fontSize={6}>{title}</Text.Heading>
-        <Utils.clickProp fontSize={2} color="subtext" value={subtitle} />
+      <Flex.Column mb={[2, 0]}>
+        <Text.Heading fontSize={[2, 4, 6]}>{title}</Text.Heading>
+        <Utils.clickProp fontSize={[1, 2]} color="subtext" value={subtitle} />
       </Flex.Column>
 
       <Box mx="auto" />
+      <Box onMouseEnter={e => setHover(true)} onMouseLeave={e => setHover(false)}>
       <Text>{Utils.renderProp(created, "time")}</Text>
+      </ Box>
     </Flex.Row>
   );
 };
@@ -238,19 +330,37 @@ const AlertLog = ({ providerid }) => {
   }, []);
 
   return [
-    <Well height="300px">
-      {loading ? (
-        <Utils.LoadingPage message="Refreshing Alert Log..." />
-      ) : (
-          <Editor
-            data={alerts}
-            readOnly
-            lang="json"
-            height="300px"
-            placeholder="No alerts found."
-          />
-        )}
-    </Well>,
+    //<Well height="300px">
+    //  {loading ? (
+    //    <Utils.LoadingPage message="Refreshing Alert Log..." />
+    //  ) : (
+    //    <Editor
+    //      data={alerts}
+    //      readOnly
+    //      lang="json"
+    //      // height="300px"
+    //      placeholder="No alerts found."
+    //    />
+    //  )}
+    //</Well>,
+    <Well height="300px" as={Flex.Column} >
+       {loading ? (
+         <Utils.LoadingPage message="Refreshing Alert Log..." />
+       ) : !alerts ? (
+         <Text m={4}>No alerts found.</Text>
+       ) : (
+         alerts.map(a => {
+           return (
+             <Utils.RenderObject
+               p={2}
+               heading={`[${a.type}] ${a.ticker} @ ${a.price}`}
+               key={a.id}
+               data={a}
+             />
+           );
+         })
+       )}
+     </Well>,
 
     <Flex.Row m={3}>
       <Box mx="auto" />
@@ -260,3 +370,30 @@ const AlertLog = ({ providerid }) => {
     </Flex.Row>
   ];
 };
+
+const MessageCreator = ({ providerid }) => {
+  const [state, dispatch] = useWiring(["myProviders", "providerAlerts", "myTokens"]);
+  const t = Object.keys(state.myTokens).find(x => !x.expired);
+  const p = state.myProviders[providerid] || {} 
+ 
+  const [type, setType] = useState('LONG')
+  const [ticker, setTicker] = useState('BTC')
+
+  const schema = {
+    providerid: p.id,
+    token: t,
+    type,
+    ticker
+  }
+
+  return <Well>
+    <Text.Heading color="red" fontSize={2} p={2}>If no price is provided, we will attempt to obtain one for you.</Text.Heading>
+    <Editor
+      data={schema}
+      //readOnly
+      lang="json"
+      // height="300px"
+      placeholder="No alerts found."
+    />
+  </Well>
+}

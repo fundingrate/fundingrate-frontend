@@ -11,9 +11,8 @@ const Editor = ({
   theme = "vibrant_ink",
   onChange = x => x,
   data,
-  readOnly = false
+  ...p
 }) => {
-
   if (["json", "javascript"].includes(lang)) {
     data = JSON.stringify(data, null, 2);
   }
@@ -27,20 +26,19 @@ const Editor = ({
 
   return (
     <AceEditor
-      readOnly={readOnly}
-      fontSize={14}
       width={"100%"}
-      height={"300px"}
+      height={"290px"}
+      {...p}
+      fontSize={14}
       name="editor"
       mode={lang}
-      theme={theme}
-      // defaultValue={data}
+      // theme={theme}
+      defaultValue={data}
       value={state}
       onChange={change}
       editorProps={{
         $blockScrolling: true,
-        showGutter: false,
-        readOnly,
+        showGutter: false
       }}
       tabSize={2}
     />

@@ -45,18 +45,12 @@ const Layout = ({ children, onClick }) => {
       alignItems="center"
     >
       <SideNav user={user} links={links} onClick={onClick} />
-      <Flex
-        flexDirection="column"
-        width={1}
-        height={"100%"}
-        // bg="backing"
-        justifyContent="center"
-        // alignItems="center"
-      >
+
+      <Flex.Column width={1} height={"100%"}>
         <Infobar />
         <Page flex={1}>{children}</Page>
         <Footer />
-      </Flex>
+      </Flex.Column>
     </Flex>
   );
 };

@@ -12,18 +12,27 @@ import {
 import { Utils, Inputs, Buttons } from "../components";
 import { useWiring, store } from "../libs/wiring";
 
-Card.ProfileData = ({ userid, token, children, ...p }) => {
+Card.ProfileData = ({ user, children, ...p }) => {
+  const { username, id, token } = user;
   return (
-    <Card flexDirection="column" width={1} m={2} {...p}>
+    <Card flexDirection="column" width={1} {...p}>
+      <Flex my={2} flexDirection="column">
+        <Text.Heading fontSize={[3, 4]}>Profile Settings</Text.Heading>
+        <Box my={2} />
+        <Divider bg="primary" />
+      </Flex>
+      <Box my={1} />
+      <Inputs.SetMyUsername value={username} />
+      <Box my={2} />
       <Inputs.Copy
-        label="USER ID: "
-        placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
-        value={userid}
+        label="UserID: "
+        placeholder="No value provided..."
+        value={id}
       />
       <Box my={2} />
       <Inputs.Copy
-        label="TOKEN: "
-        placeholder="c3477d4e-84ea-404b-add7-733a3a161ad6"
+        label="Token: "
+        placeholder="No value provided..."
         value={token}
       />
       <Box my={2} />
@@ -45,7 +54,7 @@ Card.InputAmount = ({ ticker, onSubmit = x => x, ...p }) => {
 
   const debouncedAmount = Utils.useDebounce(amount, 500);
   useEffect(() => {
-    if(!ticker) return console.log("WARNING: ticker prop required.")
+    if (!ticker) return console.log("WARNING: ticker prop required.");
     state.actions
       .private("getCryptapiTickerPrice", { ticker, amount })
       .then(v => {
@@ -114,9 +123,5 @@ Card.QrDeposit = ({ data }) => {
     </Card>
   );
 };
-
-// Card.InputAmount.propTypes = {
-  // ticker: p => "string"
-// }
 
 export default Card;

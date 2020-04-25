@@ -3,24 +3,20 @@ import { Box, Flex, Image, Container } from '.'
 
 import bg from '../assets/images/ticks.png'
 
-const Banner = ({
-  src=bg,
-  opacity = 0.1,
-  children,
-  ...props
-}) => {
+const Banner = ({ src = bg, opacity = 0.2, children, ...props }) => {
   return (
     <Flex
-      // flex={1}
-      height={"100%"}
+      flex={1}
+      height={'100%'}
       bg="darkBacking"
+      //width={1}
       {...props}
       position="relative"
-      width={1}
-
-      // style={{
-      //   boxShadow: "0 2px 0px rgba(0, 0, 0, .25)"
-      // }}
+      boxShadow="inset 0px 0px 4px rgba(0, 0, 0, 0.3)"
+      alignItems="center"
+      //style={{
+      //  boxShadow: "0 2px 0px rgba(0, 0, 0, .25)"
+      //}}
     >
       <Image
         // backgroundSize="cover"
@@ -38,7 +34,7 @@ const Banner = ({
           height: '100%',
           width: '100%',
           backgroundRepeat: 'repeat',
-          backgroundSize: 'auto'
+          backgroundSize: 'cover',
         }}
       />
       <Flex

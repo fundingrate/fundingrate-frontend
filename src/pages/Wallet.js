@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   Text,
@@ -7,11 +7,11 @@ import {
   Divider,
   Input,
   Image,
-  Card
-} from "../primitives";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { Inputs, Assets, Utils, Buttons, Cards } from "../components";
-import { useWiring, store } from "../libs/wiring";
+  Card,
+} from '../primitives'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { Inputs, Assets, Utils, Buttons, Cards } from '../components'
+import { useWiring, store } from '../libs/wiring'
 
 const GatewayLayout = ({ children }) => {
   return (
@@ -33,15 +33,15 @@ const GatewayLayout = ({ children }) => {
         {children}
       </Flex>
     </Flex>
-  );
-};
+  )
+}
 
 const LoadingGateway = ({ onClick = x => x }) => {
-  const [loading, setLoading] = useState(true);
-  const [tickers, setTickers] = useState(['btc']);
+  const [loading, setLoading] = useState(true)
+  const [tickers, setTickers] = useState(['btc'])
 
-  const [state, setState] = useWiring(["myWallet", "myCommands"]);
-  const { me, myWallet, myCommands } = state;
+  const [state, setState] = useWiring(['myWallet', 'myCommands'])
+  const { me, myWallet, myCommands } = state
 
   useEffect(() => {
     // state.actions.private("listCryptapiSupportedTickers").then(t => {
@@ -49,57 +49,55 @@ const LoadingGateway = ({ onClick = x => x }) => {
     //   setLoading(false);
     // });
 
-    setLoading(false);
-  }, []);
+    setLoading(false)
+  }, [])
 
   return loading ? (
     <Utils.LoadingPage />
   ) : (
     <GatewayLayout>
       {tickers.reduce((memo, t) => {
-        const BTN = Buttons[t.toUpperCase()];
+        const BTN = Buttons[t.toUpperCase()]
         if (!BTN) {
           console.log(
-            "WARNING: missing button asset to display supported gateway."
-          );
-          return memo;
+            'WARNING: missing button asset to display supported gateway.'
+          )
+          return memo
         }
         memo.push(
           <BTN key={t} onClick={x => onClick(`/wallet/deposit/${t}`)} />
-        );
-        return memo;
+        )
+        return memo
       }, [])}
     </GatewayLayout>
-  );
-};
-
-
+  )
+}
 
 const Deposit = ({ ticker }) => {
   const [{ myCommands, ...state }, setState] = useWiring([
-    "myWallet",
-    "myCommands"
-  ]);
-  const [loading, setLoading] = useState(false);
-  const [tx, setTx] = useState(null);
+    'myWallet',
+    'myCommands',
+  ])
+  const [loading, setLoading] = useState(false)
+  const [tx, setTx] = useState(null)
 
   const CreateTransaction = async amount => {
-    amount = Number(amount);
+    amount = Number(amount)
 
-    console.log("CreateTransaction:", amount, ticker);
+    console.log('CreateTransaction:', amount, ticker)
 
-    setLoading(true);
-    const tx = await state.actions.private("createCryptapiTransaction", {
+    setLoading(true)
+    const tx = await state.actions.private('createCryptapiTransaction', {
       ticker,
-      amount
-    });
-    console.log("CREATE TX:", tx);
-    setTx(tx);
-    setLoading(false);
-  };
+      amount,
+    })
+    console.log('CREATE TX:', tx)
+    setTx(tx)
+    setLoading(false)
+  }
 
-  const cmd = tx ? (myCommands[tx.id].tx ? myCommands[tx.id] : null) : null;
-  console.log("cmd", cmd);
+  const cmd = tx ? (myCommands[tx.id].tx ? myCommands[tx.id] : null) : null
+  console.log('cmd', cmd)
 
   return (
     <Flex
@@ -118,7 +116,8 @@ const Deposit = ({ ticker }) => {
           ) : (
             <>
               <Text m={3} color="subtext">
-                Please enter or select your desired amount of {ticker.toUpperCase()} to begin the transaction.
+                Please enter or select your desired amount of{' '}
+                {ticker.toUpperCase()} to begin the transaction.
               </Text>
               <Cards.InputAmount
                 ticker={ticker}
@@ -131,34 +130,34 @@ const Deposit = ({ ticker }) => {
         <Cards.QrDeposit data={cmd} />
       )}
     </Flex>
-  );
-};
+  )
+}
 
 const Pages = {
   gateway: LoadingGateway,
   deposit: ({ location }) => {
-    const ticker = location.pathname.split("/")[3];
+    const ticker = location.pathname.split('/')[3]
     switch (ticker) {
       default:
-        return <Deposit ticker={ticker} />;
+        return <Deposit ticker={ticker} />
     }
   },
   NotFound: ({ history }) => {
-    setTimeout(history.goBack, 1000);
+    setTimeout(history.goBack, 1000)
     // window.location.reload()
     return (
       <Box m={4}>
         <Text.Heading>404</Text.Heading>
         <Text>Redirecting...</Text>
       </Box>
-    );
-  }
-};
+    )
+  },
+}
 
 export default ({
-  prefix = "/wallet",
-  from = "/wallet",
-  to = "/wallet/gateway",
+  prefix = '/wallet',
+  from = '/wallet',
+  to = '/wallet/gateway',
   location,
   history,
   ...p
@@ -178,31 +177,31 @@ export default ({
       <Switch>
         <Redirect exact from={from} to={to} />
         {Object.keys(Pages).map(k => {
-          const Page = Pages[k];
-          const path = `${prefix}/${k}`;
-          const key = `page_${prefix}_${k}`;
+          const Page = Pages[k]
+          const path = `${prefix}/${k}`
+          const key = `page_${prefix}_${k}`
 
-          if (k === "NotFound")
+          if (k === 'NotFound')
             return (
               <Route
                 key={key}
                 render={props => {
-                  return <Page {...props} {...p} onClick={history.push} />;
+                  return <Page {...props} {...p} onClick={history.push} />
                 }}
               />
-            );
+            )
 
           return (
             <Route
               key={key}
               path={path}
               render={props => {
-                return <Page {...props} {...p} onClick={history.push} />;
+                return <Page {...props} {...p} onClick={history.push} />
               }}
             />
-          );
+          )
         })}
       </Switch>
     </Flex.Content>
-  );
-};
+  )
+}

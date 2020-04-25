@@ -39,6 +39,66 @@ Button.Process = p => {
   );
 };
 
+Button.SetProviderName = ({ providerid, name, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.provider("setName", {
+      providerid,
+      name
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} onClick={onClick} type="success" disabled={loading}>
+      {loading ? <Utils.Loading message="Saving..." /> : "Save"}
+    </Button>
+  );
+};
+
+Button.SetMakerFee = ({ providerid, fee=0, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.provider("setMakerFee", {
+      providerid,
+      fee: parseFloat(fee)
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} onClick={onClick} type="success" disabled={loading}>
+      {loading ? <Utils.Loading message="Saving..." /> : "Save"}
+    </Button>
+  );
+};
+
+
+Button.SetMyUsername = ({ username, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.private("setMyUsername", {
+      username
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} onClick={onClick} type="success" disabled={loading}>
+      {loading ? <Utils.Loading message="Saving..." /> : "Change"}
+    </Button>
+  );
+};
+
 Button.Toggle = ({ options = ["Stop", "Start"], onClick = x => x, ...p }) => {
   const [state, setState] = useState(false);
 
@@ -156,18 +216,160 @@ Button.setProviderPrivate = ({ providerid, ...p }) => {
   );
 };
 
+Button.setAutoCloseEnabled = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("enableAutoClose", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Enable"}
+    </Button>
+  );
+};
+
+Button.setAutoCloseDisabled = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("disableAutoClose", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Disable"}
+    </Button>
+  );
+};
+
+Button.Archive = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("archive", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Archive"}
+    </Button>
+  );
+};
+
+Button.Restore = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("restore", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Restore"}
+    </Button>
+  );
+};
+
+Button.ResetState = ({ providerid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+
+    await state.actions.provider("resetState", {
+      providerid
+    });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Reset Stats"}
+    </Button>
+  );
+};
+
+Button.SetPublic = ({ isPublic, id }) => {
+  return isPublic ? (
+    <Button.setProviderPrivate providerid={id} />
+  ) : (
+    <Button.setProviderPublic providerid={id} />
+  );
+};
+Button.SetDisableAutoClose = ({ state, id }) => {
+  return state ? (
+    <Button.setAutoCloseEnabled providerid={id} />
+  ) : (
+    <Button.setAutoCloseDisabled providerid={id} />
+  );
+};
+
+
+Button.GenerateToken = ({ ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.private("generateToken", {});
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="success">
+      {loading ? <Utils.Loading /> : "Create"}
+    </Button>
+  );
+};
+
+Button.DeleteToken = ({ tokenid, ...p }) => {
+  const [state, dispatch] = useWiring(["me"]);
+  const [loading, setLoading] = useState(false);
+
+  const onClick = async s => {
+    setLoading(true);
+    await state.actions.private("removeToken", { tokenid });
+    setLoading(false);
+  };
+
+  return (
+    <Button {...p} disabled={loading} onClick={onClick} type="warning">
+      {loading ? <Utils.Loading /> : "Delete"}
+    </Button>
+  );
+};
+
 Button.Gateway = ({ children, ...p }) => {
   return (
-    <Button
-      {...p}
-      type="offwhite"
-      m={2}
-      width={128}
-      height={64}
-      // onClick={x => onClick("/wallet/btc")}
-    >
+    <Button {...p} type="offwhite" m={2} width={128} height={64}>
       {children}
-      {/* <Assets.Processors.Bitcoin_logo height={"100%"} /> */}
     </Button>
   );
 };
@@ -265,7 +467,7 @@ Button.PresetValues = ({ values = [], onClick = x => x }) => {
   return (
     <Flex bg="darkBacking" p={2} borderRadius="normal">
       {values.map(v => (
-        <Button onClick={e => onClick(v)} type="simple" mx={2} flex={0}>
+        <Button key={v} onClick={e => onClick(v)} type="simple" mx={2} flex={0}>
           {v}
         </Button>
       ))}
