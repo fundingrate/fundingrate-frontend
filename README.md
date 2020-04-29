@@ -9,6 +9,7 @@ Fundingrate is a software as a service platform that allows vendors to collect e
 
 ## Looking for the Latest Release?
 
+> https://fundingrate.io
 > https://beta.fundingrate.io
 
 ## Features

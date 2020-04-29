@@ -6,6 +6,7 @@ import Pages from './pages'
 import Layout from './Layout'
 // import { LoadingPage } from './components/Utils'
 
+// The main app
 const App = ({ location, history, ...p }) => {
   return (
     <Layout cPage={location.pathname} onClick={history.push} {...p}>
