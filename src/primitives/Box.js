@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import {
   borderRadius,
@@ -27,7 +28,7 @@ import {
   zIndex,
 } from 'styled-system'
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   box-sizing: border-box;
   // transition: all 0.2s ease-in-out;
 

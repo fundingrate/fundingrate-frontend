@@ -39,7 +39,7 @@ export default p => {
   }
 
   return (
-    <Box width={1} p={'1%'}>
+    <Box width={1} p={"1%"}>
       <Flex.Column alignItems="center" width={1}>
         {list.length > 0
           ? [
@@ -59,12 +59,12 @@ export default p => {
               </Flex.Row>,
               <Divider m={2} bg="card" />,
               <Flex justifyContent="center" flexWrap="wrap">
-                {
-                  list
-                    .sort((a, b) => ((a.stats.profit < b.stats.profit) ? 1 : -1))
-                    //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
-                    .map(p => <ProviderCard key={p.id} providerid={p.id} />)
-                }
+                {list
+                  .sort((a, b) => (a.stats.profit < b.stats.profit ? 1 : -1))
+                  //.sort((a, b) => (a.stats.totalTrades < b.stats.totalTrades ? 1 : -1))
+                  .map(p => (
+                    <ProviderCard key={p.id} providerid={p.id} />
+                  ))}
               </Flex>
             ]
           : [
@@ -89,7 +89,7 @@ const ProviderCard = ({ providerid }) => {
 
   const p = state.myProviders[providerid];
   const [page, setPage] = useState("Stats");
-  if(!p) return <Text> Provider not available. </Text>
+  if (!p) return <Text> Provider not available. </Text>;
 
   const pages = {
     Stats: () => <Stats provider={p} />,
@@ -103,26 +103,26 @@ const ProviderCard = ({ providerid }) => {
   const PAGE = pages[page];
 
   return (
-    <Card 
-      as={Flex.Column} 
-      key={p.id} 
-      m={'1%'} 
-      p={0} 
+    <Card
+      as={Flex.Column}
+      key={p.id}
+      m={"1%"}
+      p={0}
       //width={[1,1,1, 2 / 3]}
       //width={[1,1,1,1/3]}
-      width={'45%'}
-      minWidth={'350px'}
+      width={"45%"}
+      minWidth={"350px"}
     >
       <ProviderHeading title={p.name} subtitle={p.id} created={p.created} />
-      <Flex.Row p={2} flexWrap='wrap' justifyContent="center" width={1}>
+      <Flex.Row p={2} flexWrap="wrap" justifyContent="center" width={1}>
         {Object.keys(pages).map(k => {
           return (
             <Button
-              textAlign={['left', 'center']}
+              textAlign={["left", "center"]}
               //flex={1}
               my={2}
               mx="auto"
-              width={[1, '10%']}
+              width={[1, "10%"]}
               key={`${k}_${p.id}`}
               onClick={e => setPage(k)}
               type={page === k ? "primary" : "simple"}
@@ -139,17 +139,16 @@ const ProviderCard = ({ providerid }) => {
   );
 };
 
-
 const TradeHistory = ({ providerid }) => {
-  const [state] = useWiring()
+  const [state] = useWiring();
 
   return (
     <Well>
-    <Graphs.LineGraph
-      listTrades={e => {
-        return state.actions.provider("listTrades", { providerid })
-      }}
-    />
+      <Graphs.LineGraph
+        listTrades={e => {
+          return state.actions.provider("listTrades", { providerid });
+        }}
+      />
     </Well>
   );
 };
@@ -189,7 +188,6 @@ const TradeStats = ({ stats }) => {
   );
 };
 
-
 const Stats = ({ provider }) => {
   return [
     <Flex.Row flexWrap={"wrap"} justifyContent="center" minHeight="300px">
@@ -209,10 +207,17 @@ const Settings = ({ provider }) => {
     <Box height="300px">
       <Inputs.SetProviderName providerid={provider.id} name={provider.name} />
       <Box m={1} />
-      <Inputs.SetMakerFee providerid={provider.id} fee={provider.makerFee}/>
+      <Inputs.SetMakerFee providerid={provider.id} fee={provider.makerFee} />
       <Box m={1} />
-      <Input disabled value={provider.disableAutoClose} label="Disable Auto Close:">
-        <Buttons.SetDisableAutoClose state={provider.disableAutoClose} id={provider.id} />
+      <Input
+        disabled
+        value={provider.disableAutoClose}
+        label="Disable Auto Close:"
+      >
+        <Buttons.SetDisableAutoClose
+          state={provider.disableAutoClose}
+          id={provider.id}
+        />
       </Input>
       <Box m={1} />
       <Input disabled value={provider.public} label="Listed Publicly: ">
@@ -223,21 +228,20 @@ const Settings = ({ provider }) => {
         <Box mx="auto" />
         <Buttons.Archive providerid={provider.id} />
         <Box mx={2} />
-        <Buttons.ResetState providerid={provider.id}/>
+        <Buttons.ResetState providerid={provider.id} />
       </Flex.Row>
-    </Box>,
+    </Box>
     //<Description provider={provider} />
   ];
 };
 
 const Description = ({ provider }) => {
-  
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const toggle = p => setEditing(!isEditing);
 
-  const p = provider
+  const p = provider;
   const [data, setData] = useState(p.description);
 
   return [
@@ -281,12 +285,10 @@ const Description = ({ provider }) => {
   ];
 };
 
-
 const ProviderHeading = ({ title, subtitle, created }) => {
-  
-  const [isHover, setHover] = useState(false)
-  const toggleHover = h => setHover(!isHover)
-  
+  const [isHover, setHover] = useState(false);
+  const toggleHover = h => setHover(!isHover);
+
   return (
     <Flex.Row
       overflow="none"
@@ -302,9 +304,12 @@ const ProviderHeading = ({ title, subtitle, created }) => {
       </Flex.Column>
 
       <Box mx="auto" />
-      <Box onMouseEnter={e => setHover(true)} onMouseLeave={e => setHover(false)}>
-      <Text>{Utils.renderProp(created, "time")}</Text>
-      </ Box>
+      <Box
+        onMouseEnter={e => setHover(true)}
+        onMouseLeave={e => setHover(false)}
+      >
+        <Text>{Utils.renderProp(created, "time")}</Text>
+      </Box>
     </Flex.Row>
   );
 };
@@ -343,24 +348,24 @@ const AlertLog = ({ providerid }) => {
     //    />
     //  )}
     //</Well>,
-    <Well height="300px" as={Flex.Column} >
-       {loading ? (
-         <Utils.LoadingPage message="Refreshing Alert Log..." />
-       ) : !alerts ? (
-         <Text m={4}>No alerts found.</Text>
-       ) : (
-         alerts.map(a => {
-           return (
-             <Utils.RenderObject
-               p={2}
-               heading={`[${a.type}] ${a.ticker} @ ${a.price}`}
-               key={a.id}
-               data={a}
-             />
-           );
-         })
-       )}
-     </Well>,
+    <Well height="300px" as={Flex.Column}>
+      {loading ? (
+        <Utils.LoadingPage message="Refreshing Alert Log..." />
+      ) : !alerts ? (
+        <Text m={4}>No alerts found.</Text>
+      ) : (
+        alerts.map(a => {
+          return (
+            <Utils.RenderObject
+              p={2}
+              heading={`[${a.type}] ${a.ticker} @ ${a.price}`}
+              key={a.id}
+              data={a}
+            />
+          );
+        })
+      )}
+    </Well>,
 
     <Flex.Row m={3}>
       <Box mx="auto" />
@@ -372,28 +377,36 @@ const AlertLog = ({ providerid }) => {
 };
 
 const MessageCreator = ({ providerid }) => {
-  const [state, dispatch] = useWiring(["myProviders", "providerAlerts", "myTokens"]);
+  const [state, dispatch] = useWiring([
+    "myProviders",
+    "providerAlerts",
+    "myTokens"
+  ]);
   const t = Object.keys(state.myTokens).find(x => !x.expired);
-  const p = state.myProviders[providerid] || {} 
- 
-  const [type, setType] = useState('LONG')
-  const [ticker, setTicker] = useState('BTC')
+  const p = state.myProviders[providerid] || {};
+
+  const [type, setType] = useState("LONG");
+  const [ticker, setTicker] = useState("BTC");
 
   const schema = {
     providerid: p.id,
     token: t,
     type,
     ticker
-  }
+  };
 
-  return <Well>
-    <Text.Heading color="red" fontSize={2} p={2}>If no price is provided, we will attempt to obtain one for you.</Text.Heading>
-    <Editor
-      data={schema}
-      //readOnly
-      lang="json"
-      // height="300px"
-      placeholder="No alerts found."
-    />
-  </Well>
-}
+  return (
+    <Well>
+      <Text.Heading color="red" fontSize={2} p={2}>
+        If no price is provided, we will attempt to obtain one for you.
+      </Text.Heading>
+      <Editor
+        data={schema}
+        //readOnly
+        lang="json"
+        // height="300px"
+        placeholder="No alerts found."
+      />
+    </Well>
+  );
+};

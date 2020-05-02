@@ -2,18 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { NavigationRouter, NavigationLinks } from '../primitives/Navigate'
 import { Assets } from '.'
 import { Button, Flex, Text, Sidebar, Page, Divider } from '../primitives'
-import posed from 'react-pose'
 
-const PosedSidebar = posed(Sidebar)({
+const sidebarVariants = {
   open: {
     width: 'auto',
-    delayChildren: 100,
-    staggerChildren: 100,
     // transition: ({ i }) => ({ delay: i * 50 }),
     opacity: 1,
+    staggerChildren: 0.07, 
+    delayChildren: 0.2,
+    x:0
   },
-  closed: { width: '0%', opacity: 0 },
-})
+  closed: { 
+    x: "-100%",
+    width: '0%', 
+    opacity: 0,
+    staggerChildren: 0.05, 
+    staggerDirection: -1
+  },
+}
 
 const SidebarButton = React.forwardRef(({ href, label, onClick }, innerRef) => {
   return (
@@ -30,10 +36,10 @@ const SidebarButton = React.forwardRef(({ href, label, onClick }, innerRef) => {
   )
 })
 
-const PosedSidebarButton = posed(SidebarButton)({
+const buttonVariants = {
   open: { y: 0, opacity: 1 },
   closed: { y: 20, opacity: 0 },
-})
+}
 
 export const SideNav = ({ user, links, onClick }) => {
   const [open, setOpen] = useState(false)
@@ -43,25 +49,25 @@ export const SideNav = ({ user, links, onClick }) => {
     if (!open) toggleOpen()
   }, []) //animate on page render
 
-  // useEffect(() => {
-  //   setTimeout(toggleOpen, 5000);
-  // }, [open]);
+  //useEffect(() => {
+  //  setTimeout(toggleOpen, 1000);
+  //}, [open]);
 
   return (
-    <PosedSidebar p={open ? 3 : 0} pose={open ? 'open' : 'closed'}>
+    <Sidebar animate={open ? 'open' : 'closed'} variants={sidebarVariants} >
       <Flex
+        p={3}
         alignItems="center"
         justifyContent="center"
         my={3}
         onClick={e => onClick('/home')}
       >
         <Assets.Logos.MainLogoWhite />
-        {/* <Assets.Icons.Popular mr={2} size={28} /> Dashboard */}
       </Flex>
       <Divider />
       <Flex.Column width={1} p={2}>
-        <NavigationLinks links={links} />
+        <NavigationLinks links={links} variants={sidebarVariants} />
       </Flex.Column>
-    </PosedSidebar>
+    </Sidebar>
   )
 }
